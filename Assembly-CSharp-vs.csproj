@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
-     <Compile Include="Assets\MouseLook.cs" />
+     <Compile Include="Assets\debug camera control\FPS_WASD.cs" />
+     <Compile Include="Assets\debug camera control\MouseLook.cs" />
+     <Compile Include="Assets\voxels\prim.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
