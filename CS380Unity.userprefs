@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\voxels\prim.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/voxels/prim.cs">
     <Files>
-      <File FileName="Assets\voxels\prim.cs" Line="19" Column="20" />
+      <File FileName="Assets/voxels/prim.cs" Line="226" Column="19" />
+      <File FileName="Assets/voxels/prim.cs" Line="265" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

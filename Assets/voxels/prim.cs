@@ -209,6 +209,7 @@ public class prim : MonoBehaviour {
 		
 	}
 	#endregion
+
 	void BuildMesh(){
 		blocks=new byte[chunkSize,chunkSize,chunkSize];//init all to 0
 		for (int x=0; x<chunkSize; x++){
@@ -222,6 +223,7 @@ public class prim : MonoBehaviour {
 		blocks[0,0,1]=1;
 		blocks[1,1,1]=1;
 		blocks[2,3,4]=1;
+		blocks[3,3,3]=1;
 
 	}
 	void GenerateMesh(){
