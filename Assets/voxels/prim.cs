@@ -21,6 +21,25 @@ public class prim : MonoBehaviour {
 	private int squareCount;
 
 	public int chunkSize=5;
+	void BuildMesh(){
+
+		for (int x=0; x<chunkSize; x++){
+			for (int y=0; y<chunkSize; y++){
+				for (int z=0; z<chunkSize; z++){
+					if(y==0)
+						blocks[x,y,z]=2;
+					else
+						blocks[x,y,z]=0;
+				}
+			}
+		}
+		blocks[0,0,0]=1;//the filled in blocks
+		blocks[0,0,1]=1;
+		blocks[1,1,1]=1;
+		blocks[2,3,4]=1;
+		blocks[3,3,3]=1;
+		
+	}
 	void UpdateMesh () {
 		mesh.Clear ();
 		mesh.vertices = newVertices.ToArray();
@@ -36,10 +55,10 @@ public class prim : MonoBehaviour {
 	}
 	#region CubeFace
 	void CubeTop(int x, int y,int z){
-		try{
+		if(y!=(chunkSize-1))
 			if (blocks [x, y + 1, z] != 0)//Block above is not air
 				return;
-		} catch (System.IndexOutOfRangeException){}
+
 
 		newVertices.Add(new Vector3 ((float)x,  (float)y,  (float)z + 1));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y,  (float)z + 1));
@@ -64,10 +83,9 @@ public class prim : MonoBehaviour {
 		
 	}
 	void CubeNorth(int x, int y,int z){
-		try{
+		if(z!=(chunkSize-1))
 			if(blocks[x,y,z+1]!=0)//Block north is not air
 				return;
-		} catch (System.IndexOutOfRangeException){}
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y-1, (float)z + 1));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z + 1));
 		newVertices.Add(new Vector3 ((float)x, (float)y, (float)z + 1));
@@ -92,10 +110,10 @@ public class prim : MonoBehaviour {
 	}
 	void CubeEast(int x, int y,int z){
 		
-		try{
-				if (blocks [x + 1, y, z] != 0)//Block east is not air
-						return;
-		} catch (System.IndexOutOfRangeException){}
+
+		if(x!=(chunkSize-1))
+			if (blocks [x + 1, y, z] != 0)//Block east is not air
+					return;
 
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y - 1, (float)z));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z));
@@ -121,10 +139,10 @@ public class prim : MonoBehaviour {
 		
 	}
 	void CubeSouth(int x, int y,int z){
-		try{
-				if (blocks [x, y, z - 1] != 0)//Block south is not air
+		if(z!=0)
+			if (blocks [x, y, z - 1] != 0)//Block south is not air
 				return;
-		} catch (System.IndexOutOfRangeException){}
+
 
 		newVertices.Add(new Vector3 ((float)x, (float)y - 1, (float)z));
 		newVertices.Add(new Vector3 ((float)x, (float)y, (float)z));
@@ -150,10 +168,10 @@ public class prim : MonoBehaviour {
 		
 	}
 	void CubeWest(int x, int y,int z){
-		try{
-				if (blocks [x - 1, y, z] != 0)//Block west is not air
-						return;
-		} catch (System.IndexOutOfRangeException){}
+		if(x!=0)
+			if (blocks [x - 1, y, z] != 0)//Block west is not air
+					return;
+
 
 		newVertices.Add(new Vector3 ((float)x, (float)y- 1,(float) z + 1));
 		newVertices.Add(new Vector3 ((float)x, (float)y,(float) z + 1));
@@ -179,11 +197,10 @@ public class prim : MonoBehaviour {
 		
 	}
 	void CubeBot(int x, int y,int z){
-		
-		try{
-				if (blocks [x, y - 1, z] != 0)//Block below is not air
-						return;
-		} catch (System.IndexOutOfRangeException){}
+		if(y!=0)
+			if (blocks [x, y - 1, z] != 0)//Block below is not air
+					return;
+
 
 		newVertices.Add(new Vector3 ((float)x,  (float)y-1, (float) z ));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y-1, (float) z ));
@@ -210,22 +227,7 @@ public class prim : MonoBehaviour {
 	}
 	#endregion
 
-	void BuildMesh(){
-		blocks=new byte[chunkSize,chunkSize,chunkSize];//init all to 0
-		for (int x=0; x<chunkSize; x++){
-			for (int y=0; y<chunkSize; y++){
-				for (int z=0; z<chunkSize; z++){
-					blocks[x,y,z]=0;
-				}
-			}
-		}
-		blocks[0,0,0]=1;//the filled in blocks
-		blocks[0,0,1]=1;
-		blocks[1,1,1]=1;
-		blocks[2,3,4]=1;
-		blocks[3,3,3]=1;
 
-	}
 	void GenerateMesh(){
 		
 		for (int x=0; x<chunkSize; x++){
@@ -247,13 +249,17 @@ public class prim : MonoBehaviour {
 		}
 	}
 	void Start () {
+		blocks=new byte[chunkSize,chunkSize,chunkSize];//init all to 0
 		mesh=GetComponent<MeshFilter> ().mesh;
 		col = GetComponent<MeshCollider> ();
+		col.sharedMesh=null;
+	
 
 		BuildMesh();
 		GenerateMesh();
 
 		UpdateMesh();
+		col.sharedMesh=mesh;
 
 	}
 	
