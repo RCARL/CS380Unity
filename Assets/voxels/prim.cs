@@ -19,7 +19,7 @@ public class prim : MonoBehaviour {
 	private Mesh mesh;
 	private MeshCollider col;
 	private int squareCount;
-
+	private bool updateMesh=false;
 	public int chunkSize=5;
 	void BuildMesh(){
 
@@ -260,11 +260,36 @@ public class prim : MonoBehaviour {
 
 		UpdateMesh();
 		col.sharedMesh=mesh;
+		//col.
 
 	}
-	
+	void RoundAndRmBlock(Vector3 pos)
+	{
+		print (pos.ToString());
+		int x, y, z;
+		x = Mathf.FloorToInt(pos.x+0.5f) % chunkSize;
+		y = Mathf.FloorToInt(pos.y+0.5f) % chunkSize;
+		z = Mathf.FloorToInt(pos.z+0.5f) % chunkSize;
+		print (x+" "+ y+" "+ z);
+		blocks [x, y, z] = 0;
+		updateMesh = true;
+	}
+	public void ReplaceBlockCursor(RaycastHit hit,byte block)
+	{	
+		// or should we use hit.barycentricCoordinate?
+		RoundAndRmBlock(hit.point-transform.parent.position);
+	}
+	void UpdateLast()
+	{
+		if (updateMesh) {
+			GenerateMesh();
+			UpdateMesh ();
+			updateMesh=false;
+		}
+	}
 	// Update is called once per frame
 	void Update () {
-	
+
+		UpdateLast ();
 	}
 }
