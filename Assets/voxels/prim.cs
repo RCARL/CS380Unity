@@ -52,6 +52,9 @@ public class prim : MonoBehaviour {
 		newVertices.Clear();
 		newTriangles.Clear();
 		newUV.Clear();
+		
+		col.sharedMesh=null;
+		col.sharedMesh=mesh;
 	}
 	#region CubeFace
 	void CubeTop(int x, int y,int z){
@@ -259,25 +262,31 @@ public class prim : MonoBehaviour {
 		GenerateMesh();
 
 		UpdateMesh();
-		col.sharedMesh=mesh;
 		//col.
 
 	}
-	void RoundAndRmBlock(Vector3 pos)
+	void RoundAndRmBlock(Vector3 pos,byte block)
 	{
-		print (pos.ToString());
+	//	print (pos.ToString());
 		int x, y, z;
 		x = Mathf.FloorToInt(pos.x+0.5f) % chunkSize;
 		y = Mathf.FloorToInt(pos.y+0.5f) % chunkSize;
 		z = Mathf.FloorToInt(pos.z+0.5f) % chunkSize;
 		print (x+" "+ y+" "+ z);
-		blocks [x, y, z] = 0;
+		blocks [x, y, z] =block;
 		updateMesh = true;
 	}
 	public void ReplaceBlockCursor(RaycastHit hit,byte block)
 	{	
-		// or should we use hit.barycentricCoordinate?
-		RoundAndRmBlock(hit.point-transform.parent.position);
+		Vector3 fdNormal;
+		if(block==0)
+			fdNormal = new Vector3 (-0.5f*hit.normal.x, -0.5f*hit.normal.y, -0.5f*hit.normal.z);
+		else
+			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
+
+		print (hit.point);
+		RoundAndRmBlock(hit.point+fdNormal-transform.parent.position,block);
+
 	}
 	void UpdateLast()
 	{
