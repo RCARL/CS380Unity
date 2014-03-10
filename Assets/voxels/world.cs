@@ -1,6 +1,4 @@
-//Stephen DuMont
-//This script will generate a series of prim objects as a part of a whole. 
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class ShootCubes : MonoBehaviour {
@@ -27,7 +27,7 @@ public class ShootCubes : MonoBehaviour {
 			if(	Input.GetKeyDown(KeyCode.Mouse0))
 			{	
 				RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if (Physics.Raycast(ray,out hit,100)){
 					prim p= hit.collider.GetComponent("prim")as prim;
 					p.ReplaceBlockCursor(hit,0);

@@ -267,7 +267,7 @@ public class prim : MonoBehaviour {
 	}
 	void RoundAndRmBlock(Vector3 pos,byte block)
 	{
-	//	print (pos.ToString());
+	 	print (pos.ToString());
 		int x, y, z;
 		x = Mathf.FloorToInt(pos.x+0.5f) % chunkSize;
 		y = Mathf.FloorToInt(pos.y+0.5f) % chunkSize;
@@ -283,9 +283,9 @@ public class prim : MonoBehaviour {
 			fdNormal = new Vector3 (-0.5f*hit.normal.x, -0.5f*hit.normal.y, -0.5f*hit.normal.z);
 		else
 			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
+		//print (gameObject.transform.parent
 
-		print (hit.point);
-		RoundAndRmBlock(hit.point+fdNormal-transform.parent.position,block);
+		       RoundAndRmBlock(gameObject.transform.parent.InverseTransformPoint( hit.point+fdNormal),block);
 
 	}
 	void UpdateLast()

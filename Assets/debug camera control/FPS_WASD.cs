@@ -9,7 +9,7 @@ public class FPS_WASD : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	public float moveSpeed=1;
+	public float moveSpeed=10;
 
 	void Update ()
 	{
