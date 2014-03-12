@@ -254,6 +254,11 @@ public class prim : MonoBehaviour {
 		GenerateMesh();
 		UpdateMesh();
 	}
+	/// <summary>
+	///determine if block is added to another chunk
+	/// </summary>
+	/// <returns>The value.</returns>
+	/// <param name="i">The index.</param>
 	int checkVal(int i)
 	{
 		if (i < 0)
@@ -262,7 +267,11 @@ public class prim : MonoBehaviour {
 			return 1;
 		return 0;
 	}
-
+	/// <summary>
+	/// Rounds the and removes or adds block.
+	/// </summary>
+	/// <param name="pos">position in localspace of block - normal value adjustment.</param>
+	/// <param name="block">block type.</param>
 	void RoundAndRmBlock(Vector3 pos,byte block)
 	{
 		print (pos.ToString ());
@@ -302,15 +311,20 @@ public class prim : MonoBehaviour {
 		blocks [x, y, z] =block;
 		updateMesh = true;
 	}
+/// <summary>
+/// method called when this gameobject is hit by ray
+	/// </summary>
+/// <param name="hit">raycast hit with position info.</param>
+/// <param name="block">blocktype to be added
+	/// .</param>
 	public void ReplaceBlockCursor(RaycastHit hit,byte block)
 	{	
 		Vector3 fdNormal;
-		if(block==0)
+		if(block==0)//moves hit based on normal value from polygon
 			fdNormal = new Vector3 (-0.5f*hit.normal.x, -0.5f*hit.normal.y, -0.5f*hit.normal.z);
 		else
 			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
-		//print (gameObject.transform.parent
-
+		//send in vector3 adjusted to localspace and from above normal value
 		RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),block);
 
 	}
