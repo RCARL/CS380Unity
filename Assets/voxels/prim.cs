@@ -19,27 +19,10 @@ public class prim : MonoBehaviour {
 	private Mesh mesh;
 	private MeshCollider col;
 	private int squareCount;
-	private bool updateMesh=false;
+	public bool updateMesh=false;
 	public int chunkSize=5;
-	void BuildMesh(){
 
-		for (int x=0; x<chunkSize; x++){
-			for (int y=0; y<chunkSize; y++){
-				for (int z=0; z<chunkSize; z++){
-					if(y==0)
-						blocks[x,y,z]=2;
-					else
-						blocks[x,y,z]=0;
-				}
-			}
-		}
-		blocks[0,0,0]=1;//the filled in blocks
-		blocks[0,0,1]=1;
-		blocks[1,1,1]=1;
-		blocks[2,3,4]=1;
-		blocks[3,3,3]=1;
-		
-	}
+
 	void UpdateMesh () {
 		mesh.Clear ();
 		mesh.vertices = newVertices.ToArray();
@@ -251,27 +234,70 @@ public class prim : MonoBehaviour {
 			}
 		}
 	}
+	public void initBlocks()
+	{
+		if (blocks != null)
+						return;
+		blocks=new byte[chunkSize,chunkSize,chunkSize];
+		for (int i=0; i<chunkSize; i++)
+						for (int j=0; j<chunkSize; j++)
+								for (int k=0; k<chunkSize; k++)
+										blocks [i, j, k] = 0;
+
+	}
 	void Start () {
-		blocks=new byte[chunkSize,chunkSize,chunkSize];//init all to 0
+		initBlocks ();
 		mesh=GetComponent<MeshFilter> ().mesh;
 		col = GetComponent<MeshCollider> ();
 		col.sharedMesh=null;
-	
-
-		BuildMesh();
+		//BuildMesh();
 		GenerateMesh();
-
 		UpdateMesh();
-		//col.
-
 	}
+	int checkVal(int i)
+	{
+		if (i < 0)
+			return -1;
+		if (i > chunkSize)
+			return 1;
+		return 0;
+	}
+
 	void RoundAndRmBlock(Vector3 pos,byte block)
 	{
-	 	print (pos.ToString());
-		int x, y, z;
-		x = Mathf.FloorToInt(pos.x+0.5f) % chunkSize;
-		y = Mathf.FloorToInt(pos.y+0.5f) % chunkSize;
-		z = Mathf.FloorToInt(pos.z+0.5f) % chunkSize;
+		print (pos.ToString ());
+		int x, y, z,i;
+		x = Mathf.FloorToInt(pos.x) ;
+		y = Mathf.FloorToInt(pos.y+1) ;
+		z = Mathf.FloorToInt(pos.z) ;
+		i = checkVal (x);
+		if (i != 0) {
+			string[] c = gameObject.name.Split (' ');
+			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
+
+			(transform.parent.GetComponent ("world") as world)
+				.createChunk (chunkSpot [0] + i, chunkSpot [1], chunkSpot [2], new int[]{x-(i*chunkSize) ,y,z},block);
+				return;
+				}
+		i = checkVal (y);
+		if (i != 0){
+			string[] c = gameObject.name.Split (' ');
+			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
+
+			(transform.parent.GetComponent ("world") as world)
+				.createChunk (chunkSpot [0] , chunkSpot [1]+ i, chunkSpot [2], new int[]{x,y-(i*chunkSize),z},block);
+			return;
+		}
+		i = checkVal (z);
+		if (i != 0){
+			string[] c = gameObject.name.Split (' ');
+			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
+
+			(transform.parent.GetComponent ("world") as world)
+				.createChunk (chunkSpot [0] , chunkSpot [1], chunkSpot [2]+ i, new int[]{x,y,z-(i*chunkSize)},block);
+			return;
+		}
+
 		print (x+" "+ y+" "+ z);
 		blocks [x, y, z] =block;
 		updateMesh = true;
@@ -285,7 +311,7 @@ public class prim : MonoBehaviour {
 			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
 		//print (gameObject.transform.parent
 
-		       RoundAndRmBlock(gameObject.transform.parent.InverseTransformPoint( hit.point+fdNormal),block);
+		RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),block);
 
 	}
 	void UpdateLast()

@@ -18,13 +18,13 @@ public class MouseLook : MonoBehaviour {
 	public float maximumY = 60F;
 
 	float rotationY = 0F;
-	public static bool cursor=true;
+	//public static bool cursor=true;
 
 	void Update ()
 	{
 		if(Input.GetKeyDown(KeyCode.LeftAlt))
-			cursor=!cursor;
-		if(cursor)
+			Player.playerSingleton.selectMode=!Player.playerSingleton.selectMode;
+		if(Player.playerSingleton.selectMode)
 		if (axes == RotationAxes.MouseXAndY)
 		{
 			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;

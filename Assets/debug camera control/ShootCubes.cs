@@ -12,7 +12,7 @@ public class ShootCubes : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(MouseLook.cursor)
+		if(Player.playerSingleton.selectMode)
 		{
 			if ( Input.GetKey (KeyCode.Mouse0)) {
 				
@@ -30,7 +30,7 @@ public class ShootCubes : MonoBehaviour {
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if (Physics.Raycast(ray,out hit,100)){
 					prim p= hit.collider.GetComponent("prim")as prim;
-					p.ReplaceBlockCursor(hit,0);
+					p.ReplaceBlockCursor(hit,Player.playerSingleton.blockTypeSelected);
 				}
 				//	print("Hit something");
 			}
