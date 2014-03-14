@@ -263,7 +263,7 @@ public class prim : MonoBehaviour {
 	{
 		if (i < 0)
 			return -1;
-		if (i > chunkSize)
+		if (i >= chunkSize)
 			return 1;
 		return 0;
 	}
