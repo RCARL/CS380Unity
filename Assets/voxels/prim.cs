@@ -275,7 +275,7 @@ public class prim : MonoBehaviour {
 	/// <param name="block">block type.</param>
 	void RoundAndRmBlock(Vector3 pos,byte block)
 	{
-		print (pos.ToString ());
+		//print (pos.ToString ());
 		int x, y, z,i;
 		x = Mathf.FloorToInt(pos.x) ;
 		y = Mathf.FloorToInt(pos.y+1) ;
@@ -313,6 +313,7 @@ public class prim : MonoBehaviour {
 	}
 	public  void changeLocalBlock(int x, int y, int z, byte block)
 	{
+        print("change Local block" + x + " " + y + " " + z+" "+block);
 		if(block==0){
 			cubeCount--;
 			if(cubeCount==0){

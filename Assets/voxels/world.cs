@@ -25,7 +25,7 @@ public class world : MonoBehaviour {
 	}
 	public void lostOne()
 	{
-		print(transform.childCount);
+		
 		if(transform.childCount<=1)
 			Destroy(gameObject);
 	}
@@ -39,8 +39,8 @@ public class world : MonoBehaviour {
 		prim p = ans.GetComponent("prim") as prim;
 
 		ans.transform.parent=gameObject.transform;
-		ans.transform.position = new Vector3 (x * chunkSize - 0.5f, y * chunkSize + 0.5f, z * chunkSize - 0.5f);
-		ans.transform.rotation = new Quaternion (0, 0, 0, 0);
+		ans.transform.localPosition = new Vector3 (x * chunkSize - 0.5f, y * chunkSize + 0.5f, z * chunkSize - 0.5f);
+		ans.transform.localRotation = new Quaternion (0, 0, 0, 0);
 		ans.renderer.material.mainTexture = primTexture;
 		
 		chunks.Add (x + " " + y + " " + z, p);
