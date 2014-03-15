@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class prim : MonoBehaviour {
 	// This first list contains every vertex of the mesh that we are going to render
 	public List<Vector3> newVertices = new List<Vector3>();
-	public byte[,,] blocks;
+	private byte[,,] blocks;
 	// The triangles tell Unity how to build each section of the mesh joining
 	// the vertices
 	public List<int> newTriangles = new List<int>();
@@ -21,6 +21,7 @@ public class prim : MonoBehaviour {
 	private int squareCount;
 	public bool updateMesh=false;
 	public int chunkSize=5;
+	private int cubeCount=0;
 
 
 	void UpdateMesh () {
@@ -306,8 +307,21 @@ public class prim : MonoBehaviour {
 				.createChunk (chunkSpot [0] , chunkSpot [1], chunkSpot [2]+ i, new int[]{x,y,z-(i*chunkSize)},block);
 			return;
 		}
+		changeLocalBlock(x,y,z,block);
 
-		print (x+" "+ y+" "+ z);
+
+	}
+	public  void changeLocalBlock(int x, int y, int z, byte block)
+	{
+		if(block==0){
+			cubeCount--;
+			if(cubeCount==0){
+				Destroy(gameObject);
+				(transform.parent.GetComponent ("world") as world).lostOne();
+			}
+		}
+		else
+			cubeCount++;
 		blocks [x, y, z] =block;
 		updateMesh = true;
 	}
