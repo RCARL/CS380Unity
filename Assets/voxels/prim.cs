@@ -266,6 +266,12 @@ public class prim : MonoBehaviour {
 	public void initBlocks(byte [,,]newChunk)
 	{
 		blocks=newChunk;
+		cubeCount=0;
+		foreach(byte b in blocks)
+		{
+			if(b!=0)
+				cubeCount++;
+		}
 	}
 
 	void Start () {

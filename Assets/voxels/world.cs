@@ -9,7 +9,22 @@ public class world : MonoBehaviour {
 	int chunkSize =5;
 	public GameObject chunk;
 	public Texture primTexture;
+	public void lostOne()
+	{
+		
+		if(transform.childCount<=1)
+			Destroy(gameObject);
+	}
+	public void createChunk(int x, int y, int z,byte[,,] blocks)
+	{
+		prim p;
+		if (!chunks.TryGetValue (x + " " + y + " " + z, out p))
+			p = createChunk (x, y, z).GetComponent ("prim") as prim;
 
+
+		p.initBlocks (blocks);
+		p.updateMesh = true;
+	}
 	public void createChunk(int x, int y, int z,int[] i,byte b)
 	{
 	
@@ -23,12 +38,7 @@ public class world : MonoBehaviour {
 		p.changeLocalBlock (i [0], i [1], i [2], b);
 		p.updateMesh = true;
 	}
-	public void lostOne()
-	{
-		
-		if(transform.childCount<=1)
-			Destroy(gameObject);
-	}
+
 	private GameObject createChunk(int x,int y, int z)
 	{
 		GameObject ans = new GameObject (x + " " + y + " " + z);
