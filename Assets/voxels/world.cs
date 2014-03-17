@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 public class world : MonoBehaviour {
 
-	private Dictionary <string,prim> chunks; 	
+	public Dictionary <string,prim> chunks; 	
 	int chunkSize =5;
 	public GameObject chunk;
 	public Texture primTexture;
 
-	public void createChunk(float x, float y, float z,int[] i,byte b)
+	public void createChunk(int x, int y, int z,int[] i,byte b)
 	{
 	
 		prim p;
@@ -29,7 +29,7 @@ public class world : MonoBehaviour {
 		if(transform.childCount<=1)
 			Destroy(gameObject);
 	}
-	private GameObject createChunk(float x,float y, float z)
+	private GameObject createChunk(int x,int y, int z)
 	{
 		GameObject ans = new GameObject (x + " " + y + " " + z);
 		ans.AddComponent ("MeshCollider");
@@ -49,10 +49,7 @@ public class world : MonoBehaviour {
 	}
 	void Start () {
 		chunks = new Dictionary<string,prim> ();
-		GameObject strt = createChunk (0, 0, 0);
-		prim p = (strt.GetComponent ("prim")as prim);
-		p.initBlocks ();
-		p.changeLocalBlock(1, 1, 1, 1);
+		createChunk (0, 0, 0,new int[]{1,1,1},1);
 
 
 	}
