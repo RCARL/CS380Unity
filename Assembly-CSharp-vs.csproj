@@ -46,10 +46,17 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Capsule.cs" />
+     <Compile Include="Assets\CapsuleControl.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
+     <Compile Include="Assets\Player\Player.cs" />
+     <Compile Include="Assets\Player\playerGUI.cs" />
+     <Compile Include="Assets\Scripts\Noise.cs" />
      <Compile Include="Assets\debug camera control\FPS_WASD.cs" />
      <Compile Include="Assets\debug camera control\MouseLook.cs" />
+     <Compile Include="Assets\debug camera control\ShootCubes.cs" />
      <Compile Include="Assets\voxels\prim.cs" />
+     <Compile Include="Assets\voxels\world.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
