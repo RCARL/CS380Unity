@@ -8,6 +8,13 @@ public class prim : MonoBehaviour {
 	// This first list contains every vertex of the mesh that we are going to render
 	public List<Vector3> newVertices = new List<Vector3>();
 	private byte[,,] blocks;
+<<<<<<< HEAD
+=======
+    public byte[, ,] getBlocks
+    {
+        get { return blocks; }
+    }
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 	// The triangles tell Unity how to build each section of the mesh joining
 	// the vertices
 	public List<int> newTriangles = new List<int>();
@@ -22,7 +29,24 @@ public class prim : MonoBehaviour {
 	public bool updateMesh=false;
 	public int chunkSize=5;
 	private int cubeCount=0;
+<<<<<<< HEAD
 
+=======
+    private int[] _chunkSpot;
+	/// <summary>
+	/// represents the xyz coordinates of this chunk object in the whole
+	/// </summary>
+	/// <value>The chunk spot.</value>
+    public int[] chunkSpot{
+        get{
+            if(_chunkSpot==null){
+                string[] c = gameObject.name.Split (' ');
+		        _chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
+            }
+            return _chunkSpot;
+        }
+        }
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 
 	void UpdateMesh () {
 		mesh.Clear ();
@@ -246,14 +270,36 @@ public class prim : MonoBehaviour {
 										blocks [i, j, k] = 0;
 
 	}
+<<<<<<< HEAD
 	void Start () {
 		initBlocks ();
+=======
+	public void initBlocks(byte [,,]newChunk)
+	{
+		blocks=newChunk;
+		cubeCount=0;
+		foreach(byte b in blocks)
+		{
+			if(b!=0)
+				cubeCount++;
+		}
+	}
+
+	void Start () {
+
+		initBlocks ();
+		print (getBlocks [0, 1, 4]);
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 		mesh=GetComponent<MeshFilter> ().mesh;
 		col = GetComponent<MeshCollider> ();
 		col.sharedMesh=null;
 		//BuildMesh();
 		GenerateMesh();
 		UpdateMesh();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 	}
 	/// <summary>
 	///determine if block is added to another chunk
@@ -269,7 +315,11 @@ public class prim : MonoBehaviour {
 		return 0;
 	}
 	/// <summary>
+<<<<<<< HEAD
 	/// Rounds the and removes or adds block.
+=======
+	/// Rounds and removes or adds block.
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 	/// </summary>
 	/// <param name="pos">position in localspace of block - normal value adjustment.</param>
 	/// <param name="block">block type.</param>
@@ -282,27 +332,37 @@ public class prim : MonoBehaviour {
 		z = Mathf.FloorToInt(pos.z) ;
 		i = checkVal (x);
 		if (i != 0) {
+<<<<<<< HEAD
 			string[] c = gameObject.name.Split (' ');
 			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
 
+=======
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 			(transform.parent.GetComponent ("world") as world)
 				.createChunk (chunkSpot [0] + i, chunkSpot [1], chunkSpot [2], new int[]{x-(i*chunkSize) ,y,z},block);
 				return;
 				}
 		i = checkVal (y);
 		if (i != 0){
+<<<<<<< HEAD
 			string[] c = gameObject.name.Split (' ');
 			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
 
 			(transform.parent.GetComponent ("world") as world)
+=======
+            (transform.parent.GetComponent ("world") as world)
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 				.createChunk (chunkSpot [0] , chunkSpot [1]+ i, chunkSpot [2], new int[]{x,y-(i*chunkSize),z},block);
 			return;
 		}
 		i = checkVal (z);
 		if (i != 0){
+<<<<<<< HEAD
 			string[] c = gameObject.name.Split (' ');
 			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
 
+=======
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 			(transform.parent.GetComponent ("world") as world)
 				.createChunk (chunkSpot [0] , chunkSpot [1], chunkSpot [2]+ i, new int[]{x,y,z-(i*chunkSize)},block);
 			return;
@@ -310,12 +370,102 @@ public class prim : MonoBehaviour {
 		changeLocalBlock(x,y,z,block);
 
 
+<<<<<<< HEAD
 	}
 	public  void changeLocalBlock(int x, int y, int z, byte block)
 	{
         print("change Local block" + x + " " + y + " " + z+" "+block);
 		if(block==0){
 			cubeCount--;
+=======
+	}
+    HashSet<int[]> contiguous = new HashSet<int[]>();
+    public void checkIntegrity(int x, int y, int z)
+    {
+        List<int[]> parents = new List<int[]>();
+        if (x > 0)
+        {
+            if (blocks[x - 1, y, z] != 0)
+                parents.Add(new int[] { x - 1, y, z });
+        }
+        else
+            try { 
+            if ((transform.parent.GetComponent("world") as world).chunks[(chunkSpot[0] -1) + " " + chunkSpot[1] + " " + chunkSpot[2]].getBlocks[x +  chunkSize-1, y, z]!=0)
+                parents.Add(new int[] { chunkSpot[0] -1, chunkSpot[1], chunkSpot[2], x + chunkSize-1, y, z });
+            }
+            catch (KeyNotFoundException) { }
+        if(x<chunkSize-1){
+            if(blocks[x+1,y,z]!=0)
+                parents.Add(new int[] { x - 1, y, z });
+        }
+        else
+            try { 
+            if ((transform.parent.GetComponent("world") as world).chunks[(chunkSpot[0] + 1) + " " + chunkSpot[1] + " " + chunkSpot[2]].getBlocks[x -  chunkSize+1, y, z] != 0)
+                parents.Add(new int[] { chunkSpot[0] + 1, chunkSpot[1], chunkSpot[2], x - chunkSize+1, y, z });
+            }
+            catch (KeyNotFoundException) { }
+		
+        if (y>0) 
+		{
+			if (blocks[x, y-1, z] != 0)
+                parents.Add(new int[] { x, y-1, z });
+        }
+        else
+            try{
+                if ((transform.parent.GetComponent("world") as world).chunks[ chunkSpot[0]  + " " + (chunkSpot[1]-1) + " " + chunkSpot[2]].getBlocks[x, y+chunkSize-1, z] != 0)
+                    parents.Add(new int[] { chunkSpot[0] , chunkSpot[1]-1, chunkSpot[2], x , y+chunkSize-1, z });
+            }
+            catch (KeyNotFoundException) { }
+            
+        if (y < chunkSize-1){
+            if (blocks[x, y+1, z]!=0)
+                parents.Add(new int[] { x, y+1, z });
+        }
+        else
+            try{
+                if ((transform.parent.GetComponent("world") as world).chunks[ chunkSpot[0]  + " " + (chunkSpot[1]+1) + " " + chunkSpot[2]].getBlocks[x, y-chunkSize+1, z] != 0)
+                    parents.Add(new int[] { chunkSpot[0] , chunkSpot[1]+1, chunkSpot[2], x , y-chunkSize+1, z });
+                }
+            catch (KeyNotFoundException) { }
+        if (z > 0)
+        {
+            if (blocks[x, y , z-1] != 0)
+                parents.Add(new int[] { x, y, z-1 });
+        }
+        else
+            try
+            {
+                if ((transform.parent.GetComponent("world") as world).chunks[chunkSpot[0] + " " + chunkSpot[1] + " " + (chunkSpot[2] - 1)].getBlocks[x, y, z + chunkSize-1] != 0)
+                    parents.Add(new int[] { chunkSpot[0], chunkSpot[1], chunkSpot[2] - 1, x, y, z + chunkSize-1 });
+            }
+            catch (KeyNotFoundException) { }
+
+        if (z < chunkSize-1)
+        {
+            if (blocks[x, y, z+1] != 0)
+                parents.Add(new int[] { x, y, z+1 });
+        }
+        else
+            try { 
+            if ((transform.parent.GetComponent("world") as world).chunks[chunkSpot[0] + " " + chunkSpot[1] + " " + (chunkSpot[2]+1)].getBlocks[x, y, z - chunkSize+1] != 0)
+                parents.Add(new int[] { chunkSpot[0], chunkSpot[1], chunkSpot[2] + 1, x, y , z - chunkSize+1});
+            }
+            catch (KeyNotFoundException) { }
+        
+        print("break points "+parents.Count);
+        //foreach (int[] f in parents)
+        //{
+        //    contiguouse.Add(f);
+        //}
+    }
+    
+	public  void changeLocalBlock(int x, int y, int z, byte block)
+	{
+       // print("change Local block" + x + " " + y + " " + z+" "+block);
+		if(block==0){
+			cubeCount--;
+          //  checkIntegrity(x, y, z);
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 			if(cubeCount==0){
 				Destroy(gameObject);
 				(transform.parent.GetComponent ("world") as world).lostOne();
@@ -326,11 +476,19 @@ public class prim : MonoBehaviour {
 		blocks [x, y, z] =block;
 		updateMesh = true;
 	}
+<<<<<<< HEAD
 /// <summary>
 /// method called when this gameobject is hit by ray
 	/// </summary>
 /// <param name="hit">raycast hit with position info.</param>
 /// <param name="block">blocktype to be added
+=======
+	/// <summary>
+	/// method called when this gameobject is hit by ray
+	/// </summary>
+	/// <param name="hit">raycast hit with position info.</param>
+	/// <param name="block">blocktype to be added
+>>>>>>> 1e54ea91fc8c3d2dd75492ea24b2a88ed56be79d
 	/// .</param>
 	public void ReplaceBlockCursor(RaycastHit hit,byte block)
 	{	
