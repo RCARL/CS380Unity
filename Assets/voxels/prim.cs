@@ -3,13 +3,15 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Noise;
 
 public class prim : MonoBehaviour {
-	NoiseGen noise = new NoiseGen();
 	// This first list contains every vertex of the mesh that we are going to render
 	public List<Vector3> newVertices = new List<Vector3>();
 	private byte[,,] blocks;
+    public byte[, ,] getBlocks
+    {
+        get { return blocks; }
+    }
 	// The triangles tell Unity how to build each section of the mesh joining
 	// the vertices
 	public List<int> newTriangles = new List<int>();
@@ -24,8 +26,21 @@ public class prim : MonoBehaviour {
 	public bool updateMesh=false;
 	public int chunkSize=5;
 	private int cubeCount=0;
-	
-	
+    private int[] _chunkSpot;
+	/// <summary>
+	/// represents the xyz coordinates of this chunk object in the whole
+	/// </summary>
+	/// <value>The chunk spot.</value>
+    public int[] chunkSpot{
+        get{
+            if(_chunkSpot==null){
+                string[] c = gameObject.name.Split (' ');
+		        _chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
+            }
+            return _chunkSpot;
+        }
+        }
+
 	void UpdateMesh () {
 		mesh.Clear ();
 		mesh.vertices = newVertices.ToArray();
@@ -33,7 +48,7 @@ public class prim : MonoBehaviour {
 		mesh.uv = newUV.ToArray();
 		mesh.Optimize ();
 		mesh.RecalculateNormals ();
-		
+
 		squareCount=0;
 		newVertices.Clear();
 		newTriangles.Clear();
@@ -47,8 +62,8 @@ public class prim : MonoBehaviour {
 		if(y!=(chunkSize-1))
 			if (blocks [x, y + 1, z] != 0)//Block above is not air
 				return;
-		
-		
+
+
 		newVertices.Add(new Vector3 ((float)x,  (float)y,  (float)z + 1));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y,  (float)z + 1));
 		newVertices.Add(new Vector3 (x + 1, y,  z ));
@@ -60,9 +75,9 @@ public class prim : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+1);
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
-		
+
 		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
-		
+
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -86,9 +101,9 @@ public class prim : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+1);
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
-		
+
 		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
-		
+
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -99,11 +114,11 @@ public class prim : MonoBehaviour {
 	}
 	void CubeEast(int x, int y,int z){
 		
-		
+
 		if(x!=(chunkSize-1))
 			if (blocks [x + 1, y, z] != 0)//Block east is not air
-				return;
-		
+					return;
+
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y - 1, (float)z));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z + 1));
@@ -118,7 +133,7 @@ public class prim : MonoBehaviour {
 		
 		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
 		
-		
+
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -131,8 +146,8 @@ public class prim : MonoBehaviour {
 		if(z!=0)
 			if (blocks [x, y, z - 1] != 0)//Block south is not air
 				return;
-		
-		
+
+
 		newVertices.Add(new Vector3 ((float)x, (float)y - 1, (float)z));
 		newVertices.Add(new Vector3 ((float)x, (float)y, (float)z));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z));
@@ -147,7 +162,7 @@ public class prim : MonoBehaviour {
 		
 		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
 		
-		
+
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -159,9 +174,9 @@ public class prim : MonoBehaviour {
 	void CubeWest(int x, int y,int z){
 		if(x!=0)
 			if (blocks [x - 1, y, z] != 0)//Block west is not air
-				return;
-		
-		
+					return;
+
+
 		newVertices.Add(new Vector3 ((float)x, (float)y- 1,(float) z + 1));
 		newVertices.Add(new Vector3 ((float)x, (float)y,(float) z + 1));
 		newVertices.Add(new Vector3 ((float)x,(float) y, (float)z));
@@ -176,7 +191,7 @@ public class prim : MonoBehaviour {
 		
 		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
 		
-		
+
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -188,9 +203,9 @@ public class prim : MonoBehaviour {
 	void CubeBot(int x, int y,int z){
 		if(y!=0)
 			if (blocks [x, y - 1, z] != 0)//Block below is not air
-				return;
-		
-		
+					return;
+
+
 		newVertices.Add(new Vector3 ((float)x,  (float)y-1, (float) z ));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y-1, (float) z ));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y-1, (float) z + 1));
@@ -205,7 +220,7 @@ public class prim : MonoBehaviour {
 		
 		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
 		
-		
+
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -215,8 +230,8 @@ public class prim : MonoBehaviour {
 		
 	}
 	#endregion
-	
-	
+
+
 	void GenerateMesh(){
 		
 		for (int x=0; x<chunkSize; x++){
@@ -231,32 +246,45 @@ public class prim : MonoBehaviour {
 						CubeWest(x,y,z);
 						CubeNorth(x,y,z);
 						CubeSouth(x,y,z);
-						
+
 					}
 				}
 			}
 		}
 	}
-	//creates the cube with each side of it having the number of boxes specified by chunckSize and gives them a texture of '0'
 	public void initBlocks()
 	{
 		if (blocks != null)
-			return;
+						return;
 		blocks=new byte[chunkSize,chunkSize,chunkSize];
 		for (int i=0; i<chunkSize; i++)
 						for (int j=0; j<chunkSize; j++)
 								for (int k=0; k<chunkSize; k++)
-									blocks [i, j, k] = 0;
-		
+										blocks [i, j, k] = 0;
+
 	}
+	public void initBlocks(byte [,,]newChunk)
+	{
+		blocks=newChunk;
+		cubeCount=0;
+		foreach(byte b in blocks)
+		{
+			if(b!=0)
+				cubeCount++;
+		}
+	}
+
 	void Start () {
+
 		initBlocks ();
+		print (getBlocks [0, 1, 4]);
 		mesh=GetComponent<MeshFilter> ().mesh;
 		col = GetComponent<MeshCollider> ();
 		col.sharedMesh=null;
 		//BuildMesh();
 		GenerateMesh();
 		UpdateMesh();
+
 	}
 	/// <summary>
 	///determine if block is added to another chunk
@@ -272,7 +300,7 @@ public class prim : MonoBehaviour {
 		return 0;
 	}
 	/// <summary>
-	/// Rounds the and removes or adds block.
+	/// Rounds and removes or adds block.
 	/// </summary>
 	/// <param name="pos">position in localspace of block - normal value adjustment.</param>
 	/// <param name="block">block type.</param>
@@ -285,40 +313,112 @@ public class prim : MonoBehaviour {
 		z = Mathf.FloorToInt(pos.z) ;
 		i = checkVal (x);
 		if (i != 0) {
-			string[] c = gameObject.name.Split (' ');
-			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
-			
 			(transform.parent.GetComponent ("world") as world)
 				.createChunk (chunkSpot [0] + i, chunkSpot [1], chunkSpot [2], new int[]{x-(i*chunkSize) ,y,z},block);
-			return;
-		}
+				return;
+				}
 		i = checkVal (y);
 		if (i != 0){
-			string[] c = gameObject.name.Split (' ');
-			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
-			
-			(transform.parent.GetComponent ("world") as world)
+            (transform.parent.GetComponent ("world") as world)
 				.createChunk (chunkSpot [0] , chunkSpot [1]+ i, chunkSpot [2], new int[]{x,y-(i*chunkSize),z},block);
 			return;
 		}
 		i = checkVal (z);
 		if (i != 0){
-			string[] c = gameObject.name.Split (' ');
-			int[] chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
-			
 			(transform.parent.GetComponent ("world") as world)
 				.createChunk (chunkSpot [0] , chunkSpot [1], chunkSpot [2]+ i, new int[]{x,y,z-(i*chunkSize)},block);
 			return;
 		}
 		changeLocalBlock(x,y,z,block);
-		
-		
+
+
 	}
+    HashSet<int[]> contiguous = new HashSet<int[]>();
+    public void checkIntegrity(int x, int y, int z)
+    {
+        List<int[]> parents = new List<int[]>();
+        if (x > 0)
+        {
+            if (blocks[x - 1, y, z] != 0)
+                parents.Add(new int[] { x - 1, y, z });
+        }
+        else
+            try { 
+            if ((transform.parent.GetComponent("world") as world).chunks[(chunkSpot[0] -1) + " " + chunkSpot[1] + " " + chunkSpot[2]].getBlocks[x +  chunkSize-1, y, z]!=0)
+                parents.Add(new int[] { chunkSpot[0] -1, chunkSpot[1], chunkSpot[2], x + chunkSize-1, y, z });
+            }
+            catch (KeyNotFoundException) { }
+        if(x<chunkSize-1){
+            if(blocks[x+1,y,z]!=0)
+                parents.Add(new int[] { x - 1, y, z });
+        }
+        else
+            try { 
+            if ((transform.parent.GetComponent("world") as world).chunks[(chunkSpot[0] + 1) + " " + chunkSpot[1] + " " + chunkSpot[2]].getBlocks[x -  chunkSize+1, y, z] != 0)
+                parents.Add(new int[] { chunkSpot[0] + 1, chunkSpot[1], chunkSpot[2], x - chunkSize+1, y, z });
+            }
+            catch (KeyNotFoundException) { }
+		
+        if (y>0) 
+		{
+			if (blocks[x, y-1, z] != 0)
+                parents.Add(new int[] { x, y-1, z });
+        }
+        else
+            try{
+                if ((transform.parent.GetComponent("world") as world).chunks[ chunkSpot[0]  + " " + (chunkSpot[1]-1) + " " + chunkSpot[2]].getBlocks[x, y+chunkSize-1, z] != 0)
+                    parents.Add(new int[] { chunkSpot[0] , chunkSpot[1]-1, chunkSpot[2], x , y+chunkSize-1, z });
+            }
+            catch (KeyNotFoundException) { }
+            
+        if (y < chunkSize-1){
+            if (blocks[x, y+1, z]!=0)
+                parents.Add(new int[] { x, y+1, z });
+        }
+        else
+            try{
+                if ((transform.parent.GetComponent("world") as world).chunks[ chunkSpot[0]  + " " + (chunkSpot[1]+1) + " " + chunkSpot[2]].getBlocks[x, y-chunkSize+1, z] != 0)
+                    parents.Add(new int[] { chunkSpot[0] , chunkSpot[1]+1, chunkSpot[2], x , y-chunkSize+1, z });
+                }
+            catch (KeyNotFoundException) { }
+        if (z > 0)
+        {
+            if (blocks[x, y , z-1] != 0)
+                parents.Add(new int[] { x, y, z-1 });
+        }
+        else
+            try
+            {
+                if ((transform.parent.GetComponent("world") as world).chunks[chunkSpot[0] + " " + chunkSpot[1] + " " + (chunkSpot[2] - 1)].getBlocks[x, y, z + chunkSize-1] != 0)
+                    parents.Add(new int[] { chunkSpot[0], chunkSpot[1], chunkSpot[2] - 1, x, y, z + chunkSize-1 });
+            }
+            catch (KeyNotFoundException) { }
+
+        if (z < chunkSize-1)
+        {
+            if (blocks[x, y, z+1] != 0)
+                parents.Add(new int[] { x, y, z+1 });
+        }
+        else
+            try { 
+            if ((transform.parent.GetComponent("world") as world).chunks[chunkSpot[0] + " " + chunkSpot[1] + " " + (chunkSpot[2]+1)].getBlocks[x, y, z - chunkSize+1] != 0)
+                parents.Add(new int[] { chunkSpot[0], chunkSpot[1], chunkSpot[2] + 1, x, y , z - chunkSize+1});
+            }
+            catch (KeyNotFoundException) { }
+        
+        print("break points "+parents.Count);
+        //foreach (int[] f in parents)
+        //{
+        //    contiguouse.Add(f);
+        //}
+    }
+    
 	public  void changeLocalBlock(int x, int y, int z, byte block)
 	{
-		print("change Local block" + x + " " + y + " " + z+" "+block);
+       // print("change Local block" + x + " " + y + " " + z+" "+block);
 		if(block==0){
 			cubeCount--;
+          //  checkIntegrity(x, y, z);
 			if(cubeCount==0){
 				Destroy(gameObject);
 				(transform.parent.GetComponent ("world") as world).lostOne();
@@ -326,7 +426,7 @@ public class prim : MonoBehaviour {
 		}
 		else
 			cubeCount++;
-		blocks [x, y, z] =block; //makes that specific block equal to that texture parameter block
+		blocks [x, y, z] =block;
 		updateMesh = true;
 	}
 	/// <summary>
@@ -344,7 +444,7 @@ public class prim : MonoBehaviour {
 			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
 		//send in vector3 adjusted to localspace and from above normal value
 		RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),block);
-		
+
 	}
 	void UpdateLast()
 	{
@@ -356,7 +456,7 @@ public class prim : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		
+
 		UpdateLast ();
 	}
 }
