@@ -52,7 +52,7 @@ public class world : MonoBehaviour {
 		GameObject strt = createChunk (0, 0, 0);
 		prim p = (strt.GetComponent ("prim")as prim);
 		p.initBlocks ();
-		p.changeLocalBlock(1, 1, 1, 1);
+		p.changeLocalBlock(1, 1, 1, 1); //(changes x axis, changes y axis, changes z axis, changes texture type)
 		
 		
 	}

@@ -3,8 +3,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Noise;
 
 public class prim : MonoBehaviour {
+	NoiseGen noise = new NoiseGen();
 	// This first list contains every vertex of the mesh that we are going to render
 	public List<Vector3> newVertices = new List<Vector3>();
 	private byte[,,] blocks;
@@ -235,15 +237,16 @@ public class prim : MonoBehaviour {
 			}
 		}
 	}
+	//creates the cube with each side of it having the number of boxes specified by chunckSize and gives them a texture of '0'
 	public void initBlocks()
 	{
 		if (blocks != null)
 			return;
 		blocks=new byte[chunkSize,chunkSize,chunkSize];
 		for (int i=0; i<chunkSize; i++)
-			for (int j=0; j<chunkSize; j++)
-				for (int k=0; k<chunkSize; k++)
-					blocks [i, j, k] = 0;
+						for (int j=0; j<chunkSize; j++)
+								for (int k=0; k<chunkSize; k++)
+									blocks [i, j, k] = 0;
 		
 	}
 	void Start () {
@@ -323,7 +326,7 @@ public class prim : MonoBehaviour {
 		}
 		else
 			cubeCount++;
-		blocks [x, y, z] =block;
+		blocks [x, y, z] =block; //makes that specific block equal to that texture parameter block
 		updateMesh = true;
 	}
 	/// <summary>
