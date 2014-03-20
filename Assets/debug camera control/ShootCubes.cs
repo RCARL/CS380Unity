@@ -29,7 +29,7 @@ public class ShootCubes : MonoBehaviour {
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if (Physics.Raycast(ray,out hit,100)){
-					prim p= hit.collider.GetComponent("prim")as prim;
+					chunk p= hit.collider.GetComponent("chunk")as chunk;
 					p.ReplaceBlockCursor(hit,Player.playerSingleton.blockTypeSelected);
 				}
 				//	print("Hit something");
