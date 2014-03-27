@@ -19,6 +19,7 @@ public class Container : MonoBehaviour {
 		chunk p;
 		if (!chunks.TryGetValue (x + " " + y + " " + z, out p))
 			p = createChunk (x, y, z).GetComponent ("chunk") as chunk;
+
 		p.initBlocks (blocks);
 		p.updateMesh = true;
 	}
