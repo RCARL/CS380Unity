@@ -50,31 +50,33 @@ public class Container : MonoBehaviour {
 	}
 	private void divideContainer(HashSet<string> hash)
 	{
+		print ("divide "+hash.Count());
 		IEnumerable<string> query;
 		GameObject ans = new GameObject ("new container");
 		Container cont= ans.AddComponent<Container>();
 
-		IEnumerable<string> partials=new HashSet<string> ();
+		//IEnumerable<string> partials=new HashSet<string> ();
+
 		foreach(string s in chunks.Keys)
 		{
+
 			query = hash.Where(f => f.StartsWith(s));
 			if(chunks[s].cubeCount==query.Count()){
-			 	chunks[s].transform.parent=ans.transform;
+				chunks[s].transform.parent=ans.transform;
 				cont.chunks.Add(ans.gameObject.name,chunks[s]);
 				chunks.Remove( ans.gameObject.name);
-				partials=partials.Union( hash.Except(query ));
+				hash= new HashSet<string>( hash.Except(query ));
 			}
 
 
 
 		}
-		print("partials count "+partials.Count());
-		while(partials.Count()>0){
 
-			string pString= string.Join(" ", partials.ElementAtOrDefault(0).Split(' '),0,3);
-			print ("splitting "+pString);
-			query=	partials.Where(f=>f.StartsWith(pString));
-			partials=partials.Except(query);
+		while(hash.Count()>0){
+
+			string pString= string.Join(" ", hash.ElementAtOrDefault(0).Split(' '),0,3);
+			query=	hash.Where(f=>f.StartsWith(pString));
+			hash=new HashSet<string>( hash.Except(query));
 			GameObject ch=chunks[pString].copyCube(query);
 
 			ch.renderer.material.mainTexture=chunkTexture;
@@ -114,7 +116,7 @@ public class Container : MonoBehaviour {
 				if(frontier.IsEmpty)
 				{
 					print("discontinuous "+contiguous.Count());
-					e.MoveNext();
+					//e.MoveNext();
 					frontier.Enqueue(1f,e.Current);
 					//highLightContig(contiguous,4);
 					divideContainer(contiguous);
