@@ -17,16 +17,16 @@ public class playerGUI : MonoBehaviour {
 			Player.playerSingleton.equipmentSelected=0;
 		
 		if(Input.GetKeyDown(KeyCode.Alpha2))
-			Player.playerSingleton.equipmentSelected=1;
+			Player.playerSingleton.equipmentSelected=6;
 		
 		if(Input.GetKeyDown(KeyCode.Alpha3))
-			Player.playerSingleton.equipmentSelected=2;
+			Player.playerSingleton.equipmentSelected=7;
 		
 		if(Input.GetKeyDown(KeyCode.Alpha4))
-			Player.playerSingleton.equipmentSelected=3;
+			Player.playerSingleton.equipmentSelected=8;
 		
 		if(Input.GetKeyDown(KeyCode.Alpha5))
-			Player.playerSingleton.equipmentSelected=4;
+			Player.playerSingleton.equipmentSelected=9;
 
 	}
 }

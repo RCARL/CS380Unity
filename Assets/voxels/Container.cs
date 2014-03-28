@@ -14,7 +14,8 @@ public class Container : MonoBehaviour {
 		if(transform.childCount<=1)
 			Destroy(gameObject);
 	}
-	public void createChunk(int x, int y, int z,byte[,,] blocks)
+
+	public chunk createChunk(int x, int y, int z,byte[,,] blocks)
 	{
 		chunk p;
 		if (!chunks.TryGetValue (x + " " + y + " " + z, out p))
@@ -22,61 +23,62 @@ public class Container : MonoBehaviour {
 
 		p.initBlocks (blocks);
 		p.updateMesh = true;
+		return p;
 	}
-	public void createChunk(int x, int y, int z,int[] i,byte b)
+	public chunk createChunk(int x, int y, int z,int[] i,byte b)
 	{
 		chunk p;
 		if (!chunks.TryGetValue (x + " " + y + " " + z, out p))
-			p = createChunk (x, y, z).GetComponent ("chunk") as chunk;
+			p = createChunk (x, y, z);
 		p.initBlocks ();
 		p.changeLocalBlock (i [0], i [1], i [2], b);
 		p.updateMesh = true;
+		return p;
 	}
-	private GameObject createChunk(int x,int y, int z)
+	private chunk createChunk(int x,int y, int z)
 	{
 		GameObject ans = new GameObject (x + " " + y + " " + z);
-		ans.AddComponent ("MeshCollider");
-		ans.AddComponent ("MeshRenderer");
-		ans.AddComponent ("MeshFilter");
-		chunk p =ans.AddComponent ("chunk") as chunk;
-		// ans.GetComponent("chunk") as chunk;
+		//ans.AddComponent<MeshRenderer>();
+
+
 		ans.transform.parent=gameObject.transform;
-		ans.transform.localPosition = new Vector3 (x * chunkSize - 0.5f, y * chunkSize + 0.5f, z * chunkSize - 0.5f);
-		ans.transform.localRotation = new Quaternion (0, 0, 0, 0);
+		chunk p =ans.AddComponent<chunk> ();
+
 		ans.renderer.material.mainTexture = chunkTexture;		
 		chunks.Add (x + " " + y + " " + z, p);
-		return ans;
+		return p;
 	}
 	private void divideContainer(HashSet<string> hash)
 	{
 		IEnumerable<string> query;
 		GameObject ans = new GameObject ("new container");
-		Container cont= ans.AddComponent ("Container")as Container;
-		cont.chunkTexture=Resources.LoadAssetAtPath("Assets/voxels/tilesheet.png",typeof(Texture)) as Texture;
+		Container cont= ans.AddComponent<Container>();
 
-		Rigidbody rig= ans.AddComponent ("Rigidbody") as Rigidbody;
-		rig.mass=1000;
-		rig.useGravity=false;
 		IEnumerable<string> partials=new HashSet<string> ();
 		foreach(string s in chunks.Keys)
 		{
 			query = hash.Where(f => f.StartsWith(s));
 			if(chunks[s].cubeCount==query.Count()){
 			 	chunks[s].transform.parent=ans.transform;
-				cont.chunks.Add(ans.gameObject.name,chunks[s].GetComponent("chunk")as chunk);
+				cont.chunks.Add(ans.gameObject.name,chunks[s]);
 				chunks.Remove( ans.gameObject.name);
-
+				partials=partials.Union( hash.Except(query ));
 			}
 
-			partials=partials.Union( hash.Except(query ));
 
-		}print("after"+partials.Count());
+
+		}
+		print("partials count "+partials.Count());
 		while(partials.Count()>0){
 
 			string pString= string.Join(" ", partials.ElementAtOrDefault(0).Split(' '),0,3);
+			print ("splitting "+pString);
 			query=	partials.Where(f=>f.StartsWith(pString));
 			partials=partials.Except(query);
 			GameObject ch=chunks[pString].copyCube(query);
+
+			ch.renderer.material.mainTexture=chunkTexture;
+			cont.chunks.Add(ch.name,ch.GetComponent<chunk>());
 			//cont.chunks.Add(pString,ch.GetComponent("chunk") as chunk);
 			ch.gameObject.transform.parent=cont.transform;
 		}
@@ -88,9 +90,11 @@ public class Container : MonoBehaviour {
 
 
 	}
-	void Start () {
-		//chunks = new Dictionary<string,chunk> ();
-	//	createChunk (0, 0, 0,new int[]{1,1,1},1);
+	void OnEnable () {
+		chunkTexture=Resources.LoadAssetAtPath<Texture>("Assets/voxels/tilesheet.png") ;
+		Rigidbody rig= gameObject.AddComponent<Rigidbody> ();
+		rig.useGravity=false;
+		rig.mass=1000;
 	}
 	PriorityQueue<float,int[]> frontier;
 	HashSet<string> contiguous;
@@ -109,7 +113,7 @@ public class Container : MonoBehaviour {
 			while(!contiguous.Contains(iaToString(e.Current))){
 				if(frontier.IsEmpty)
 				{
-					print("discontinuous");
+					print("discontinuous "+contiguous.Count());
 					e.MoveNext();
 					frontier.Enqueue(1f,e.Current);
 					//highLightContig(contiguous,4);

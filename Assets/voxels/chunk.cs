@@ -63,13 +63,12 @@ public class chunk : MonoBehaviour {
 	public GameObject copyCube(IEnumerable<string>  other)
 	{
 		GameObject g=new GameObject(gameObject.name);
-		string[] splat=gameObject.name.Split(' ');
+	//	string[] splat=gameObject.name.Split(' ');
 
-		g.AddComponent("MeshCollider");
-		g.transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
-		g.transform.localRotation = new Quaternion (0, 0, 0, 0);
-		g.AddComponent ("MeshRenderer");
-		g.AddComponent ("MeshFilter");
+
+		//g.transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
+	//	g.transform.localRotation = new Quaternion (0, 0, 0, 0);
+	
 		chunk p =g.AddComponent ("chunk") as chunk;
 		p.initBlocks();
 		foreach(string istr in other){
@@ -298,17 +297,22 @@ public class chunk : MonoBehaviour {
 		}
 	}
 
-	void Start () {
+	void OnEnable () {
 
-		initBlocks ();
-
-		mesh=GetComponent<MeshFilter> ().mesh;
-		col = GetComponent<MeshCollider> ();
+		mesh= gameObject.AddComponent<MeshFilter>().mesh;
+		col=gameObject.AddComponent<MeshCollider>();
 		col.sharedMesh=null;
-		//BuildMesh();
+		gameObject.AddComponent<MeshRenderer>();
+
+
+	}
+	void Start()
+	{
+		string[] splat=gameObject.name.Split(' ');
+		transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
+		transform.localRotation = new Quaternion (0, 0, 0, 0);
 		GenerateMesh();
 		UpdateMesh();
-
 	}
 	/// <summary>
 	///determine if block is added to another chunk
@@ -362,10 +366,13 @@ public class chunk : MonoBehaviour {
 	public  void changeLocalBlock(int x, int y, int z, byte block)
 	{
        // print("change Local block" + x + " " + y + " " + z+" "+block);
+		if(blocks[x,y,z]!=0)
+			_cubeCount--;
+
 		blocks [x, y, z] =block;
 		updateMesh = true;
 		if(block==0){
-			_cubeCount--;
+
 			(transform.parent.GetComponent ("Container") as Container).checkIntegrity(chunkSpot[0],chunkSpot[1],chunkSpot[2], x, y, z);
 			if(_cubeCount==0){
 				Destroy(gameObject);
