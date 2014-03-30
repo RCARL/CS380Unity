@@ -25,7 +25,10 @@ public class chunk : MonoBehaviour {
 	private int squareCount;
 	public bool updateMesh=false;
 	public int chunkSize=5;
-	private int cubeCount=0;
+	public int _cubeCount=0;
+	public int cubeCount{
+		get{return _cubeCount;}
+	}
     private int[] _chunkSpot;
 	/// <summary>
 	/// represents the xyz coordinates of this chunk object in the whole
@@ -56,6 +59,26 @@ public class chunk : MonoBehaviour {
 		
 		col.sharedMesh=null;
 		col.sharedMesh=mesh;
+	}
+	public GameObject copyCube(IEnumerable<string>  other)
+	{
+		GameObject g=new GameObject(gameObject.name);
+	//	string[] splat=gameObject.name.Split(' ');
+
+
+		//g.transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
+	//	g.transform.localRotation = new Quaternion (0, 0, 0, 0);
+	
+		chunk p =g.AddComponent ("chunk") as chunk;
+		p.initBlocks();
+		foreach(string istr in other){
+			string[]i=istr.Split(' ');
+			byte b=blocks[int.Parse(i[3]),int.Parse(i[4]),int.Parse(i[5])];
+			p.changeLocalBlock(int.Parse(i[3]),int.Parse(i[4]),int.Parse(i[5]),b);
+			blocks[int.Parse(i[3]),int.Parse(i[4]),int.Parse(i[5])]=0;
+		}
+		return g;
+
 	}
 	#region CubeFace
 	void CubeTop(int x, int y,int z){
@@ -266,25 +289,30 @@ public class chunk : MonoBehaviour {
 	public void initBlocks(byte [,,]newChunk)
 	{
 		blocks=newChunk;
-		cubeCount=0;
+		_cubeCount=0;
 		foreach(byte b in blocks)
 		{
 			if(b!=0)
-				cubeCount++;
+				_cubeCount++;
 		}
 	}
 
-	void Start () {
+	void OnEnable () {
 
-		initBlocks ();
-		print (getBlocks [0, 1, 4]);
-		mesh=GetComponent<MeshFilter> ().mesh;
-		col = GetComponent<MeshCollider> ();
+		mesh= gameObject.AddComponent<MeshFilter>().mesh;
+		col=gameObject.AddComponent<MeshCollider>();
 		col.sharedMesh=null;
-		//BuildMesh();
+		gameObject.AddComponent<MeshRenderer>();
+
+
+	}
+	void Start()
+	{
+		string[] splat=gameObject.name.Split(' ');
+		transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
+		transform.localRotation = new Quaternion (0, 0, 0, 0);
 		GenerateMesh();
 		UpdateMesh();
-
 	}
 	/// <summary>
 	///determine if block is added to another chunk
@@ -333,101 +361,27 @@ public class chunk : MonoBehaviour {
 
 
 	}
-    //HashSet<int[]> contiguous = new HashSet<int[]>();
-    public void checkIntegrity(int x, int y, int z)
-    {
-        List<int[]> parents = new List<int[]>();
-        if (x > 0)
-        {
-            if (blocks[x - 1, y, z] != 0)
-                parents.Add(new int[] { x - 1, y, z });
-        }
-        else
-            try { 
-			if ((transform.parent.GetComponent("Container") as Container).chunks[(chunkSpot[0] -1) + " " + chunkSpot[1] + " " + chunkSpot[2]].getBlocks[x +  chunkSize-1, y, z]!=0)
-                parents.Add(new int[] { chunkSpot[0] -1, chunkSpot[1], chunkSpot[2], x + chunkSize-1, y, z });
-            }
-            catch (KeyNotFoundException) { }
-        if(x<chunkSize-1){
-            if(blocks[x+1,y,z]!=0)
-                parents.Add(new int[] { x - 1, y, z });
-        }
-        else
-            try { 
-			if ((transform.parent.GetComponent("Container") as Container).chunks[(chunkSpot[0] + 1) + " " + chunkSpot[1] + " " + chunkSpot[2]].getBlocks[x -  chunkSize+1, y, z] != 0)
-                parents.Add(new int[] { chunkSpot[0] + 1, chunkSpot[1], chunkSpot[2], x - chunkSize+1, y, z });
-            }
-            catch (KeyNotFoundException) { }
-		
-        if (y>0) 
-		{
-			if (blocks[x, y-1, z] != 0)
-                parents.Add(new int[] { x, y-1, z });
-        }
-        else
-            try{
-			if ((transform.parent.GetComponent("Container") as Container).chunks[ chunkSpot[0]  + " " + (chunkSpot[1]-1) + " " + chunkSpot[2]].getBlocks[x, y+chunkSize-1, z] != 0)
-                    parents.Add(new int[] { chunkSpot[0] , chunkSpot[1]-1, chunkSpot[2], x , y+chunkSize-1, z });
-            }
-            catch (KeyNotFoundException) { }
-            
-        if (y < chunkSize-1){
-            if (blocks[x, y+1, z]!=0)
-                parents.Add(new int[] { x, y+1, z });
-        }
-        else
-            try{
-			if ((transform.parent.GetComponent("Container") as Container).chunks[ chunkSpot[0]  + " " + (chunkSpot[1]+1) + " " + chunkSpot[2]].getBlocks[x, y-chunkSize+1, z] != 0)
-                    parents.Add(new int[] { chunkSpot[0] , chunkSpot[1]+1, chunkSpot[2], x , y-chunkSize+1, z });
-                }
-            catch (KeyNotFoundException) { }
-        if (z > 0)
-        {
-            if (blocks[x, y , z-1] != 0)
-                parents.Add(new int[] { x, y, z-1 });
-        }
-        else
-            try
-            {
-			if ((transform.parent.GetComponent("Container") as Container).chunks[chunkSpot[0] + " " + chunkSpot[1] + " " + (chunkSpot[2] - 1)].getBlocks[x, y, z + chunkSize-1] != 0)
-                    parents.Add(new int[] { chunkSpot[0], chunkSpot[1], chunkSpot[2] - 1, x, y, z + chunkSize-1 });
-            }
-            catch (KeyNotFoundException) { }
 
-        if (z < chunkSize-1)
-        {
-            if (blocks[x, y, z+1] != 0)
-                parents.Add(new int[] { x, y, z+1 });
-        }
-        else
-            try { 
-			if ((transform.parent.GetComponent("Container") as Container).chunks[chunkSpot[0] + " " + chunkSpot[1] + " " + (chunkSpot[2]+1)].getBlocks[x, y, z - chunkSize+1] != 0)
-                parents.Add(new int[] { chunkSpot[0], chunkSpot[1], chunkSpot[2] + 1, x, y , z - chunkSize+1});
-            }
-            catch (KeyNotFoundException) { }
-        
-        print("break points "+parents.Count);
-        //foreach (int[] f in parents)
-        //{
-        //    contiguouse.Add(f);
-        //}
-    }
-    
+
 	public  void changeLocalBlock(int x, int y, int z, byte block)
 	{
        // print("change Local block" + x + " " + y + " " + z+" "+block);
+		if(blocks[x,y,z]!=0)
+			_cubeCount--;
+
+		blocks [x, y, z] =block;
+		updateMesh = true;
 		if(block==0){
-			cubeCount--;
-          //  checkIntegrity(x, y, z);
-			if(cubeCount==0){
+
+			(transform.parent.GetComponent ("Container") as Container).checkIntegrity(chunkSpot[0],chunkSpot[1],chunkSpot[2], x, y, z);
+			if(_cubeCount==0){
 				Destroy(gameObject);
 				(transform.parent.GetComponent ("Container") as Container).lostOne();
 			}
 		}
 		else
-			cubeCount++;
-		blocks [x, y, z] =block;
-		updateMesh = true;
+			_cubeCount++;
+
 	}
 	/// <summary>
 	/// method called when this gameobject is hit by ray
