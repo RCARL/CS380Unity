@@ -60,14 +60,10 @@ public class chunk : MonoBehaviour {
 		col.sharedMesh=null;
 		col.sharedMesh=mesh;
 	}
+
 	public GameObject copyCube(IEnumerable<string>  other)
 	{
 		GameObject g=new GameObject(gameObject.name);
-	//	string[] splat=gameObject.name.Split(' ');
-
-
-		//g.transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
-	//	g.transform.localRotation = new Quaternion (0, 0, 0, 0);
 	
 		chunk p =g.AddComponent ("chunk") as chunk;
 		p.initBlocks();
@@ -78,7 +74,6 @@ public class chunk : MonoBehaviour {
 			blocks[int.Parse(i[3]),int.Parse(i[4]),int.Parse(i[5])]=0;
 		}
 		return g;
-
 	}
 	#region CubeFace
 	void CubeTop(int x, int y,int z){
@@ -297,7 +292,7 @@ public class chunk : MonoBehaviour {
 		}
 	}
 
-	void OnEnable () {
+	void Awake () {
 
 		mesh= gameObject.AddComponent<MeshFilter>().mesh;
 		col=gameObject.AddComponent<MeshCollider>();
@@ -308,6 +303,7 @@ public class chunk : MonoBehaviour {
 	}
 	void Start()
 	{
+
 		string[] splat=gameObject.name.Split(' ');
 		transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
 		transform.localRotation = new Quaternion (0, 0, 0, 0);
