@@ -35,6 +35,17 @@ public class Container : MonoBehaviour {
 		p.updateMesh = true;
 		return p;
 	}
+	public void createChunk(int x, int y, int z, byte b)
+    {
+        chunk p;
+        if (!chunks.TryGetValue((x / chunksize) + " " + (y / chunksize) + " " + (z / chunksize), out p))
+        {
+            p = createChunk(x / chunksize, y / chunksize, z / chunksize);
+            p.initBlocks();
+        }
+        p.changeLocalBlock(x / chunksize, y / chunksize, z / chunksize, b);
+        p.updateMesh = true;
+    }
 	private chunk createChunk(int x,int y, int z)
 	{
 		GameObject ans = new GameObject (x + " " + y + " " + z);
