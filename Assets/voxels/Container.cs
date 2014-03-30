@@ -38,12 +38,12 @@ public class Container : MonoBehaviour {
 	public void createChunk(int x, int y, int z, byte b)
     {
         chunk p;
-        if (!chunks.TryGetValue((x / chunksize) + " " + (y / chunksize) + " " + (z / chunksize), out p))
+        if (!chunks.TryGetValue((x / chunkSize) + " " + (y / chunkSize) + " " + (z / chunkSize), out p))
         {
-            p = createChunk(x / chunksize, y / chunksize, z / chunksize);
+            p = createChunk(x / chunkSize, y / chunkSize, z / chunkSize);
             p.initBlocks();
         }
-        p.changeLocalBlock(x / chunksize, y / chunksize, z / chunksize, b);
+        p.changeLocalBlock(x / chunkSize, y / chunkSize, z / chunkSize, b);
         p.updateMesh = true;
     }
 	private chunk createChunk(int x,int y, int z)
