@@ -43,7 +43,7 @@ public class Container : MonoBehaviour {
             p = createChunk(x / chunkSize, y / chunkSize, z / chunkSize);
             p.initBlocks();
         }
-        p.changeLocalBlock(x / chunkSize, y / chunkSize, z / chunkSize, b);
+		p.changeLocalBlock(Math.Abs( x % chunkSize), Math.Abs(y % chunkSize), Math.Abs(z % chunkSize), b);
         p.updateMesh = true;
     }
 	private chunk createChunk(int x,int y, int z)
