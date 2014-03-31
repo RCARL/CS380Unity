@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-	
-public class Resource : MonoBehaviour {
-	readonly int usableBits = 32;
-	readonly int tierBits = 4;
+﻿public class Resource {
+	static readonly int maxBitMask = 0x1f;
+	static readonly int tierBitMask = 0x13;
+	static readonly int padding = 4;
 	string type;
 	int tier;
 	int rarity;
@@ -14,51 +12,64 @@ public class Resource : MonoBehaviour {
 	 * 2 = Electric
 	 */
 	int use;
-
-	public Resource (byte b) {
-		b = (byte) (b % usableBits);
-		tier = (b % tierBits) + 1;
-
-		if (b >= 0 && b <= 3) {
-			type = "Iron";
-			mass = 56;
-			rarity = 1;
-			use = 0;
-				} else if (b >= 4 && b <= 7) {
-			type = "Platinum";
-			mass = 165;
-			rarity = 2;
-			use = 0;
-				} else if (b >= 8 && b <= 11) {
-			type = "Titanium";
-			mass = 48;
-			rarity = 3;
-			use = 0;
-				} else if (b >= 12 && b <= 15) {
-			type = "Beryllium";
-			mass = 9;
-			rarity = 1;
-			use = 1;
-				} else if (b >= 16 && b <= 19) {
-			type = "Uranium";
-			mass = 104;
-			rarity = 2;
-			use = 1;
-				} else if (b >= 20 && b <= 23) {
-			type = "Plutonium";
-			mass = 244;
-			rarity = 3;
-			use = 1;
-				} else if (b >= 24 && b <= 27) {
-			type = "Copper";
-			mass = 64;
-			rarity = 1;
-			use = 2;
-				} else if (b >= 28 && b <= 31) {
-			type = "Silver";
-			mass = 107;
-			rarity = 2;
-			use = 2;
-				}
+	
+	private Resource (string type, int mass, int rarity, int use, int tier) {
+		this.type = type;
+		this.mass = mass;
+		this.rarity = rarity;
+		this.use = use;
+		this.tier = tier;
 	}
-}
+	public static Resource makeFromByte (byte b) {
+		b = (byte) (b & maxBitMask);
+		int tempTier = (b & tierBitMask) + 1;
+
+		switch (b/padding) {
+		case 0:
+			return new Resource ("Iron", 56, 1, 0, tempTier);
+		case 1:
+			return new Resource ("Platinum", 165, 2, 0, tempTier);
+		case 2:
+			return new Resource ("Titanium", 48, 3, 0, tempTier);
+		case 3:
+			return new Resource ("Beryllium", 9, 2, 1, tempTier);
+		case 4:
+			return new Resource ("Uranium", 104, 2, 1, tempTier);
+		case 5:
+			return new Resource ("Plutonium", 244, 3, 1, tempTier);
+		case 6:
+			return new Resource ("Copper", 64, 1, 2, tempTier);
+		case 7:
+			return new Resource ("Silver", 107, 2, 2, tempTier);
+		default:
+			return null;
+		}
+	}
+	public static Resource iron (int tempTier) {
+		return new Resource ("Iron", 56, 1, 0, tempTier);
+	}
+	public static Resource platinum (int tempTier) {
+		return new Resource ("Platinum", 165, 2, 0, tempTier);
+	}
+	public static Resource titanium (int tempTier) {
+		return new Resource ("Titanium", 48, 3, 0, tempTier);
+	}
+	public static Resource beryllium (int tempTier) {
+		return new Resource ("Beryllium", 9, 2, 1, tempTier);
+	}
+	public static Resource uranium (int tempTier) {
+		return new Resource ("Uranium", 104, 2, 1, tempTier);
+	}
+	public static Resource plutonium (int tempTier) {
+		return new Resource ("Plutonium", 244, 3, 1, tempTier);
+	}
+	public static Resource copper (int tempTier) {
+		return new Resource ("Copper", 64, 1, 2, tempTier);
+	}
+	public static Resource silver (int tempTier) {
+		return new Resource ("Silver", 107, 2, 2, tempTier);
+	}
+	public override string ToString () {
+		return type + " " + mass + " " + rarity + " " + tier;
+	}
+} 
