@@ -9,9 +9,10 @@ public class Asteroids : MonoBehaviour {
 	public int Y = 5;
 	public int Z = 5;
 	int cSize = 5;
+	public float thresh=0.2f;
 	NoiseGen NoiseGenerator;
 
-
+	private System.Random rand = new System.Random();
 
 		
 	void Start () {
@@ -19,10 +20,10 @@ public class Asteroids : MonoBehaviour {
 		for (int x = -X; x<X; x++) {
 			for (int y = -Y; y<Y; y++) {
 				for (int z = -Z; z<Z; z++) {
-					int randomValue = Random.Range(1,20);
-					float limit = PerlinNoise (x, y, z, randomValue);
-					//Debug.Log (limit);
-					if (limit <= 0.45)
+					int randomValue = rand.Next(1,20);
+					float limit = PerlinNoise (x, y, z, randomValue)* ((Mathf.Sqrt(x*x)/(X*X))+(Mathf.Sqrt(y*y)/(Y*Y))+(Mathf.Sqrt(z*z)/(Z*Z)));
+					Debug.Log (limit);
+					if (limit <= thresh)
 						asteroidGroup.createChunk(x,y,z,1);
 				}
 			}
