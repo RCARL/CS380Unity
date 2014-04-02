@@ -35,15 +35,27 @@ public class Container : MonoBehaviour {
 		p.updateMesh = true;
 		return p;
 	}
+	public int condModVal(int a)
+	{
+		if (a >= 0)
+			return (a % chunkSize);
+		return (-((-a) % chunkSize) +chunkSize)%chunkSize;
+	}
+	public int condDivVal(int a)
+	{
+		if (a >= 0)
+			return a / chunkSize;
+		return ((a+1 )/ chunkSize)-1;
+	}
 	public void createChunk(int x, int y, int z, byte b)
     {
         chunk p;
-        if (!chunks.TryGetValue((x / chunkSize) + " " + (y / chunkSize) + " " + (z / chunkSize), out p))
+		if (!chunks.TryGetValue(condDivVal(x) + " " + condDivVal(y) + " " + condDivVal(z), out p))
         {
-            p = createChunk(x / chunkSize, y / chunkSize, z / chunkSize);
+			p = createChunk(condDivVal(x), condDivVal(y), condDivVal(z));
             p.initBlocks();
         }
-		p.changeLocalBlock(Math.Abs( x % chunkSize), Math.Abs(y % chunkSize), Math.Abs(z % chunkSize), b);
+		p.changeLocalBlock(condModVal( x ), condModVal(y), condModVal(z), b);
         p.updateMesh = true;
     }
 	private chunk createChunk(int x,int y, int z)
