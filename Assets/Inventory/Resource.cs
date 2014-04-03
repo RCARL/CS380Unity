@@ -2,16 +2,16 @@
 	static readonly int maxBitMask = 0x1f;
 	static readonly int tierBitMask = 0x13;
 	static readonly int padding = 4;
-	string type;
-	int tier;
-	int rarity;
-	int mass;
+	public string type;
+	public int tier;
+	public int rarity;
+	public int mass;
 	/*
 	 * 0 = Building
 	 * 1 = Fuel
 	 * 2 = Electric
 	 */
-	int use;
+	public int use;
 	
 	private Resource (string type, int mass, int rarity, int use, int tier) {
 		this.type = type;

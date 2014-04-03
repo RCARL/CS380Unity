@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{C9C5ACED-AF37-B251-9AC8-2374AADD4A08}</ProjectGuid>
+	<ProjectGuid>{6EB949E6-47B6-9040-EC5E-3C9FE7EC59AC}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -48,17 +48,22 @@
   <ItemGroup>
      <Compile Include="Assets\Capsule.cs" />
      <Compile Include="Assets\CapsuleControl.cs" />
+     <Compile Include="Assets\Inventory\Inventory.cs" />
+     <Compile Include="Assets\Inventory\InventoryGUI.cs" />
+     <Compile Include="Assets\Inventory\Resource.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
      <Compile Include="Assets\Player\Player.cs" />
      <Compile Include="Assets\Player\playerGUI.cs" />
      <Compile Include="Assets\debug camera control\FPS_WASD.cs" />
      <Compile Include="Assets\debug camera control\MouseLook.cs" />
      <Compile Include="Assets\debug camera control\ShootCubes.cs" />
+     <Compile Include="Assets\voxels\Asteroids.cs" />
      <Compile Include="Assets\voxels\Container.cs" />
      <Compile Include="Assets\voxels\NewContainer.cs" />
      <Compile Include="Assets\voxels\Noise.cs" />
      <Compile Include="Assets\voxels\PriorityQueue.cs" />
      <Compile Include="Assets\voxels\chunk.cs" />
+     <Compile Include="Assets\voxels\plopAsteroids.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
