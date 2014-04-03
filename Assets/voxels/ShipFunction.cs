@@ -121,7 +121,7 @@ public float OxygenLevel = 100;
 public float SecurityLevel = 100;
 
 public virtual void Start(){
-cc = GetComponent<CharacterController>();
+ship = GetComponent<CharacterController>();
 	
 		
 }//end Start
