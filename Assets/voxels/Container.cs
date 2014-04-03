@@ -121,6 +121,7 @@ public class Container : MonoBehaviour {
 		rig.useGravity=false;
 		rig.mass=1000;
 	}
+
 	PriorityQueue<float,int[]> frontier;
 	HashSet<string> contiguous;
 	public void checkIntegrity(int xb ,int yb, int yz, int x, int y, int z)

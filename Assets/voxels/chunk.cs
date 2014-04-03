@@ -303,6 +303,7 @@ public class chunk : MonoBehaviour {
 		col=gameObject.AddComponent<MeshCollider>();
 		col.sharedMesh=null;
 		gameObject.AddComponent<MeshRenderer>();
+		col.convex = true;
 
 
 	}
