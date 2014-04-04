@@ -29,9 +29,15 @@ public class ShootCubes : MonoBehaviour {
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if (Physics.Raycast(ray,out hit,100)){
-					chunk p= hit.collider.GetComponent("chunk")as chunk;
-					p.ReplaceBlockCursor(hit,Player.playerSingleton.blockTypeSelected);
+
+					hit.collider.GetComponent<MeshCollider>().convex=false;
+					if (Physics.Raycast(ray,out hit,100))
+					{
+						chunk p= hit.collider.GetComponent<chunk>();
+						p.ReplaceBlockCursor(hit,Player.playerSingleton.blockTypeSelected);
+					}
 				}
+				hit.collider.GetComponent<MeshCollider>().convex=true;
 				//	print("Hit something");
 			}
 		}
