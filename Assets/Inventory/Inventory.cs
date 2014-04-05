@@ -138,8 +138,8 @@ public class Inventory {
 				return false;
 			}
 		case "Plutonium":
-			if (numPlutonium[r.tier] >= num){
-				numPlutonium[r.tier] -= num;
+			if (numPlutonium[r.tier-1] >= num){
+				numPlutonium[r.tier-1] -= num;
 				current--;
 				totalMass -= r.mass;
 				return true;
@@ -148,8 +148,8 @@ public class Inventory {
 				return false;
 			}
 		case "Copper":
-			if (numCopper[r.tier] >= num){
-				numCopper[r.tier] -= num;
+			if (numCopper[r.tier-1] >= num){
+				numCopper[r.tier-1] -= num;
 				current--;
 				totalMass -= r.mass;
 				return true;
@@ -158,8 +158,8 @@ public class Inventory {
 				return false;
 			}
 		case "Silver":
-			if (numSilver[r.tier] >= num){
-				numSilver[r.tier] -= num;
+			if (numSilver[r.tier-1] >= num){
+				numSilver[r.tier-1] -= num;
 				current--;
 				totalMass -= r.mass;
 				return true;

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class InventoryGUI : MonoBehaviour {
+	readonly float padding = Screen.width / 8;
 	public Inventory inventory = new Inventory();
 	public int max;
 	public int cur;
@@ -13,6 +14,7 @@ public class InventoryGUI : MonoBehaviour {
 		max = inventory.capacity;
 		barLength = Screen.width / 2;
 		maxBarLength = Screen.width / 2;
+
 	}
 	void Update () {
 		cur = inventory.current;
@@ -31,18 +33,18 @@ public class InventoryGUI : MonoBehaviour {
 		GUI.Label (new Rect (5, 120, 80, 40), "" + inventory.numPlatinum[0]);
 		GUI.Label (new Rect (5, 150, 80, 40), "Titanium");
 		GUI.Label (new Rect (5, 170, 80, 40), "" + inventory.numTitanium[0]);
-		GUI.Label (new Rect (155, 50, 80, 40), "Beryllium");
-		GUI.Label (new Rect (155, 70, 80, 40), "" + inventory.numBeryllium[0]);
-		GUI.Label (new Rect (155, 100, 80, 40), "Uranium");
-		GUI.Label (new Rect (155, 120, 80, 40), "" + inventory.numUranium[0]);
-		GUI.Label (new Rect (155, 150, 80, 40), "Plutonium");
-		GUI.Label (new Rect (155, 170, 80, 40), "" + inventory.numPlutonium[0]);
-		GUI.Label (new Rect (310, 50, 80, 40), "Copper");
-		GUI.Label (new Rect (310, 70, 80, 40), "" + inventory.numCopper[0]);
-		GUI.Label (new Rect (310, 100, 80, 40), "Silver");
-		GUI.Label (new Rect (310, 120, 80, 40), "" + inventory.numSilver[0]);
-		GUI.Label (new Rect (465, 50, 80, 40), "Total Mass");
-		GUI.Label (new Rect (465, 70, 80, 40), "" + inventory.totalMass);
+		GUI.Label (new Rect (padding, 50, 80, 40), "Beryllium");
+		GUI.Label (new Rect (padding, 70, 80, 40), "" + inventory.numBeryllium[0]);
+		GUI.Label (new Rect (padding, 100, 80, 40), "Uranium");
+		GUI.Label (new Rect (padding, 120, 80, 40), "" + inventory.numUranium[0]);
+		GUI.Label (new Rect (padding, 150, 80, 40), "Plutonium");
+		GUI.Label (new Rect (padding, 170, 80, 40), "" + inventory.numPlutonium[0]);
+		GUI.Label (new Rect (padding * 2, 50, 80, 40), "Copper");
+		GUI.Label (new Rect (padding * 2, 70, 80, 40), "" + inventory.numCopper[0]);
+		GUI.Label (new Rect (padding * 2, 100, 80, 40), "Silver");
+		GUI.Label (new Rect (padding * 2, 120, 80, 40), "" + inventory.numSilver[0]);
+		GUI.Label (new Rect (padding * 3, 50, 80, 40), "Total Mass");
+		GUI.Label (new Rect (padding * 3, 70, 80, 40), "" + inventory.totalMass);
 
 		//Tester buttons
 		if (GUI.Button (new Rect (10,200,100,40), "Add Iron")) {
