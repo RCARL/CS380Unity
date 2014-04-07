@@ -12,6 +12,7 @@ public class Inventory {
 
 	public int[] numCopper;
 	public int[] numSilver;
+	public ArrayList artificial;
 
 	public int capacity;
 	public int current;
@@ -29,6 +30,8 @@ public class Inventory {
 		numCopper = new int[4];
 		numSilver = new int[4];
 
+		artificial = new ArrayList ();
+
 		current = 0;
 		capacity = 100;
 	}
@@ -38,43 +41,43 @@ public class Inventory {
 			switch (r.type) {
 			case "Iron":
 				numIron[r.tier-1]+= num;
-				current++;
-				totalMass += r.mass;
+				current += num;
+				totalMass += r.mass * num;
 				return true;
 			case "Platinum":
 				numPlatinum[r.tier-1]+= num;
-				current++;
-				totalMass += r.mass;
+				current += num;
+				totalMass += r.mass * num;
 				return true;
 			case "Titanium":
 				numTitanium[r.tier-1]+= num;
-				current++;
-				totalMass += r.mass;
+				current += num;
+				totalMass += r.mass * num;
 				return true;
 			case "Beryllium":
 				numBeryllium[r.tier-1]+= num;
-				current++;
-				totalMass += r.mass;
+				current += num;
+				totalMass += r.mass * num;
 				return true;
 			case "Uranium":
 				numUranium[r.tier-1]+=num;
-				current++;
-				totalMass += r.mass;
+				current += num;
+				totalMass += r.mass * num;
 				return true;
 			case "Plutonium":
 				numPlutonium[r.tier-1]+=num;
-				current++;
-				totalMass += r.mass;
+				current += num;
+				totalMass += r.mass * num;
 				return true;
 			case "Copper":
 				numCopper[r.tier-1]+=num;
-				current++;
-				totalMass += r.mass;
+				current += num;
+				totalMass += r.mass * num;
 				return true;
 			case "Silver":
 				numSilver[r.tier-1]+=num;
-				current++;
-				totalMass += r.mass;
+				current += num;
+				totalMass += r.mass * num;
 				return true;
 			default:
 				return false;
@@ -90,8 +93,8 @@ public class Inventory {
 		case "Iron":
 			if (numIron[r.tier-1] >= num){
 				numIron[r.tier-1] -= num;
-				current--;
-				totalMass -= r.mass;
+				current -= num;
+				totalMass -= r.mass * num;
 				return true;
 			}
 			else {
@@ -100,8 +103,8 @@ public class Inventory {
 		case "Platinum":
 			if (numPlatinum[r.tier-1] >= num){
 				numPlatinum[r.tier-1] -= num;
-				current--;
-				totalMass -= r.mass;
+				current -= num;
+				totalMass -= r.mass * num;
 				return true;
 			}
 			else {
@@ -110,8 +113,8 @@ public class Inventory {
 		case "Titanium":
 			if (numTitanium[r.tier-1] >= num){
 				numTitanium[r.tier-1] -= num;
-				current--;
-				totalMass -= r.mass;
+				current -= num;
+				totalMass -= r.mass * num;
 				return true;
 			}
 			else {
@@ -120,8 +123,8 @@ public class Inventory {
 		case "Beryllium":
 			if (numBeryllium[r.tier-1] >= num){
 				numBeryllium[r.tier-1] -= num;
-				current--;
-				totalMass -= r.mass;
+				current -= num;
+				totalMass -= r.mass * num;
 				return true;
 			}
 			else {
@@ -130,8 +133,8 @@ public class Inventory {
 		case "Uranium":
 			if (numUranium[r.tier-1] >= num){
 				numUranium[r.tier-1] -= num;
-				current--;
-				totalMass -= r.mass;
+				current -= num;
+				totalMass -= r.mass * num;
 				return true;
 			}
 			else {
@@ -140,8 +143,8 @@ public class Inventory {
 		case "Plutonium":
 			if (numPlutonium[r.tier-1] >= num){
 				numPlutonium[r.tier-1] -= num;
-				current--;
-				totalMass -= r.mass;
+				current -= num;
+				totalMass -= r.mass * num;
 				return true;
 			}
 			else {
@@ -150,8 +153,8 @@ public class Inventory {
 		case "Copper":
 			if (numCopper[r.tier-1] >= num){
 				numCopper[r.tier-1] -= num;
-				current--;
-				totalMass -= r.mass;
+				current -= num;
+				totalMass -= r.mass * num;
 				return true;
 			}
 			else {
@@ -160,14 +163,25 @@ public class Inventory {
 		case "Silver":
 			if (numSilver[r.tier-1] >= num){
 				numSilver[r.tier-1] -= num;
-				current--;
-				totalMass -= r.mass;
+				current -= num;
+				totalMass -= r.mass * num;
 				return true;
 			}
 			else {
 				return false;
 			}
 		default:
+			return false;
+		}
+	}
+	public bool addArtificial (Artificial artificial) {
+		if (current + artificial.spaceTaken < capacity) {
+			this.artificial.Add (artificial);
+			current += artificial.spaceTaken;
+			totalMass += artificial.mass;
+			return true;
+		}
+		else {
 			return false;
 		}
 	}
