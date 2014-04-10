@@ -1,45 +1,51 @@
 ﻿#pragma strict
 
-var destinations : Transform[];
-var currentNPC : CharacterController;
-var curWP : int = 0;
-var turnspeed = 6;
-var delay : float = 1.0;
-var movespeed : float = 4.0;
-var loopthroughWPs : boolean = true;
-
-private var curTime: float;
-function Start () {
-	currentNPC= GetComponent(CharacterController);
+var character : CharacterController;
+var waypoint : Transform[] = new Transform[3]; //array of locations to move through
+var movespeed : float = 10; //movement speed
+var currentWaypoint : int = 0;
+var loopthrough : boolean = true; //go through the array repeatedly
+var playerlocation : Transform;
+ 
+function Start ()
+{
+    character = GetComponent(CharacterController);
+    var start : GameObject = new GameObject();
+    start.transform.position=transform.position;
+    waypoint[0]=start.transform;
+    var first : GameObject = new GameObject();
+    first.transform.position=transform.position;
+    first.transform.Translate(10,0,0,null);
+    waypoint[1]=first.transform;
+    var second : GameObject = new GameObject();
+    second.transform.position=first.transform.position;
+    second.transform.Translate(0,0,10,null);
+    waypoint[2]=second.transform;
 }
-
-function Update () {
-	if(curWP<destinations.Length){
-		nextWP();
-	}
-	else{
-		if(loopthroughWPs){
-			curWP=0;
-		}
-	}
-}
-function nextWP(){
-	var destination : Vector3 = destinations[curWP].position;
-	destination.y = transform.position.y; //keeps height the same
-	var direction : Vector3 = destination - transform.position;
-	
-	if(direction.magnitude < 0.5){ //magic number to determine closeness to waypoint
-		if (curTime == 0){
-			curTime=Time.time;//makes the npc stop here, 'paused'
-		}
-		if ((Time.time- curTime) >= delay){
-			curWP++;
-			curTime=0;
-		}
-	}
-	else {
-		var rotation = Quaternion.LookRotation(destination - transform.position);
-		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * turnspeed);
-		currentNPC.Move(direction.normalized * movespeed * Time.deltaTime);
-	}
+ 
+function Update () 
+{
+    if(currentWaypoint < waypoint.length)
+    {
+        var target : Vector3 = waypoint[currentWaypoint].position;
+        target.y = transform.position.y; // keep waypoint at character's height
+        var moveDirection : Vector3 = target - transform.position;
+        if(moveDirection.magnitude < 1)
+        {
+            transform.position = target; // force character to waypoint position
+            currentWaypoint++;
+        }
+        else
+        {
+            transform.LookAt(target);
+            character.Move(moveDirection.normalized * movespeed * Time.deltaTime);
+        }
+    }
+    else
+    {
+        if(loopthrough)
+        {
+            currentWaypoint=0;
+        }
+    }
 }
