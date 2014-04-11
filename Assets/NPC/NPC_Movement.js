@@ -11,6 +11,8 @@ private var currentWaypoint : int = 0;
 private var character : CharacterController;
  
 function Start(){
+	if(GetComponent(CharacterController) == null)
+		gameObject.AddComponent(CharacterController);
 	character = GetComponent(CharacterController); //uses character movement methods
     
     var start : GameObject = new GameObject();
