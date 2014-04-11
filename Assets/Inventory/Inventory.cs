@@ -185,4 +185,17 @@ public class Inventory {
 			return false;
 		}
 	}
+	public bool removeArtificial (Artificial artificial) {
+		int find = this.artificial.BinarySearch (artificial);
+		if (find != -1) {
+			this.artificial.RemoveAt (find);
+			current -= artificial.spaceTaken;
+			totalMass -= artificial.mass;
+			return true;
+		} 
+		else {
+			return false;
+		}
+	}
+
 }
