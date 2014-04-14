@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class chunk : MonoBehaviour {
 	// This first list contains every vertex of the mesh that we are going to render
@@ -60,16 +61,221 @@ public class chunk : MonoBehaviour {
 		col.sharedMesh=null;
 		col.sharedMesh=mesh;
 	}
+	private List<string> getLocalParents(int[]spot)
+	{
+
+		List<string> ans= new List<string>();
+		if(spot[0]!=0)
+			if(blocks[spot[0]-1,spot[1],spot[2]]!=0)
+				ans.Add((spot[0]-1)+" "+spot[1]+" "+spot[2]);
+		if(spot[0]!=(chunkSize-1))
+			if(blocks[spot[0]+1,spot[1],spot[2]]!=0)
+				ans.Add((spot[0]+1)+" "+spot[1]+" "+spot[2]);
+
+
+		if(spot[1]!=0)
+			if(blocks[spot[0],spot[1]-1,spot[2]]!=0)
+				ans.Add(spot[0]+" "+(spot[1]-1)+" "+spot[2]);
+
+		if(spot[1]!=(chunkSize-1))
+			if(blocks[spot[0],spot[1]+1,spot[2]]!=0)
+
+				ans.Add(spot[0]+" "+(spot[1]+1)+" "+spot[2]);
+		
+		if(spot[2]!=0)
+			if(blocks[spot[0],spot[1],spot[2]-1]!=0)
+				
+				ans.Add(spot[0]+" "+spot[1]+" "+(spot[2]-1));
+
+		if(spot[2]!=(chunkSize-1))
+			if(blocks[spot[0],spot[1],spot[2]+1]!=0)
+				ans.Add(spot[0]+" "+spot[1]+" "+(spot[2]+1));
+		return ans;
+
+	}
+	private int[] findLeast()
+	{
+
+
+		int []temp;
+
+
+			temp=findLeast(0);//3
+			if(temp[0]!=-1)
+				return temp;
+			temp=findLeast(0,1);//1
+			if(temp[0]!=-1)
+				return temp;
+			temp=findLeast(1,0);//2
+			if(temp[0]!=-1)
+				return temp;
+
+			temp=findLeast(0,2);//2
+			if(temp[0]!=-1)
+				return temp;
+
+
+				return temp;
+			temp=findLeast(0,3);//3
+			if(temp[0]!=-1)
+				return temp;
+			temp=findLeast(0,1,2);//3
+			if(temp[0]!=-1)
+				return temp;
+			temp=findLeast(0,4);//4
+			if(temp[0]!=-1)
+				return temp;
+			temp=findLeast(2,0);//4
+			if(temp[0]!=-1)
+				return temp;
+			temp=findLeast(1,2);//4
+			if(temp[0]!=-1)
+				return temp;
+			temp=findLeast(3,1,0);//4
+			if(temp[0]!=-1)
+				return temp;
+
+		return new int[]{ -1};
+	}
+	private int[] findLeast(int x)
+	{
+		int X=(chunkSpot[0]>>32)|1;
+		int Y=(chunkSpot[1]>>32)|1;
+		int Z=(chunkSpot[2]>>32)|1;
+		int[] temp = orCord(new int[] { (x + 1) * X, (x + 1) * Y, (x + 1) * Z }).ToArray();
+		//print ("ored "+gameObject.name+"  "+temp[0]+" " +temp[1]+" "+temp[2]);
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		return new int[]{-1};
+	}
+	/// <summary>
+	/// Orients the corrdinate toward chunkspot[0,0,0]. does not work on a distance 4
+	/// </summary>
+	/// <returns>The cord.</returns>
+	/// <param name="a">The alpha component.</param>
+	private  IEnumerable<int> orCord(int[] a)
+	{
+		int j;
+		for (int i = 0; i < 3; i++)
+		{
+			j = (a[i] + chunkSize) / chunkSize;
+			yield return (a[i] + chunkSize) % (chunkSize)-j;
+		}
+	}
+	private int[] findLeast(int x,int y)
+	{
+		int X=(chunkSpot[0]>>32)|1;
+		int Y=(chunkSpot[1]>>32)|1;
+		int Z=(chunkSpot[2]>>32)|1;
+		int[] temp = orCord(new int[] { (x + 1) * X, (x + 1) * Y, (y + 1) * Z }).ToArray();
+
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		temp = orCord(new int[] { (x + 1) * X, (y + 1) * Y, (x + 1) * Z }).ToArray();
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		temp = orCord(new int[] { (y + 1) * X, (x + 1) * Y, (x + 1) * Z }).ToArray();
+
+
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		return new int[]{-1};
+	}
+	private int[] findLeast(int x,int y, int z)
+	{
+		int X=(chunkSpot[0]>>32)|1;
+		int Y=(chunkSpot[1]>>32)|1;
+		int Z=(chunkSpot[2]>>32)|1;
+		int[]temp = orCord(new int[] { (x + 1) * X, (y + 1) * Y, (z + 1) * Z }).ToArray();
+
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		temp = orCord(new int[] { (y + 1) * X, (x + 1) * Y, (z + 1) * Z }).ToArray();
+
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		temp = orCord(new int[] { (y + 1) * X, (z + 1) * Y, (x + 1) * Z }).ToArray();
+
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		temp = orCord(new int[] { (z + 1) * X, (y + 1) * Y, (x + 1) * Z }).ToArray();
+
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		temp = orCord(new int[] { (z + 1) * X, (x + 1) * Y, (y + 1) * Z }).ToArray();
+
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		temp = orCord(new int[] { (x + 1) * X, (z + 1) * Y, (y + 1) * Z }).ToArray();
+
+		if(blocks[temp[0],temp[1],temp[2]]!=0)
+			return temp;
+		return new int[]{-1};
+	}
+	public void makeContig()
+	{
+		makeContig(findLeast());
+	}
+	public void makeContig(int[] st)
+	{
+		if(st[0]==-1)
+			return;
+		//print ("from "+gameObject.name+" least: "+st[0]+" "+st[1]+" "+st[2]);
+
+
+		string i;
+		List<string> newFrontier;
+		HashSet<string> contiguous = new HashSet<string>();
+		HashSet<string> frontier = new HashSet<string>();
+
+		frontier.Add(itos( st));
+		if((st[0]!=-1)&&(blocks[st[0],st[1],st[2]]!=0))
+			while(frontier.Count!=0){
+				i=frontier.FirstOrDefault();
+				frontier.Remove(i);
+				contiguous.Add(i);
+				newFrontier=getLocalParents(stoi(i));
+				foreach(string j in newFrontier)
+					if(!contiguous.Contains( j))
+						frontier.Add(j);
+			}
+		else{
+			print (chunkSpot[0]+" "+chunkSpot[1]+" "+chunkSpot[2]+ "can't make contig");
+			return;
+		}
+		trimCube(contiguous);
+	}
+				private string itos(int[]a)
+				{
+					return a[0]+" "+a[1]+" "+a[2];
+				}
+	private int[]stoi(string a)
+	{
+		string[] b=a.Split(' ');
+		return new int[]{int.Parse(b[0]),int.Parse(b[1]),int.Parse(b[2])};
+	}
+	private void trimCube(HashSet<string> hash)
+	{
+		if(hash.Count==cubeCount)
+			return;
+		for(int x=0;x<chunkSize;x++)
+			for(int y=0;y<chunkSize;y++)
+				for(int z=0;z<chunkSize;z++)
+					if(!hash.Contains(x+" "+y+" "+z))
+					{
+						blocks[x,y,z]=0;
+						_cubeCount--;
+					}
+					                  
+
+
+	}
 	public GameObject copyCube(IEnumerable<string>  other)
 	{
 		GameObject g=new GameObject(gameObject.name);
-	//	string[] splat=gameObject.name.Split(' ');
 
-
-		//g.transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
-	//	g.transform.localRotation = new Quaternion (0, 0, 0, 0);
-	
-		chunk p =g.AddComponent ("chunk") as chunk;
+		chunk p =g.AddComponent <chunk>();
+		p.renderer.material.mainTexture= renderer.material.mainTexture;
 		p.initBlocks();
 		foreach(string istr in other){
 			string[]i=istr.Split(' ');
@@ -364,25 +570,36 @@ public class chunk : MonoBehaviour {
 
 	}
 
-
-	public  void changeLocalBlock(int x, int y, int z, byte block)
+	public IEnumerable<int[]> getSparse()
 	{
-       // print("change Local block" + x + " " + y + " " + z+" "+block);
-		if(blocks[x,y,z]!=0)
-			_cubeCount--;
+		List<int[]> ans =new List<int[]>();
+		for(int x=0;x<chunkSize;x++)
+			for(int y=0;y<chunkSize;y++)
+				for(int z=0;z<chunkSize;z++)
+					if(blocks[x,y,z]!=0)
+						ans.Add(new int[]{chunkSpot[0],chunkSpot[1],chunkSpot[2],x,y,z});
+		return ans;
+	}
+	public  byte changeLocalBlock(int x, int y, int z, byte block)
+	{
+		byte original = blocks [x, y, z];
+       //print("change Local block" + x + " " + y + " " + z+" "+block);
+	//	if(blocks[x,y,z]!=0)
+	//		_cubeCount--;
 
 		blocks [x, y, z] =block;
 		updateMesh = true;
-		if(block==0){
-
-			(transform.parent.GetComponent ("Container") as Container).checkIntegrity(chunkSpot[0],chunkSpot[1],chunkSpot[2], x, y, z);
+		if(block==0&&original!=0){
+			_cubeCount--;
+			transform.parent.GetComponent<Container> () .checkIntegrity(chunkSpot[0],chunkSpot[1],chunkSpot[2], x, y, z);
 			if(_cubeCount==0){
 				Destroy(gameObject);
-				(transform.parent.GetComponent ("Container") as Container).lostOne();
+				transform.parent.GetComponent<Container> ().lostOne(chunkSpot);
 			}
 		}
-		else
+		else if(block!=0&&original==0)
 			_cubeCount++;
+		return original;
 
 	}
 	/// <summary>
@@ -405,8 +622,13 @@ public class chunk : MonoBehaviour {
 	void UpdateLast()
 	{
 		if (updateMesh) {
+			if(_cubeCount==0){
+				Destroy(gameObject);
+				transform.parent.GetComponent<Container> ().lostOne(chunkSpot);
+			}
 			GenerateMesh();
 			UpdateMesh ();
+
 			updateMesh=false;
 		}
 	}
