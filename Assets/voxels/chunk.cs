@@ -256,16 +256,23 @@ public class chunk : MonoBehaviour {
 	}
 	private void trimCube(HashSet<string> hash)
 	{
-		if(hash.Count==cubeCount)
-			return;
+		_cubeCount=0;
 		for(int x=0;x<chunkSize;x++)
 			for(int y=0;y<chunkSize;y++)
 				for(int z=0;z<chunkSize;z++)
+				{	
 					if(!hash.Contains(x+" "+y+" "+z))
 					{
 						blocks[x,y,z]=0;
-						_cubeCount--;
+
 					}
+					if(blocks[x,y,z]!=0)
+
+					_cubeCount++;
+
+
+
+				}
 					                  
 
 
