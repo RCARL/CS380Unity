@@ -115,7 +115,7 @@ public class chunk : MonoBehaviour {
 				return temp;
 
 
-				return temp;
+
 			temp=findLeast(0,3);//3
 			if(temp[0]!=-1)
 				return temp;

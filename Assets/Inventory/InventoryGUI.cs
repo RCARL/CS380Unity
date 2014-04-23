@@ -245,22 +245,22 @@ public class InventoryGUI : MonoBehaviour {
 		
 			//Tester buttons
 			if (GUI.Button (new Rect (Screen.width / 4, ((Screen.height / 4) * 3), 100, 20), "Add Iron")) {
-				inventory.addResource (Resource.iron (1), 1);
+				inventory.addResource (Resource.iron (), 1);
 			}
 			if (GUI.Button (new Rect ((Screen.width / 4) + 120, ((Screen.height / 4) * 3), 100, 20), "Remove Iron")) {
-				inventory.removeResource (Resource.iron (1), 1);
+				inventory.removeResource (Resource.iron (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 4, ((Screen.height / 4) * 3) + 30, 100, 20), "Add Beryllium")) {
-				inventory.addResource (Resource.beryllium (1), 1);
+				inventory.addResource (Resource.beryllium (), 1);
 			}
 			if (GUI.Button (new Rect ((Screen.width / 4) + 120, ((Screen.height / 4) * 3) + 30, 100, 20), "Remove Beryllium")) {
-				inventory.removeResource (Resource.beryllium (1), 1);
+				inventory.removeResource (Resource.beryllium (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 4, ((Screen.height / 4) * 3) + 60, 100, 20), "Add Copper")) {
-				inventory.addResource (Resource.copper (1), 1);
+				inventory.addResource (Resource.copper (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 4 + 120, ((Screen.height / 4) * 3) + 60, 100, 20), "Remove Copper")) {
-				inventory.removeResource (Resource.copper (1), 1);
+				inventory.removeResource (Resource.copper (), 1);
 			}
 		}//End of OpenInventory
 	}//End of OnGUI

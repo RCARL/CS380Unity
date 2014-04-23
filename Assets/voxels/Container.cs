@@ -59,6 +59,14 @@ public class Container : MonoBehaviour {
 		p.changeLocalBlock(condModVal( x ), condModVal(y), condModVal(z), b);
         p.updateMesh = true;
     }
+	public byte getBlock(int x, int y, int z)
+	{
+		chunk p;
+		if (!chunks.TryGetValue (condDivVal (x) + " " + condDivVal (y) + " " + condDivVal (z), out p)) {
+						return p.getBlocks [condModVal (x), condModVal (y), condModVal (z)];		
+				} else 
+						return 0;
+	}
 	private chunk createChunk(int x,int y, int z)
 	{
 		GameObject ans = new GameObject (x + " " + y + " " + z);
@@ -111,8 +119,8 @@ public class Container : MonoBehaviour {
 
 	}
 
-	PriorityQueue<float,int[]> frontier;
-	HashSet<string> contiguous;
+
+
 	public void checkIntegrity(int xb ,int yb, int yz, int x, int y, int z)
 	{
 		checkIntegrity(getParents(new int[]{xb,yb,yz, x,y,z}));
@@ -122,8 +130,8 @@ public class Container : MonoBehaviour {
 	{
 		int[] i;
 		List<int[]> newFrontier;
-		contiguous = new HashSet<string>();
-		frontier = new PriorityQueue<float,int[]>();
+		HashSet<string> contiguous = new HashSet<string>();
+		PriorityQueue<float,int[]> frontier = new PriorityQueue<float,int[]>();
 		List<int[]>.Enumerator e = parents.GetEnumerator();
 		e.MoveNext();
 		frontier.Enqueue(1f,e.Current);
@@ -138,6 +146,7 @@ public class Container : MonoBehaviour {
 					//highLightContig(contiguous,4);
 					divideContainer(contiguous);
 					contiguous.Clear();
+
 					break;
 				}
 				i=frontier.Dequeue();
@@ -157,7 +166,7 @@ public class Container : MonoBehaviour {
 	private void highLightContig(IEnumerable<string> ha,byte b)
 	{
 		string []i;
-		foreach(string j in ha)
+		foreach(string j in ha) 
 		{
 			i=j.Split(' ');
 			chunks[i[0]+" "+i[1]+" "+i[2]].changeLocalBlock(int.Parse(i[3]),int.Parse(i[4]),int.Parse(i[5]),b);
