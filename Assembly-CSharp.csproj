@@ -51,7 +51,9 @@
      <Compile Include="Assets\Inventory\Artificial.cs" />
      <Compile Include="Assets\Inventory\Inventory.cs" />
      <Compile Include="Assets\Inventory\InventoryGUI.cs" />
+     <Compile Include="Assets\Inventory\Node.cs" />
      <Compile Include="Assets\Inventory\Resource.cs" />
+     <Compile Include="Assets\Inventory\SplayTree.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
      <Compile Include="Assets\MainMenu\UniverseSaveObject.cs" />
      <Compile Include="Assets\Player\Player.cs" />
@@ -68,6 +70,13 @@
      <Compile Include="Assets\voxels\ShipFunction.cs" />
      <Compile Include="Assets\voxels\chunk.cs" />
      <Compile Include="Assets\voxels\plopAsteroids.cs" />
+     <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{94E21B7C-F6C9-8CEC-C20E-6DD85982D995}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
+      <Project>{6694167B-E136-8673-BCDC-D90EBF856B69}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

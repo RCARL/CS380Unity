@@ -1,9 +1,7 @@
-﻿public class Resource {
+﻿public class Resource : Artificial{
 
 	public string type;
 	public int tier;
-	public int rarity;
-	public int mass;
 	/// <summary>
 	///  0 = Building
 	/// 1 = Fuel
@@ -15,10 +13,7 @@
 	/// </summary>
 	public byte symbol;
 	
-	private Resource (string type, int mass, int rarity, int use, int tier,byte symbol) {
-		this.type = type;
-		this.mass = mass;
-		this.rarity = rarity;
+	private Resource (string type, int mass, int use, int tier, byte symbol) : base(mass,1,type,null) {
 		this.use = use;
 		this.tier = tier;
 		this.symbol = symbol;
@@ -48,30 +43,30 @@
 		}
 	}
 	public static Resource iron () {
-		return new Resource ("Iron", 56, 1, 0, 1,0x01);
+		return new Resource ("Iron", 56, 0, 1, 0x01);
 	}
 	public static Resource platinum () {
-		return new Resource ("Platinum", 165, 2, 0, 2,2);
+		return new Resource ("Platinum", 165, 0, 2, 0x02);
 	}
 	public static Resource titanium () {
-		return new Resource ("Titanium", 48, 3, 0, 3,3);
+		return new Resource ("Titanium", 48, 0, 3, 0x03);
 	}
 	public static Resource beryllium () {
-		return new Resource ("Beryllium", 9, 2, 1, 1,4);
+		return new Resource ("Beryllium", 9, 1, 1, 0x04);
 	}
 	public static Resource uranium () {
-		return new Resource ("Uranium", 104, 2, 1, 2,5);
+		return new Resource ("Uranium", 104, 1, 2, 0x05);
 	}
 	public static Resource plutonium () {
-		return new Resource ("Plutonium", 244, 3, 1, 3,6);
+		return new Resource ("Plutonium", 244, 1, 3, 0x06);
 	}
 	public static Resource copper () {
-		return new Resource ("Copper", 64, 1, 2, 1,7);
+		return new Resource ("Copper", 64, 2, 1, 0x07);
 	}
 	public static Resource silver () {
-		return new Resource ("Silver", 107, 2, 2, 2,8);
+		return new Resource ("Silver", 107, 2, 2, 0x08);
 	}
 	public override string ToString () {
-		return type + " " + mass + " " + rarity + " " + tier;
+		return type + " " + mass + " " + tier;
 	}
 } 
