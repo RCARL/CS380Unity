@@ -6,9 +6,19 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class chunk : MonoBehaviour {
+	/// <summary>
+	/// anything anded with this will not allow voxels but will not be contiguous
+	/// </summary>
+	private const  byte cMask=0x7f;
 	// This first list contains every vertex of the mesh that we are going to render
 	public List<Vector3> newVertices = new List<Vector3>();
 	private byte[,,] blocks;
+	/// <summary>
+	/// Gets the get Masked blocks.
+	/// </summary>
+	/// <value>The get M blocks.</value>
+	/// 
+
     public byte[, ,] getBlocks
     {
         get { return blocks; }
@@ -66,29 +76,29 @@ public class chunk : MonoBehaviour {
 
 		List<string> ans= new List<string>();
 		if(spot[0]!=0)
-			if(blocks[spot[0]-1,spot[1],spot[2]]!=0)
+			if((blocks[spot[0]-1,spot[1],spot[2]]&cMask)!=0)
 				ans.Add((spot[0]-1)+" "+spot[1]+" "+spot[2]);
 		if(spot[0]!=(chunkSize-1))
-			if(blocks[spot[0]+1,spot[1],spot[2]]!=0)
+			if((blocks[spot[0]+1,spot[1],spot[2]]&cMask)!=0)
 				ans.Add((spot[0]+1)+" "+spot[1]+" "+spot[2]);
 
 
 		if(spot[1]!=0)
-			if(blocks[spot[0],spot[1]-1,spot[2]]!=0)
+			if((blocks[spot[0],spot[1]-1,spot[2]]&cMask)!=0)
 				ans.Add(spot[0]+" "+(spot[1]-1)+" "+spot[2]);
 
 		if(spot[1]!=(chunkSize-1))
-			if(blocks[spot[0],spot[1]+1,spot[2]]!=0)
+			if((blocks[spot[0],spot[1]+1,spot[2]]&cMask)!=0)
 
 				ans.Add(spot[0]+" "+(spot[1]+1)+" "+spot[2]);
 		
 		if(spot[2]!=0)
-			if(blocks[spot[0],spot[1],spot[2]-1]!=0)
+			if((blocks[spot[0],spot[1],spot[2]-1]&cMask)!=0)
 				
 				ans.Add(spot[0]+" "+spot[1]+" "+(spot[2]-1));
 
 		if(spot[2]!=(chunkSize-1))
-			if(blocks[spot[0],spot[1],spot[2]+1]!=0)
+			if((blocks[spot[0],spot[1],spot[2]+1]&cMask)!=0)
 				ans.Add(spot[0]+" "+spot[1]+" "+(spot[2]+1));
 		return ans;
 
@@ -144,7 +154,7 @@ public class chunk : MonoBehaviour {
 		int Z=(chunkSpot[2]>>32)|1;
 		int[] temp = orCord(new int[] { (x + 1) * X, (x + 1) * Y, (x + 1) * Z }).ToArray();
 		//print ("ored "+gameObject.name+"  "+temp[0]+" " +temp[1]+" "+temp[2]);
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		return new int[]{-1};
 	}
@@ -169,15 +179,15 @@ public class chunk : MonoBehaviour {
 		int Z=(chunkSpot[2]>>32)|1;
 		int[] temp = orCord(new int[] { (x + 1) * X, (x + 1) * Y, (y + 1) * Z }).ToArray();
 
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (x + 1) * X, (y + 1) * Y, (x + 1) * Z }).ToArray();
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (y + 1) * X, (x + 1) * Y, (x + 1) * Z }).ToArray();
 
 
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		return new int[]{-1};
 	}
@@ -188,27 +198,27 @@ public class chunk : MonoBehaviour {
 		int Z=(chunkSpot[2]>>32)|1;
 		int[]temp = orCord(new int[] { (x + 1) * X, (y + 1) * Y, (z + 1) * Z }).ToArray();
 
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (y + 1) * X, (x + 1) * Y, (z + 1) * Z }).ToArray();
 
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (y + 1) * X, (z + 1) * Y, (x + 1) * Z }).ToArray();
 
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (z + 1) * X, (y + 1) * Y, (x + 1) * Z }).ToArray();
 
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (z + 1) * X, (x + 1) * Y, (y + 1) * Z }).ToArray();
 
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (x + 1) * X, (z + 1) * Y, (y + 1) * Z }).ToArray();
 
-		if(blocks[temp[0],temp[1],temp[2]]!=0)
+		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		return new int[]{-1};
 	}
@@ -229,7 +239,7 @@ public class chunk : MonoBehaviour {
 		HashSet<string> frontier = new HashSet<string>();
 
 		frontier.Add(itos( st));
-		if((st[0]!=-1)&&(blocks[st[0],st[1],st[2]]!=0))
+		if(((st[0]!=-1)&&(blocks[st[0],st[1],st[2]]&cMask)!=0))
 			while(frontier.Count!=0){
 				i=frontier.FirstOrDefault();
 				frontier.Remove(i);
@@ -296,7 +306,7 @@ public class chunk : MonoBehaviour {
 	#region CubeFace
 	void CubeTop(int x, int y,int z){
 		if(y!=(chunkSize-1))
-			if (blocks [x, y + 1, z] != 0)//Block above is not air
+			if ((blocks [x, y + 1, z]&cMask )!= 0)//Block above is not air
 				return;
 
 
@@ -312,7 +322,7 @@ public class chunk : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
 
-		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
+		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
@@ -324,7 +334,7 @@ public class chunk : MonoBehaviour {
 	}
 	void CubeNorth(int x, int y,int z){
 		if(z!=(chunkSize-1))
-			if(blocks[x,y,z+1]!=0)//Block north is not air
+			if((blocks[x,y,z+1]&cMask)!=0)//Block north is not air
 				return;
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y-1, (float)z + 1));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z + 1));
@@ -338,7 +348,7 @@ public class chunk : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
 
-		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
+		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
@@ -352,7 +362,7 @@ public class chunk : MonoBehaviour {
 		
 
 		if(x!=(chunkSize-1))
-			if (blocks [x + 1, y, z] != 0)//Block east is not air
+			if ((blocks [x + 1, y, z]&cMask) != 0)//Block east is not air
 					return;
 
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y - 1, (float)z));
@@ -367,7 +377,7 @@ public class chunk : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
 		
-		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
+		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 		
 
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
@@ -380,7 +390,7 @@ public class chunk : MonoBehaviour {
 	}
 	void CubeSouth(int x, int y,int z){
 		if(z!=0)
-			if (blocks [x, y, z - 1] != 0)//Block south is not air
+			if ((blocks [x, y, z - 1]&cMask) != 0)//Block south is not air
 				return;
 
 
@@ -396,7 +406,7 @@ public class chunk : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
 		
-		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
+		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 		
 
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
@@ -409,7 +419,7 @@ public class chunk : MonoBehaviour {
 	}
 	void CubeWest(int x, int y,int z){
 		if(x!=0)
-			if (blocks [x - 1, y, z] != 0)//Block west is not air
+			if ((blocks [x - 1, y, z]&cMask) != 0)//Block west is not air
 					return;
 
 
@@ -425,7 +435,7 @@ public class chunk : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
 		
-		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
+		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 		
 
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
@@ -438,7 +448,7 @@ public class chunk : MonoBehaviour {
 	}
 	void CubeBot(int x, int y,int z){
 		if(y!=0)
-			if (blocks [x, y - 1, z] != 0)//Block below is not air
+			if ((blocks [x, y - 1, z]&cMask) != 0)//Block below is not air
 					return;
 
 
@@ -454,7 +464,7 @@ public class chunk : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
 		
-		Vector2 texture=  new Vector2(blocks[x,y,z]%4,blocks[x,y,z]/4);
+		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 		
 
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
@@ -475,7 +485,7 @@ public class chunk : MonoBehaviour {
 				for (int z=0; z<chunkSize; z++){
 					//This code will run for every block in the chunk
 					
-					if(blocks[x,y,z]!=0){//If the block is solid
+					if((blocks[x,y,z]&cMask)!=0){//If the block is solid
 						CubeTop(x,y,z);
 						CubeBot(x,y,z);
 						CubeEast(x,y,z);
