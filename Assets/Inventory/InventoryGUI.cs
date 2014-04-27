@@ -40,7 +40,7 @@ public class InventoryGUI : MonoBehaviour {
 		openInventory = GUI.Toggle (new Rect (Screen.width - 80, Screen.height - 20, 80, 20), openInventory, "Inventory");
 
 		if (openInventory) {
-			GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), background);
+			//GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), background);
 			openInventory = GUI.Toggle (new Rect (Screen.width - 80, Screen.height - 20, 80, 20), openInventory, "Inventory");
 
 			//Capacity bar
