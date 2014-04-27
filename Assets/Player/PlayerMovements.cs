@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovements : MonoBehaviour {
 
 	public float speed;
 	Vector3 movement;

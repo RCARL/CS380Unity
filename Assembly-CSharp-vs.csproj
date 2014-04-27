@@ -62,7 +62,7 @@
      <Compile Include="Assets\Planets\TerrainGeneration\TerrainFormation.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\Textures.cs" />
      <Compile Include="Assets\Player\Player.cs" />
-     <Compile Include="Assets\Player\PlayerMovement.cs" />
+     <Compile Include="Assets\Player\PlayerMovements.cs" />
      <Compile Include="Assets\Player\playerGUI.cs" />
      <Compile Include="Assets\debug camera control\FPS_WASD.cs" />
      <Compile Include="Assets\debug camera control\MouseLook.cs" />
