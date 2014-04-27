@@ -4,13 +4,15 @@ using System.Collections;
 public class Mine : MonoBehaviour {
 
 	//Create ores out of plain cubes
-
-	public GameObject iron = GameObject.CreatePrimitive(PrimitiveType.Cube);
-	public GameObject copper = GameObject.CreatePrimitive(PrimitiveType.Cube);
-	public GameObject beryllium = GameObject.CreatePrimitive(PrimitiveType.Cube);
-	public GameObject silver = GameObject.CreatePrimitive(PrimitiveType.Cube);
-	public GameObject titanium = GameObject.CreatePrimitive(PrimitiveType.Cube);
-	public GameObject platinum = GameObject.CreatePrimitive(PrimitiveType.Cube);
+	      
+	public GameObject iron;
+	public GameObject copper;
+	public GameObject beryllium;
+	public GameObject silver;
+	public GameObject titanium;
+	public GameObject platinum;
+	public GameObject uranium;
+	public GameObject plutonium;
 
 
 
@@ -25,14 +27,44 @@ public class Mine : MonoBehaviour {
 	 *   7. If ore is mined then respawn them
      *   
 	 */  
-	void Start () {
-		copper.transform.position = new Vector3(5, 0.5F, 6);
-		iron.transform.position = new Vector3(5, 0.5F, 6);
-		beryllium.transform.position = new Vector3(5, 0.5F, 6);
-		silver.transform.position = new Vector3(5, 0.5F, 6);
-		titanium.transform.position = new Vector3(5, 0.5F, 6);
-		platinum.transform.position = new Vector3(5, 0.5F, 6);
 
+	//Just change the parameters to where ever you want to spawn the ores
+	void Start () {
+		for (int a= 0; a< 6; a++) {
+						for (int b= 0; b<6; b++) {
+
+
+								iron = GameObject.CreatePrimitive (PrimitiveType.Cube);
+								copper = GameObject.CreatePrimitive (PrimitiveType.Cube);
+								beryllium = GameObject.CreatePrimitive (PrimitiveType.Cube);
+								silver = GameObject.CreatePrimitive (PrimitiveType.Cube);
+								titanium = GameObject.CreatePrimitive (PrimitiveType.Cube);
+								platinum = GameObject.CreatePrimitive (PrimitiveType.Cube);
+								uranium = GameObject.CreatePrimitive (PrimitiveType.Cube);
+								plutonium = GameObject.CreatePrimitive (PrimitiveType.Cube);
+				 
+
+								copper.AddComponent<Rigidbody> ();
+								iron.AddComponent<Rigidbody> ();
+								beryllium.AddComponent<Rigidbody> ();
+								silver.AddComponent<Rigidbody> ();
+								titanium.AddComponent<Rigidbody> ();
+								platinum.AddComponent<Rigidbody> ();
+								uranium.AddComponent<Rigidbody> ();
+								plutonium.AddComponent<Rigidbody> ();
+
+
+
+								copper.transform.position = new Vector3 (a, b, 0);
+								iron.transform.position = new Vector3 (a, b, 0);
+								beryllium.transform.position = new Vector3 (a, b, 0);
+								silver.transform.position = new Vector3 (a, b, 0);
+								titanium.transform.position = new Vector3 (a, b, 0);
+								platinum.transform.position = new Vector3 (a, b, 0);
+								uranium.transform.position = new Vector3 (a, b, 0);
+								plutonium.transform.position = new Vector3 (a, b, 0);
+						}
+				}
 		colorOres();
 	}
 
@@ -54,7 +86,14 @@ public class Mine : MonoBehaviour {
 				} else
 		if (GameObject.FindWithTag ("platinum")) {
 						renderer.material.SetColor ("platinum", Color.gray);
-				} 
+				} else
+		if (GameObject.FindWithTag ("uranium")) {
+						renderer.material.SetColor ("uranium", Color.yellow);
+				} else
+		if (GameObject.FindWithTag ("plutonium")) {
+						renderer.material.SetColor ("plutonium", Color.cyan);
+				}
+
 			
 		}
 
@@ -109,7 +148,20 @@ public class Mine : MonoBehaviour {
 					experience+=150;
 
 					platinum.transform.position = new Vector3(5, 0.5F, 6);
+				} else
+				if (GameObject.FindWithTag("uranium") && experience >= 9000){
+					Destroy(uranium, 21);
+					experience+=200;
+
+					uranium.transform.position = new Vector3(5, 0.5F, 6);
+				}else 
+				if (GameObject.FindWithTag("plutonium") && experience >= 11000){
+					Destroy(plutonium, 33);
+					experience += 400;
+
+					plutonium.transform.position = new Vector3(5, 0.5F, 6);
 				}
+
 
 
 				Debug.Log("Insufficient experience points.");
