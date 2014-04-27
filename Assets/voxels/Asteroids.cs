@@ -15,7 +15,7 @@ public class Asteroids : MonoBehaviour {
 	private System.Random rand = new System.Random();
 
 		
-	void Start () {
+	void Awake () {
 		Container asteroidGroup=gameObject.AddComponent<Container> ();
 		for (int x = -X; x<X; x++) 
 			for (int y = -Y; y<Y; y++) 

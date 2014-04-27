@@ -9,17 +9,10 @@ public class plopAsteroids : MonoBehaviour {
 		//for( int i = 3;i<6;i++){
 			 g = new GameObject ("asteroid"+i*0.05f);
 			g.AddComponent<Asteroids> ().thresh=i*0.05f;
-			g.transform.position= new Vector3((i-3)*20,0,0);
+		g.transform.position= new Vector3(324.2159f,301.1146f,326.1612f);
+		g.rigidbody.useGravity = true;
+		Destroy (gameObject);
 		//}
 
 	}
-	void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.P))
-		{
-			print (
-				g.GetComponent<Container>().chunks.Count);
-		}
-	}
-
 }
