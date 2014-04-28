@@ -13,7 +13,7 @@
 	/// </summary>
 	public byte symbol;
 	
-	private Resource (string type, int mass, int use, int tier, byte symbol) : base(mass,1,type,null) {
+	private Resource (string type, int mass, int use, int tier, byte symbol, string description) : base(mass,1,type,null, description) {
 		this.use = use;
 		this.tier = tier;
 		this.symbol = symbol;
@@ -43,28 +43,36 @@
 		}
 	}
 	public static Resource iron () {
-		return new Resource ("Iron", 56, 0, 1, 0x01);
+		string stringTemp = "Mineral used to make structural things";
+		return new Resource ("Iron", 56, 0, 1, 0x01, stringTemp);
 	}
 	public static Resource platinum () {
-		return new Resource ("Platinum", 165, 0, 2, 0x02);
+		string stringTemp = "Mineral used to make structural things, better than iron";
+		return new Resource ("Platinum", 165, 0, 2, 0x02, stringTemp);
 	}
 	public static Resource titanium () {
-		return new Resource ("Titanium", 48, 0, 3, 0x03);
+		string stringTemp = "Mineral used to make structural things, better than both iron and platinum";
+		return new Resource ("Titanium", 48, 0, 3, 0x03, stringTemp);
 	}
 	public static Resource beryllium () {
-		return new Resource ("Beryllium", 9, 1, 1, 0x04);
+		string stringTemp = "Mineral used for fuel";
+		return new Resource ("Beryllium", 9, 1, 1, 0x04, stringTemp);
 	}
 	public static Resource uranium () {
-		return new Resource ("Uranium", 104, 1, 2, 0x05);
+		string stringTemp = "Mineral used for fuel, better than beryllium";
+		return new Resource ("Uranium", 104, 1, 2, 0x05, stringTemp);
 	}
 	public static Resource plutonium () {
-		return new Resource ("Plutonium", 244, 1, 3, 0x06);
+		string stringTemp = "Mineral used for fuel, better than beryllium and uranium";
+		return new Resource ("Plutonium", 244, 1, 3, 0x06, stringTemp);
 	}
 	public static Resource copper () {
-		return new Resource ("Copper", 64, 2, 1, 0x07);
+		string stringTemp = "Mineral used for electronics";
+		return new Resource ("Copper", 64, 2, 1, 0x07, stringTemp);
 	}
 	public static Resource silver () {
-		return new Resource ("Silver", 107, 2, 2, 0x08);
+		string stringTemp = "Mineral used for electronics, better than copper";
+		return new Resource ("Silver", 107, 2, 2, 0x08, stringTemp);
 	}
 	public override string ToString () {
 		return type + " " + mass + " " + tier;

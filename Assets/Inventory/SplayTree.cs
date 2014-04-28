@@ -23,6 +23,18 @@ public class SplayTree<T> where T : IComparable {
 	public void add(T x, int value) {
 		this.set (x, value);
 	}
+	public T find (T key) {
+		if (this.count == 0)
+		{
+			return default(T);
+		}
+		
+		this.splay(key);
+		if (key.CompareTo (this.root.key) == 0) {
+			return key;
+		}
+		return default(T);
+	}
 	public bool check(T key, int value) {
 		if (this.count == 0)
 		{

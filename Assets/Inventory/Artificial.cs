@@ -7,6 +7,7 @@ public class Artificial : IComparable {
 	public int mass;
 	public int spaceTaken;
 	public string type;
+	public string description;
 	public Dictionary<Artificial, int> recipe = 
 		new Dictionary<Artificial, int> ();
 
@@ -15,11 +16,12 @@ public class Artificial : IComparable {
 		return String.Compare (this.type, temp.type);
 	}
 
-	protected Artificial (int mass, int spaceTaken, string type, Dictionary<Artificial, int> recipe) {
+	protected Artificial (int mass, int spaceTaken, string type, Dictionary<Artificial, int> recipe, string description) {
 		this.mass = mass;
 		this.spaceTaken = spaceTaken;
 		this.type = type;
 		this.recipe = recipe;
+		this.description = description;
 	}
 
 	public static Artificial furnace () {
@@ -28,7 +30,8 @@ public class Artificial : IComparable {
 		temp.Add (Resource.iron(), 5);
 		temp.Add (Resource.beryllium(), 10);
 		temp.Add (Resource.copper(), 8);
-		return new Artificial (100, 6, "Furnace", temp);
+		string stringTemp = "Processes Ores";
+		return new Artificial (100, 6, "Furnace", temp, stringTemp);
 	}
 
 	public static Artificial radar () {
@@ -36,7 +39,8 @@ public class Artificial : IComparable {
 			new Dictionary<Artificial, int> ();
 		temp.Add (Resource.iron(), 4);
 		temp.Add (Resource.copper(), 9);
-		return new Artificial (50, 3, "Radar", temp);
+		string stringTemp = "Allows you to detect things using radar technology";
+		return new Artificial (50, 3, "Radar", temp, stringTemp);
 	}
 
 	public static Artificial core () {
@@ -45,7 +49,8 @@ public class Artificial : IComparable {
 		temp.Add (Resource.iron(), 10);
 		temp.Add (Resource.beryllium(), 2);
 		temp.Add (Resource.copper(), 10);
-		return new Artificial (120, 8, "Core", temp);
+		string stringTemp = "Power source that turns a fuel into electricity";
+		return new Artificial (120, 8, "Core", temp, stringTemp);
 	}
 
 	public static Artificial gun () {
@@ -54,20 +59,23 @@ public class Artificial : IComparable {
 		temp.Add (Resource.iron(), 2);
 		temp.Add (Resource.beryllium(), 1);
 		temp.Add (Resource.copper(), 2);
-		return new Artificial (4, 1, "Gun", temp);
+		string stringTemp = "A gun used for ranged";
+		return new Artificial (4, 1, "Gun", temp, stringTemp);
 	}
 
 	public static Artificial pickaxe () {
 		Dictionary<Artificial, int> temp = 
 			new Dictionary<Artificial, int> ();
 		temp.Add (Resource.iron(), 4);
-		return new Artificial (4, 1, "Pickaxe", temp);
+		string stringTemp = "Pickaxe used for mining";
+		return new Artificial (4, 1, "Pickaxe", temp, stringTemp);
 	}
 
 	public static Artificial sword () {
 		Dictionary<Artificial, int> temp = 
 			new Dictionary<Artificial, int> ();
 		temp.Add (Resource.iron(), 5);
-		return new Artificial (4, 1, "Sword", temp);
+		string stringTemp = "Sword used for melee combat";
+		return new Artificial (4, 1, "Sword", temp, stringTemp);
 	}
 }
