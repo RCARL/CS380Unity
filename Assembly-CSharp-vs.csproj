@@ -58,6 +58,7 @@
      <Compile Include="Assets\MainMenu\UniverseSaveObject.cs" />
      <Compile Include="Assets\Planets\Boundary.cs" />
      <Compile Include="Assets\Planets\PlayerMovement.cs" />
+     <Compile Include="Assets\Planets\SpaceBoundary.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\IslandCreator.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\TerrainFormation.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\Textures.cs" />
