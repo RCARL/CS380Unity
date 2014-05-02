@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpaceBoundary : MonoBehaviour {
+public class SpaceBoundaryg : MonoBehaviour {
 	void Update(){
 		transform.position = new Vector3(
 			Mathf.Clamp(transform.position.x,-9000, 7250),
