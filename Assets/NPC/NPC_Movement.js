@@ -5,11 +5,15 @@ var patrolSpeed : float = 3.0;       // The walking speed between Waypoints
 var loop : boolean = true;       // Do you want to keep repeating the Waypoints
 var dampingLook = 6.0;          // How slowly to turn
 var pauseDuration : float = 1.0;   // How long to pause at a Waypoint
- 
+var isAggro : boolean = false; 
+private var atkTime : float;
 private var curTime : float;
 private var currentWaypoint : int = 0;
 private var character : CharacterController;
- 
+private var attackDelay : float = 1.5; //time between attacks
+
+
+var player : GameObject; 
 function Start(){
 	if(GetComponent(CharacterController) == null)
 		gameObject.AddComponent(CharacterController);
@@ -33,8 +37,10 @@ function Start(){
 }
  
 function Update(){
- 
-    if(currentWaypoint < waypoint.length){ //check to be within the array
+ 	player = GameObject.FindWithTag("Player");
+ 	if(Vector3.Distance(transform.position, player.transform.position) <=10)
+ 		chase(player);
+    else if(currentWaypoint < waypoint.length){ //check to be within the array
        patrol();
        }else{    
     if(loop){ //restarts array location for continuous patrolling
@@ -61,4 +67,26 @@ function patrol(){
        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * dampingLook);
        character.Move(moveDirection.normalized * patrolSpeed * Time.deltaTime);
     }  
+}
+function chase(prey : GameObject){
+	
+	var target : Vector3 = prey.transform.position;
+	target.y = transform.position.y;
+	var moveDirection : Vector3 = target - transform.position;
+	
+	if(moveDirection.magnitude < 0.5){
+		attack(prey);
+		}
+	else {
+		var rotation = Quaternion.LookRotation(target - transform.position);
+       transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * dampingLook);
+       character.Move(moveDirection.normalized * patrolSpeed * Time.deltaTime);
+    }  
+}
+function attack(prey : GameObject){
+	//prey.hitbyenemy();  //implement this
+	if (atkTime == 0)
+		atkTime=Time.time;
+	if((Time.time - atkTime) >=attackDelay)
+		curTime=0;
 }
