@@ -6,6 +6,7 @@ public class plopAsteroids : MonoBehaviour {
 	public float xvalue;
 	public float yvalue;
 	public float zvalue;
+	public bool gravity=true;
 	// Use this for initialization
 	void Awake () {
 		int i = 3;
@@ -13,7 +14,7 @@ public class plopAsteroids : MonoBehaviour {
 			 g = new GameObject ("asteroid"+i*0.05f);
 			g.AddComponent<Asteroids> ().thresh=i*0.05f;
 		g.transform.position= new Vector3(xvalue,yvalue,zvalue);
-		g.rigidbody.useGravity = true;
+		g.rigidbody.useGravity = gravity;
 		Destroy (gameObject);
 		//}
 

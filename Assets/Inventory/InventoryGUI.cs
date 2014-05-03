@@ -38,11 +38,11 @@ public class InventoryGUI : MonoBehaviour {
 		maxBarLength = middleX;
 		//inventory.addArtificial (Artificial.furnace (), 1);
 	}
-	void Update () {
-		cur = inventory.current;
-		adjust (0);
-	}
+
 	void OnGUI () {
+		
+		cur = inventory.current;
+
 		GUI.skin.textField.wordWrap = true;
 		openInventory = GUI.Toggle (new Rect (Screen.width - 80, Screen.height - 20, 80, 20), openInventory, "Inventory");
 
@@ -61,24 +61,7 @@ public class InventoryGUI : MonoBehaviour {
 			GUI.Label (new Rect (10, (middleY / 4) - paddingSmallY, 80, 20), "Inventory", label);
 			GUI.Label (new Rect (middleX + paddingSmallX, 0, 80, 20), "Crafting", label);
 			GUI.Label (new Rect (middleX, middleY + Screen.height / 24, 80, 20), "Required: ", label);
-			/*
-			GUI.Label (new Rect (10, 50, 80, 40), "Iron", label);
-			GUI.Label (new Rect (10, 70, 80, 40), "" + inventory.numIron [0], label);
-			GUI.Label (new Rect (10, 100, 80, 40), "Platinum", label);
-			GUI.Label (new Rect (10, 120, 80, 40), "" + inventory.numPlatinum [0], label);
-			GUI.Label (new Rect (10, 150, 80, 40), "Titanium", label);
-			GUI.Label (new Rect (10, 170, 80, 40), "" + inventory.numTitanium [0], label);
-			GUI.Label (new Rect (padding, 50, 80, 40), "Beryllium", label);
-			GUI.Label (new Rect (padding, 70, 80, 40), "" + inventory.numBeryllium [0], label);
-			GUI.Label (new Rect (padding, 100, 80, 40), "Uranium", label);
-			GUI.Label (new Rect (padding, 120, 80, 40), "" + inventory.numUranium [0], label);
-			GUI.Label (new Rect (padding, 150, 80, 40), "Plutonium", label);
-			GUI.Label (new Rect (padding, 170, 80, 40), "" + inventory.numPlutonium [0], label);
-			GUI.Label (new Rect (padding * 2, 50, 80, 40), "Copper", label);
-			GUI.Label (new Rect (padding * 2, 70, 80, 40), "" + inventory.numCopper [0], label);
-			GUI.Label (new Rect (padding * 2, 100, 80, 40), "Silver", label);
-			GUI.Label (new Rect (padding * 2, 120, 80, 40), "" + inventory.numSilver [0], label);
-			*/
+
 			GUI.Label (new Rect ((paddingLargeX * 3) + Screen.width / 16, 50, 80, 40), "Total Mass", label);
 			GUI.Label (new Rect ((paddingLargeX * 3) + Screen.width / 16, 70, 80, 40), "" + inventory.totalMass, label);
 
@@ -287,9 +270,8 @@ public class InventoryGUI : MonoBehaviour {
 			}
 		}//End of OpenInventory
 	}//End of OnGUI
-	//Adjusts the capacity bar
-	public void adjust (int adj) {
-		cur += adj;
+	//Adjusts the capacity bar(but not really)
+	public void adjust () {
 		if (cur > max) {
 			cur = max;
 		}
