@@ -9,8 +9,9 @@ public class Container : MonoBehaviour {
 	public Dictionary <string,chunk> chunks= new Dictionary<string,chunk> ();
 	int chunkSize =5;
 	public Texture chunkTexture;
-	public void lostOne()
+	public void lostOne(int[] chunkspot)
 	{
+		chunks.Remove(chunkspot[0]+" "+chunkspot[1]+" "+chunkspot[2]);
 		if(transform.childCount<=1)
 			Destroy(gameObject);
 	}
@@ -58,6 +59,14 @@ public class Container : MonoBehaviour {
 		p.changeLocalBlock(condModVal( x ), condModVal(y), condModVal(z), b);
         p.updateMesh = true;
     }
+	public byte getBlock(int x, int y, int z)
+	{
+		chunk p;
+		if (!chunks.TryGetValue (condDivVal (x) + " " + condDivVal (y) + " " + condDivVal (z), out p)) {
+						return p.getBlocks [condModVal (x), condModVal (y), condModVal (z)];		
+				} else 
+						return 0;
+	}
 	private chunk createChunk(int x,int y, int z)
 	{
 		GameObject ans = new GameObject (x + " " + y + " " + z);
@@ -75,45 +84,25 @@ public class Container : MonoBehaviour {
 	{
 		print ("divide "+hash.Count());
 		IEnumerable<string> query;
-		GameObject ans = new GameObject ("new container");
+		GameObject ans = new GameObject ("new "+gameObject.name);
 		Container cont= ans.AddComponent<Container>();
-
-		//IEnumerable<string> partials=new HashSet<string> ();
-
 		foreach(string s in chunks.Keys)
 		{
-
 			query = hash.Where(f => f.StartsWith(s));
 			if(chunks[s].cubeCount==query.Count()){
 				chunks[s].transform.parent=ans.transform;
-				cont.chunks.Add(ans.gameObject.name,chunks[s]);
+				cont.chunks.Add(ans.gameObject.name, chunks[s]);
 				chunks.Remove( ans.gameObject.name);
-				hash= new HashSet<string>( hash.Except(query ));
+
 			}
+			else if(query.Count()>0){
+				GameObject ch=chunks[s].copyCube(query);
+				ch.gameObject.transform.parent=cont.transform;
+				cont.chunks.Add(ch.name,ch.GetComponent<chunk>());
 
-
-
+			}
+			hash= new HashSet<string>( hash.Except(query ));
 		}
-
-		while(hash.Count()>0){
-
-			string pString= string.Join(" ", hash.ElementAtOrDefault(0).Split(' '),0,3);
-			query=	hash.Where(f=>f.StartsWith(pString));
-			hash=new HashSet<string>( hash.Except(query));
-			GameObject ch=chunks[pString].copyCube(query);
-
-			ch.renderer.material.mainTexture=chunkTexture;
-			cont.chunks.Add(ch.name,ch.GetComponent<chunk>());
-			//cont.chunks.Add(pString,ch.GetComponent("chunk") as chunk);
-			ch.gameObject.transform.parent=cont.transform;
-		}
-
-//		foreach(string p in hash)
-//		{
-//			partials.Add(String.Join(" ",p.Split(' '),0,3));
-//		}
-
-
 	}
 	void OnEnable () {
 		chunkTexture=Resources.LoadAssetAtPath<Texture>("Assets/voxels/tilesheet.png") ;
@@ -121,16 +110,28 @@ public class Container : MonoBehaviour {
 		rig.useGravity=false;
 		rig.mass=1000;
 	}
+	public void checkIntegrity()
+	{
+		List <int[]> parents=new List<int[]>();
+		foreach(chunk c in chunks.Values)
+			parents.AddRange(c.getSparse());
+		checkIntegrity(parents);
 
-	PriorityQueue<float,int[]> frontier;
-	HashSet<string> contiguous;
+	}
+
+
+
 	public void checkIntegrity(int xb ,int yb, int yz, int x, int y, int z)
+	{
+		checkIntegrity(getParents(new int[]{xb,yb,yz, x,y,z}));
+	}
+
+	private void checkIntegrity(List <int[]> parents)
 	{
 		int[] i;
 		List<int[]> newFrontier;
-		contiguous = new HashSet<string>();
-		frontier = new PriorityQueue<float,int[]>();
-		List<int[]>parents = getParents(new int[]{xb,yb,yz, x,y,z});
+		HashSet<string> contiguous = new HashSet<string>();
+		PriorityQueue<float,int[]> frontier = new PriorityQueue<float,int[]>();
 		List<int[]>.Enumerator e = parents.GetEnumerator();
 		e.MoveNext();
 		frontier.Enqueue(1f,e.Current);
@@ -145,6 +146,7 @@ public class Container : MonoBehaviour {
 					//highLightContig(contiguous,4);
 					divideContainer(contiguous);
 					contiguous.Clear();
+
 					break;
 				}
 				i=frontier.Dequeue();
@@ -164,7 +166,7 @@ public class Container : MonoBehaviour {
 	private void highLightContig(IEnumerable<string> ha,byte b)
 	{
 		string []i;
-		foreach(string j in ha)
+		foreach(string j in ha) 
 		{
 			i=j.Split(' ');
 			chunks[i[0]+" "+i[1]+" "+i[2]].changeLocalBlock(int.Parse(i[3]),int.Parse(i[4]),int.Parse(i[5]),b);

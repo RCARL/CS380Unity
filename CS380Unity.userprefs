@@ -1,9 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Inventory\InventoryGUI.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Planets/SpaceBoundary.cs">
     <Files>
-      <File FileName="Assets\Inventory\Inventory.cs" Line="1" Column="1" />
-      <File FileName="Assets\Inventory\InventoryGUI.cs" Line="80" Column="3" />
+      <File FileName="Assets/Planets/TerrainGeneration/TerrainFormation.cs" Line="31" Column="141" />
+      <File FileName="Assets/voxels/plopAsteroids.cs" Line="15" Column="57" />
+      <File FileName="Assets/voxels/Asteroids.cs" Line="1" Column="1" />
+      <File FileName="Assets/Planets/Boundary.cs" Line="9" Column="4" />
+      <File FileName="Assets/Planets/SpaceBoundary.cs" Line="4" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

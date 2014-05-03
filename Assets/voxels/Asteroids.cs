@@ -15,10 +15,10 @@ public class Asteroids : MonoBehaviour {
 	private System.Random rand = new System.Random();
 
 		
-	void Start () {
+	void Awake () {
 		Container asteroidGroup=gameObject.AddComponent<Container> ();
-		for (int x = -X; x<X; x++) {
-			for (int y = -Y; y<Y; y++) {
+		for (int x = -X; x<X; x++) 
+			for (int y = -Y; y<Y; y++) 
 				for (int z = -Z; z<Z; z++) {
 					int randomValue = rand.Next(1,20);
 					float limit = PerlinNoise (x, y, z, randomValue)* ((Mathf.Sqrt(x*x)/(X*X))+(Mathf.Sqrt(y*y)/(Y*Y))+(Mathf.Sqrt(z*z)/(Z*Z)));
@@ -26,8 +26,10 @@ public class Asteroids : MonoBehaviour {
 					if (limit <= thresh)
 						asteroidGroup.createChunk(x,y,z,1);
 				}
-			}
-		}
+		foreach(chunk c in asteroidGroup.chunks.Values)
+			c.makeContig();
+			
+		//asteroidGroup.checkIntegrity();
 	}
 	
 

@@ -1,53 +1,81 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Artificial {
+public class Artificial : IComparable {
 	public int mass;
 	public int spaceTaken;
 	public string type;
-	public Dictionary<Resource, int> recipe = 
-		new Dictionary<Resource, int> ();
+	public string description;
+	public Dictionary<Artificial, int> recipe = 
+		new Dictionary<Artificial, int> ();
 
-	private Artificial (int mass, int spaceTaken, string type, Dictionary<Resource, int> recipe) {
+	public int CompareTo(object obj) {
+		Artificial temp = (Artificial)obj;
+		return String.Compare (this.type, temp.type);
+	}
+
+	protected Artificial (int mass, int spaceTaken, string type, Dictionary<Artificial, int> recipe, string description) {
 		this.mass = mass;
 		this.spaceTaken = spaceTaken;
 		this.type = type;
 		this.recipe = recipe;
+		this.description = description;
 	}
 
-	public static Artificial engine () {
-		Dictionary<Resource, int> temp = 
-			new Dictionary<Resource, int> ();
-		temp.Add (Resource.iron(1), 5);
-		temp.Add (Resource.beryllium(1), 10);
-		temp.Add (Resource.copper(1), 8);
-		return new Artificial (100, 6, "Engine", temp);
+	public static Artificial furnace () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 5);
+		temp.Add (Resource.beryllium(), 10);
+		temp.Add (Resource.copper(), 8);
+		string stringTemp = "Processes Ores";
+		return new Artificial (100, 6, "Furnace", temp, stringTemp);
 	}
 
-	public static Artificial communication () {
-		Dictionary<Resource, int> temp = 
-			new Dictionary<Resource, int> ();
-		temp.Add (Resource.iron(1), 4);
-		temp.Add (Resource.copper(1), 9);
-		return new Artificial (50, 3, "Communication", temp);
+	public static Artificial radar () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 4);
+		temp.Add (Resource.copper(), 9);
+		string stringTemp = "Allows you to detect things using radar technology";
+		return new Artificial (50, 3, "Radar", temp, stringTemp);
 	}
 
-	public static Artificial reactor () {
-		Dictionary<Resource, int> temp = 
-			new Dictionary<Resource, int> ();
-		temp.Add (Resource.iron(1), 10);
-		temp.Add (Resource.beryllium(1), 2);
-		temp.Add (Resource.copper(1), 10);
-		return new Artificial (120, 8, "Reactor", temp);
+	public static Artificial core () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 10);
+		temp.Add (Resource.beryllium(), 2);
+		temp.Add (Resource.copper(), 10);
+		string stringTemp = "Power source that turns a fuel into electricity";
+		return new Artificial (120, 8, "Core", temp, stringTemp);
 	}
 
 	public static Artificial gun () {
-		Dictionary<Resource, int> temp = 
-			new Dictionary<Resource, int> ();
-		temp.Add (Resource.iron(1), 2);
-		temp.Add (Resource.beryllium(1), 1);
-		temp.Add (Resource.copper(1), 2);
-		return new Artificial (4, 1, "Gun", temp);
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 2);
+		temp.Add (Resource.beryllium(), 1);
+		temp.Add (Resource.copper(), 2);
+		string stringTemp = "A gun used for ranged";
+		return new Artificial (4, 1, "Gun", temp, stringTemp);
+	}
+
+	public static Artificial pickaxe () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 4);
+		string stringTemp = "Pickaxe used for mining";
+		return new Artificial (4, 1, "Pickaxe", temp, stringTemp);
+	}
+
+	public static Artificial sword () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 5);
+		string stringTemp = "Sword used for melee combat";
+		return new Artificial (4, 1, "Sword", temp, stringTemp);
 	}
 }

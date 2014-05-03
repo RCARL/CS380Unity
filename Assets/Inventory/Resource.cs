@@ -1,75 +1,80 @@
-﻿public class Resource {
-	static readonly int maxBitMask = 0x1f;
-	static readonly int tierBitMask = 0x13;
-	static readonly int padding = 4;
+﻿public class Resource : Artificial{
+
 	public string type;
 	public int tier;
-	public int rarity;
-	public int mass;
-	/*
-	 * 0 = Building
-	 * 1 = Fuel
-	 * 2 = Electric
-	 */
+	/// <summary>
+	///  0 = Building
+	/// 1 = Fuel
+	/// 2 = Electric.
+	/// </summary>
 	public int use;
+	/// <summary>
+	/// byte value used to call this
+	/// </summary>
+	public byte symbol;
 	
-	private Resource (string type, int mass, int rarity, int use, int tier) {
-		this.type = type;
-		this.mass = mass;
-		this.rarity = rarity;
+	private Resource (string type, int mass, int use, int tier, byte symbol, string description) : base(mass,1,type,null, description) {
 		this.use = use;
 		this.tier = tier;
+		this.symbol = symbol;
 	}
 	public static Resource makeFromByte (byte b) {
-		b = (byte) (b & maxBitMask);
-		int tempTier = (b & tierBitMask) + 1;
 
-		switch (b/padding) {
-		case 0:
-			return new Resource ("Iron", 56, 1, 0, tempTier);
-		case 1:
-			return new Resource ("Platinum", 165, 2, 0, tempTier);
-		case 2:
-			return new Resource ("Titanium", 48, 3, 0, tempTier);
-		case 3:
-			return new Resource ("Beryllium", 9, 2, 1, tempTier);
-		case 4:
-			return new Resource ("Uranium", 104, 2, 1, tempTier);
-		case 5:
-			return new Resource ("Plutonium", 244, 3, 1, tempTier);
-		case 6:
-			return new Resource ("Copper", 64, 1, 2, tempTier);
-		case 7:
-			return new Resource ("Silver", 107, 2, 2, tempTier);
+
+		switch (b) {
+		case 0x01:
+			return Resource.iron();
+		case 0x02:
+			return Resource.platinum();
+		case 0x03:
+			return Resource.titanium();
+		case 0x04:
+			return Resource.beryllium();
+		case 0x05:
+			return Resource.uranium();
+		case 0x06:
+			return Resource.plutonium();
+		case 0x07:
+			return Resource.copper();
+		case 0x08:
+			return Resource.silver();
 		default:
 			return null;
 		}
 	}
-	public static Resource iron (int tempTier) {
-		return new Resource ("Iron", 56, 1, 0, tempTier);
+	public static Resource iron () {
+		string stringTemp = "Mineral used to make structural things";
+		return new Resource ("Iron", 56, 0, 1, 0x01, stringTemp);
 	}
-	public static Resource platinum (int tempTier) {
-		return new Resource ("Platinum", 165, 2, 0, tempTier);
+	public static Resource platinum () {
+		string stringTemp = "Mineral used to make structural things, better than iron";
+		return new Resource ("Platinum", 165, 0, 2, 0x02, stringTemp);
 	}
-	public static Resource titanium (int tempTier) {
-		return new Resource ("Titanium", 48, 3, 0, tempTier);
+	public static Resource titanium () {
+		string stringTemp = "Mineral used to make structural things, better than both iron and platinum";
+		return new Resource ("Titanium", 48, 0, 3, 0x03, stringTemp);
 	}
-	public static Resource beryllium (int tempTier) {
-		return new Resource ("Beryllium", 9, 2, 1, tempTier);
+	public static Resource beryllium () {
+		string stringTemp = "Mineral used for fuel";
+		return new Resource ("Beryllium", 9, 1, 1, 0x04, stringTemp);
 	}
-	public static Resource uranium (int tempTier) {
-		return new Resource ("Uranium", 104, 2, 1, tempTier);
+	public static Resource uranium () {
+		string stringTemp = "Mineral used for fuel, better than beryllium";
+		return new Resource ("Uranium", 104, 1, 2, 0x05, stringTemp);
 	}
-	public static Resource plutonium (int tempTier) {
-		return new Resource ("Plutonium", 244, 3, 1, tempTier);
+	public static Resource plutonium () {
+		string stringTemp = "Mineral used for fuel, better than beryllium and uranium";
+		return new Resource ("Plutonium", 244, 1, 3, 0x06, stringTemp);
 	}
-	public static Resource copper (int tempTier) {
-		return new Resource ("Copper", 64, 1, 2, tempTier);
+	public static Resource copper () {
+		string stringTemp = "Mineral used for electronics";
+		return new Resource ("Copper", 64, 2, 1, 0x07, stringTemp);
 	}
-	public static Resource silver (int tempTier) {
-		return new Resource ("Silver", 107, 2, 2, tempTier);
+	public static Resource silver () {
+		string stringTemp = "Mineral used for electronics, better than copper";
+		return new Resource ("Silver", 107, 2, 2, 0x08, stringTemp);
 	}
 	public override string ToString () {
-		return type + " " + mass + " " + rarity + " " + tier;
+		return type + " " + mass + " " + tier;
 	}
 } 
