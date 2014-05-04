@@ -26,7 +26,7 @@ public class Container : MonoBehaviour {
 		p.updateMesh = true;
 		return p;
 	}
-	public chunk createChunk(int x, int y, int z,int[] i,byte b)
+	public int[] createChunk(int x, int y, int z,int[] i,byte b)
 	{
 		chunk p;
 		if (!chunks.TryGetValue (x + " " + y + " " + z, out p))
@@ -34,7 +34,7 @@ public class Container : MonoBehaviour {
 		p.initBlocks ();
 		p.changeLocalBlock (i [0], i [1], i [2], b);
 		p.updateMesh = true;
-		return p;
+		return new int[] {x,y,z,i[0],i[1],i[2]};
 	}
 	public int condModVal(int a)
 	{
