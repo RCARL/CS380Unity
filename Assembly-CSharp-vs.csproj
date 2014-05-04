@@ -56,6 +56,7 @@
      <Compile Include="Assets\Inventory\SplayTree.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
      <Compile Include="Assets\MainMenu\UniverseSaveObject.cs" />
+     <Compile Include="Assets\NPC\NPC_Movement_2.cs" />
      <Compile Include="Assets\Planets\Boundary.cs" />
      <Compile Include="Assets\Planets\PlayerMovement.cs" />
      <Compile Include="Assets\Planets\SpaceBoundary.cs" />
