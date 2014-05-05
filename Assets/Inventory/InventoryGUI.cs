@@ -24,7 +24,7 @@ public class InventoryGUI : MonoBehaviour {
 	float i = 0;
 	float j = 0;
 	private Artificial artificialTemp;
-	private string[] toolbarStrings = {"Furnace", "Radar", "Core", "Gun", "Pickaxe", "Sword"};
+	private string[] toolbarStrings = {"Furnace", "Radar", "Core"};
 
 	public float barLength;
 	public float maxBarLength;
@@ -156,7 +156,7 @@ public class InventoryGUI : MonoBehaviour {
 					}
 				}
 				break;
-			case 3:
+			/*case 3:
 				artificialTemp = Artificial.gun ();
 				i = 0;
 				j = 50;
@@ -197,7 +197,7 @@ public class InventoryGUI : MonoBehaviour {
 						j += 50;
 					}
 				}
-				break;
+				break;*/
 			default:
 				break;
 			}

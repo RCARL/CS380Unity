@@ -25,23 +25,13 @@ public class ShootCubes : MonoBehaviour {
 		}	
 		else{
 			if(	Input.GetKeyDown(KeyCode.Mouse0))
-			{	
-				RaycastHit hit;
-				MeshCollider first;
-				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				if (Physics.Raycast(ray,out hit,100)){
+			{
 
-					first= hit.collider.GetComponent<MeshCollider>();
-					first.convex=false;
-					if (Physics.Raycast(ray,out hit,100))
-					{
+					chunk.editCube(InventoryGUI.currentSelection);
 
-						first.convex=true;
-						hit.collider.GetComponent<MeshCollider>().convex=true;
+					//chunk.editCube(0x80,InventoryGUI.currentSelection.);
+					
 
-						hit.collider.GetComponent<chunk>().ReplaceBlockCursor(hit,Player.playerSingleton.blockTypeSelected);
-					}
-				}
 
 				//	print("Hit something");
 			}

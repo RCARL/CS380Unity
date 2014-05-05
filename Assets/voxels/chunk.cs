@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,11 +17,11 @@ public class chunk : MonoBehaviour {
 	/// </summary>
 	/// <value>The get M blocks.</value>
 	/// 
-
-    public byte[, ,] getBlocks
-    {
-        get { return blocks; }
-    }
+	
+	public byte[, ,] getBlocks
+	{
+		get { return blocks; }
+	}
 	// The triangles tell Unity how to build each section of the mesh joining
 	// the vertices
 	public List<int> newTriangles = new List<int>();
@@ -40,21 +39,21 @@ public class chunk : MonoBehaviour {
 	public int cubeCount{
 		get{return _cubeCount;}
 	}
-    private int[] _chunkSpot;
+	private int[] _chunkSpot;
 	/// <summary>
 	/// represents the xyz coordinates of this chunk object in the whole
 	/// </summary>
 	/// <value>The chunk spot.</value>
-    public int[] chunkSpot{
-        get{
-            if(_chunkSpot==null){
-                string[] c = gameObject.name.Split (' ');
-		        _chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
-            }
-            return _chunkSpot;
-        }
-        }
-
+	public int[] chunkSpot{
+		get{
+			if(_chunkSpot==null){
+				string[] c = gameObject.name.Split (' ');
+				_chunkSpot = new int[]{int.Parse(c [0]),int.Parse (c [1]),int.Parse (c [2])};
+			}
+			return _chunkSpot;
+		}
+	}
+	
 	void UpdateMesh () {
 		mesh.Clear ();
 		mesh.vertices = newVertices.ToArray();
@@ -62,7 +61,7 @@ public class chunk : MonoBehaviour {
 		mesh.uv = newUV.ToArray();
 		mesh.Optimize ();
 		mesh.RecalculateNormals ();
-
+		
 		squareCount=0;
 		newVertices.Clear();
 		newTriangles.Clear();
@@ -73,7 +72,7 @@ public class chunk : MonoBehaviour {
 	}
 	private List<string> getLocalParents(int[]spot)
 	{
-
+		
 		List<string> ans= new List<string>();
 		if(spot[0]!=0)
 			if((blocks[spot[0]-1,spot[1],spot[2]]&cMask)!=0)
@@ -81,70 +80,70 @@ public class chunk : MonoBehaviour {
 		if(spot[0]!=(chunkSize-1))
 			if((blocks[spot[0]+1,spot[1],spot[2]]&cMask)!=0)
 				ans.Add((spot[0]+1)+" "+spot[1]+" "+spot[2]);
-
-
+		
+		
 		if(spot[1]!=0)
 			if((blocks[spot[0],spot[1]-1,spot[2]]&cMask)!=0)
 				ans.Add(spot[0]+" "+(spot[1]-1)+" "+spot[2]);
-
+		
 		if(spot[1]!=(chunkSize-1))
 			if((blocks[spot[0],spot[1]+1,spot[2]]&cMask)!=0)
-
+				
 				ans.Add(spot[0]+" "+(spot[1]+1)+" "+spot[2]);
 		
 		if(spot[2]!=0)
 			if((blocks[spot[0],spot[1],spot[2]-1]&cMask)!=0)
 				
 				ans.Add(spot[0]+" "+spot[1]+" "+(spot[2]-1));
-
+		
 		if(spot[2]!=(chunkSize-1))
 			if((blocks[spot[0],spot[1],spot[2]+1]&cMask)!=0)
 				ans.Add(spot[0]+" "+spot[1]+" "+(spot[2]+1));
 		return ans;
-
+		
 	}
 	private int[] findLeast()
 	{
-
-
+		
+		
 		int []temp;
-
-
-			temp=findLeast(0);//3
-			if(temp[0]!=-1)
-				return temp;
-			temp=findLeast(0,1);//1
-			if(temp[0]!=-1)
-				return temp;
-			temp=findLeast(1,0);//2
-			if(temp[0]!=-1)
-				return temp;
-
-			temp=findLeast(0,2);//2
-			if(temp[0]!=-1)
-				return temp;
-
-
-
-			temp=findLeast(0,3);//3
-			if(temp[0]!=-1)
-				return temp;
-			temp=findLeast(0,1,2);//3
-			if(temp[0]!=-1)
-				return temp;
-			temp=findLeast(0,4);//4
-			if(temp[0]!=-1)
-				return temp;
-			temp=findLeast(2,0);//4
-			if(temp[0]!=-1)
-				return temp;
-			temp=findLeast(1,2);//4
-			if(temp[0]!=-1)
-				return temp;
-			temp=findLeast(3,1,0);//4
-			if(temp[0]!=-1)
-				return temp;
-
+		
+		
+		temp=findLeast(0);//3
+		if(temp[0]!=-1)
+			return temp;
+		temp=findLeast(0,1);//1
+		if(temp[0]!=-1)
+			return temp;
+		temp=findLeast(1,0);//2
+		if(temp[0]!=-1)
+			return temp;
+		
+		temp=findLeast(0,2);//2
+		if(temp[0]!=-1)
+			return temp;
+		
+		
+		
+		temp=findLeast(0,3);//3
+		if(temp[0]!=-1)
+			return temp;
+		temp=findLeast(0,1,2);//3
+		if(temp[0]!=-1)
+			return temp;
+		temp=findLeast(0,4);//4
+		if(temp[0]!=-1)
+			return temp;
+		temp=findLeast(2,0);//4
+		if(temp[0]!=-1)
+			return temp;
+		temp=findLeast(1,2);//4
+		if(temp[0]!=-1)
+			return temp;
+		temp=findLeast(3,1,0);//4
+		if(temp[0]!=-1)
+			return temp;
+		
 		return new int[]{ -1};
 	}
 	private int[] findLeast(int x)
@@ -178,15 +177,15 @@ public class chunk : MonoBehaviour {
 		int Y=(chunkSpot[1]>>32)|1;
 		int Z=(chunkSpot[2]>>32)|1;
 		int[] temp = orCord(new int[] { (x + 1) * X, (x + 1) * Y, (y + 1) * Z }).ToArray();
-
+		
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (x + 1) * X, (y + 1) * Y, (x + 1) * Z }).ToArray();
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (y + 1) * X, (x + 1) * Y, (x + 1) * Z }).ToArray();
-
-
+		
+		
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		return new int[]{-1};
@@ -197,27 +196,27 @@ public class chunk : MonoBehaviour {
 		int Y=(chunkSpot[1]>>32)|1;
 		int Z=(chunkSpot[2]>>32)|1;
 		int[]temp = orCord(new int[] { (x + 1) * X, (y + 1) * Y, (z + 1) * Z }).ToArray();
-
+		
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (y + 1) * X, (x + 1) * Y, (z + 1) * Z }).ToArray();
-
+		
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (y + 1) * X, (z + 1) * Y, (x + 1) * Z }).ToArray();
-
+		
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (z + 1) * X, (y + 1) * Y, (x + 1) * Z }).ToArray();
-
+		
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (z + 1) * X, (x + 1) * Y, (y + 1) * Z }).ToArray();
-
+		
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		temp = orCord(new int[] { (x + 1) * X, (z + 1) * Y, (y + 1) * Z }).ToArray();
-
+		
 		if((blocks[temp[0],temp[1],temp[2]]&cMask)!=0)
 			return temp;
 		return new int[]{-1};
@@ -231,34 +230,34 @@ public class chunk : MonoBehaviour {
 		if(st[0]==-1)
 			return;
 		//print ("from "+gameObject.name+" least: "+st[0]+" "+st[1]+" "+st[2]);
-
-
+		
+		
 		string i;
 		List<string> newFrontier;
 		HashSet<string> contiguous = new HashSet<string>();
 		HashSet<string> frontier = new HashSet<string>();
-
+		
 		frontier.Add(itos( st));
 		if(((st[0]!=-1)&&(blocks[st[0],st[1],st[2]]&cMask)!=0))
-			while(frontier.Count!=0){
-				i=frontier.FirstOrDefault();
-				frontier.Remove(i);
-				contiguous.Add(i);
-				newFrontier=getLocalParents(stoi(i));
-				foreach(string j in newFrontier)
-					if(!contiguous.Contains( j))
-						frontier.Add(j);
-			}
+		while(frontier.Count!=0){
+			i=frontier.FirstOrDefault();
+			frontier.Remove(i);
+			contiguous.Add(i);
+			newFrontier=getLocalParents(stoi(i));
+			foreach(string j in newFrontier)
+				if(!contiguous.Contains( j))
+					frontier.Add(j);
+		}
 		else{
 			print (chunkSpot[0]+" "+chunkSpot[1]+" "+chunkSpot[2]+ "can't make contig");
 			return;
 		}
 		trimCube(contiguous);
 	}
-				private string itos(int[]a)
-				{
-					return a[0]+" "+a[1]+" "+a[2];
-				}
+	private string itos(int[]a)
+	{
+		return a[0]+" "+a[1]+" "+a[2];
+	}
 	private int[]stoi(string a)
 	{
 		string[] b=a.Split(' ');
@@ -270,27 +269,27 @@ public class chunk : MonoBehaviour {
 		for(int x=0;x<chunkSize;x++)
 			for(int y=0;y<chunkSize;y++)
 				for(int z=0;z<chunkSize;z++)
-				{	
-					if(!hash.Contains(x+" "+y+" "+z))
-					{
-						blocks[x,y,z]=0;
-
-					}
-					if(blocks[x,y,z]!=0)
-
-					_cubeCount++;
-
-
-
+			{	
+				if(!hash.Contains(x+" "+y+" "+z))
+				{
+					blocks[x,y,z]=0;
+					
 				}
-					                  
-
-
+				if(blocks[x,y,z]!=0)
+					
+					_cubeCount++;
+				
+				
+				
+			}
+		
+		
+		
 	}
 	public GameObject copyCube(IEnumerable<string>  other)
 	{
 		GameObject g=new GameObject(gameObject.name);
-
+		
 		chunk p =g.AddComponent <chunk>();
 		p.renderer.material.mainTexture= renderer.material.mainTexture;
 		p.initBlocks();
@@ -301,15 +300,15 @@ public class chunk : MonoBehaviour {
 			blocks[int.Parse(i[3]),int.Parse(i[4]),int.Parse(i[5])]=0;
 		}
 		return g;
-
+		
 	}
 	#region CubeFace
 	void CubeTop(int x, int y,int z){
 		if(y!=(chunkSize-1))
 			if ((blocks [x, y + 1, z]&cMask )!= 0)//Block above is not air
 				return;
-
-
+		
+		
 		newVertices.Add(new Vector3 ((float)x,  (float)y,  (float)z + 1));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y,  (float)z + 1));
 		newVertices.Add(new Vector3 (x + 1, y,  z ));
@@ -321,9 +320,9 @@ public class chunk : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+1);
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
-
+		
 		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
-
+		
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -347,9 +346,9 @@ public class chunk : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+1);
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
-
+		
 		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
-
+		
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -360,11 +359,11 @@ public class chunk : MonoBehaviour {
 	}
 	void CubeEast(int x, int y,int z){
 		
-
+		
 		if(x!=(chunkSize-1))
 			if ((blocks [x + 1, y, z]&cMask) != 0)//Block east is not air
-					return;
-
+				return;
+		
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y - 1, (float)z));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z + 1));
@@ -379,7 +378,7 @@ public class chunk : MonoBehaviour {
 		
 		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 		
-
+		
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -392,8 +391,8 @@ public class chunk : MonoBehaviour {
 		if(z!=0)
 			if ((blocks [x, y, z - 1]&cMask) != 0)//Block south is not air
 				return;
-
-
+		
+		
 		newVertices.Add(new Vector3 ((float)x, (float)y - 1, (float)z));
 		newVertices.Add(new Vector3 ((float)x, (float)y, (float)z));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y, (float)z));
@@ -408,7 +407,7 @@ public class chunk : MonoBehaviour {
 		
 		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 		
-
+		
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -420,9 +419,9 @@ public class chunk : MonoBehaviour {
 	void CubeWest(int x, int y,int z){
 		if(x!=0)
 			if ((blocks [x - 1, y, z]&cMask) != 0)//Block west is not air
-					return;
-
-
+				return;
+		
+		
 		newVertices.Add(new Vector3 ((float)x, (float)y- 1,(float) z + 1));
 		newVertices.Add(new Vector3 ((float)x, (float)y,(float) z + 1));
 		newVertices.Add(new Vector3 ((float)x,(float) y, (float)z));
@@ -437,7 +436,7 @@ public class chunk : MonoBehaviour {
 		
 		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 		
-
+		
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -449,9 +448,9 @@ public class chunk : MonoBehaviour {
 	void CubeBot(int x, int y,int z){
 		if(y!=0)
 			if ((blocks [x, y - 1, z]&cMask) != 0)//Block below is not air
-					return;
-
-
+				return;
+		
+		
 		newVertices.Add(new Vector3 ((float)x,  (float)y-1, (float) z ));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y-1, (float) z ));
 		newVertices.Add(new Vector3 ((float)x + 1, (float)y-1, (float) z + 1));
@@ -466,7 +465,7 @@ public class chunk : MonoBehaviour {
 		
 		Vector2 texture=  new Vector2(blocks[x,y,z]&cMask%4,blocks[x,y,z]&cMask/4);
 		
-
+		
 		newUV.Add(new Vector2 (tUnit * texture.x, tUnit * texture.y + tUnit));
 		newUV.Add(new Vector2 (tUnit*texture.x+tUnit, tUnit*texture.y+tUnit));
 		newUV.Add(new Vector2 (tUnit * texture.x + tUnit, tUnit * texture.y));
@@ -476,8 +475,8 @@ public class chunk : MonoBehaviour {
 		
 	}
 	#endregion
-
-
+	
+	
 	void GenerateMesh(){
 		
 		for (int x=0; x<chunkSize; x++){
@@ -492,7 +491,7 @@ public class chunk : MonoBehaviour {
 						CubeWest(x,y,z);
 						CubeNorth(x,y,z);
 						CubeSouth(x,y,z);
-
+						
 					}
 				}
 			}
@@ -501,13 +500,13 @@ public class chunk : MonoBehaviour {
 	public void initBlocks()
 	{
 		if (blocks != null)
-						return;
+			return;
 		blocks=new byte[chunkSize,chunkSize,chunkSize];
 		for (int i=0; i<chunkSize; i++)
-						for (int j=0; j<chunkSize; j++)
-								for (int k=0; k<chunkSize; k++)
-										blocks [i, j, k] = 0;
-
+			for (int j=0; j<chunkSize; j++)
+				for (int k=0; k<chunkSize; k++)
+					blocks [i, j, k] = 0;
+		
 	}
 	public void initBlocks(byte [,,]newChunk)
 	{
@@ -519,20 +518,20 @@ public class chunk : MonoBehaviour {
 				_cubeCount++;
 		}
 	}
-
+	
 	void Awake () {
-
+		
 		mesh= gameObject.AddComponent<MeshFilter>().mesh;
 		col=gameObject.AddComponent<MeshCollider>();
 		col.sharedMesh=null;
 		gameObject.AddComponent<MeshRenderer>();
 		col.convex = true;
-
-
+		
+		
 	}
 	void Start()
 	{
-
+		
 		string[] splat=gameObject.name.Split(' ');
 		transform.localPosition = new Vector3 (int.Parse(splat[0]) * chunkSize - 0.5f, int.Parse(splat[1]) * chunkSize + 0.5f, int.Parse(splat[2]) * chunkSize - 0.5f);
 		transform.localRotation = new Quaternion (0, 0, 0, 0);
@@ -557,7 +556,7 @@ public class chunk : MonoBehaviour {
 	/// </summary>
 	/// <param name="pos">position in localspace of block - normal value adjustment.</param>
 	/// <param name="block">block type.</param>
-	void RoundAndRmBlock(Vector3 pos,byte block)
+	int[] RoundAndRmBlock(Vector3 pos,byte block)
 	{
 		//print (pos.ToString ());
 		int x, y, z,i;
@@ -566,27 +565,25 @@ public class chunk : MonoBehaviour {
 		z = Mathf.FloorToInt(pos.z) ;
 		i = checkVal (x);
 		if (i != 0) {
-			(transform.parent.GetComponent ("Container") as Container)
+			return (transform.parent.GetComponent ("Container") as Container)
 				.createChunk (chunkSpot [0] + i, chunkSpot [1], chunkSpot [2], new int[]{x-(i*chunkSize) ,y,z},block);
-				return;
-				}
+			
+		}
 		i = checkVal (y);
 		if (i != 0){
-			(transform.parent.GetComponent ("Container") as Container)
+			return (transform.parent.GetComponent ("Container") as Container)
 				.createChunk (chunkSpot [0] , chunkSpot [1]+ i, chunkSpot [2], new int[]{x,y-(i*chunkSize),z},block);
-			return;
 		}
 		i = checkVal (z);
 		if (i != 0){
-			(transform.parent.GetComponent ("Container") as Container)
+			return (transform.parent.GetComponent ("Container") as Container)
 				.createChunk (chunkSpot [0] , chunkSpot [1], chunkSpot [2]+ i, new int[]{x,y,z-(i*chunkSize)},block);
-			return;
 		}
 		changeLocalBlock(x,y,z,block);
-
-
+		return new int[]{x,y,z};
+		
 	}
-
+	
 	public IEnumerable<int[]> getSparse()
 	{
 		List<int[]> ans =new List<int[]>();
@@ -603,11 +600,11 @@ public class chunk : MonoBehaviour {
 		if ((cMask & original) != original ) {
 			print ("can't build there");	
 			return;
-				}
-       //print("change Local block" + x + " " + y + " " + z+" "+block);
-	//	if(blocks[x,y,z]!=0)
-	//		_cubeCount--;
-
+		}
+		//print("change Local block" + x + " " + y + " " + z+" "+block);
+		//	if(blocks[x,y,z]!=0)
+		//		_cubeCount--;
+		
 		blocks [x, y, z] =block;
 		updateMesh = true;
 		if(block==0&&original!=0){
@@ -620,7 +617,7 @@ public class chunk : MonoBehaviour {
 		}
 		else if(block!=0&&original==0)
 			_cubeCount++;
-	
+		
 	}
 	/// <summary>
 	/// method called when this gameobject is hit by ray
@@ -628,16 +625,16 @@ public class chunk : MonoBehaviour {
 	/// <param name="hit">raycast hit with position info.</param>
 	/// <param name="block">blocktype to be added
 	/// .</param>
-	public void ReplaceBlockCursor(RaycastHit hit,byte block)
+	public void ReplaceBlockCursor(RaycastHit hit,Artificial a)
 	{	
 		Vector3 fdNormal;
-		if(block==0)//moves hit based on normal value from polygon
+		if(a.symbol==0)//moves hit based on normal value from polygon
 			fdNormal = new Vector3 (-0.5f*hit.normal.x, -0.5f*hit.normal.y, -0.5f*hit.normal.z);
 		else
 			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
 		//send in vector3 adjusted to localspace and from above normal value
-		RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),block);
-
+		int[] pos= RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),a.symbol);
+		addModel (pos, a.model);
 	}
 	void UpdateLast()
 	{
@@ -648,13 +645,49 @@ public class chunk : MonoBehaviour {
 			}
 			GenerateMesh();
 			UpdateMesh ();
-
+			
 			updateMesh=false;
 		}
 	}
 	// Update is called once per frame
 	void Update () {
-
+		
 		UpdateLast ();
+	}
+	public void addModel(int[] pos,string model)
+	{
+		if (pos.Length != 3) 
+						transform.parent.GetComponent<Container> ().chunks [pos [0] + " " + pos [1] + " " + pos [2]]
+			.addModel (new int[]{pos [3],pos [4],pos [5]},model);
+		else {
+			GameObject g= Resources.LoadAssetAtPath<GameObject>(model);	
+			g.transform.parent=transform;
+			g.transform.position=new Vector3(pos[0],pos[1],pos[2]);
+		}
+
+	}
+	/// <summary>
+	/// uses raycasting to shoot at a cube
+	/// </summary>
+	public static void editCube(Artificial a)
+	{
+		RaycastHit hit;
+		MeshCollider first;
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		if (Physics.Raycast(ray,out hit,100)){
+			
+			first= hit.collider.GetComponent<MeshCollider>();
+			first.convex=false;
+			if (Physics.Raycast(ray,out hit,100))
+			{
+				
+				first.convex=true;
+				hit.collider.GetComponent<MeshCollider>().convex=true;
+				
+				hit.collider.GetComponent<chunk>().ReplaceBlockCursor(hit,a);
+		
+
+			}
+		}
 	}
 }
