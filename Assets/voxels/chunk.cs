@@ -607,17 +607,18 @@ public class chunk : MonoBehaviour {
 		
 		blocks [x, y, z] =block;
 		updateMesh = true;
-		if(block==0&&original!=0){
-			_cubeCount--;
-			transform.parent.GetComponent<Container> () .checkIntegrity(chunkSpot[0],chunkSpot[1],chunkSpot[2], x, y, z);
-			if(_cubeCount==0){
-				Destroy(gameObject);
-				transform.parent.GetComponent<Container> ().lostOne(chunkSpot);
-			}
+		if (block == 0 && original != 0) {//player removes a block
+			InventoryGUI.inventory.addArtificial(Resource.makeFromByte(origininal));
+				_cubeCount--;
+				transform.parent.GetComponent<Container> () .checkIntegrity (chunkSpot [0], chunkSpot [1], chunkSpot [2], x, y, z);
+				if (_cubeCount == 0) {
+						Destroy (gameObject);
+						transform.parent.GetComponent<Container> ().lostOne (chunkSpot);
+				}
+		} else if (block != 0 && original == 0) {//player adds a block
+				_cubeCount++;
+			InventoryGUI.inventory.removeArtificial(Resource.makeFromByte(block));
 		}
-		else if(block!=0&&original==0)
-			_cubeCount++;
-		
 	}
 	/// <summary>
 	/// method called when this gameobject is hit by ray
