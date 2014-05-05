@@ -73,8 +73,8 @@ public class NPC_Movement_2 : MonoBehaviour {
 	void chase(GameObject prey){
 
 		foreach (GameObject g in NPC_Tracker.NPCs) {
-			if(Vector3.Distance(gameObject.transform.position, g.transform.position) <= .5f) {
-				Vector3 tempneighbor 
+			if(Vector3.Distance(gameObject.transform.position, g.transform.position) <= .5f) {}
+				//I forget where I was going with this right now, but I'll just fix it for the git for now
 		}
 		Vector3 target = prey.transform.position;
 		target.y = transform.position.y;
