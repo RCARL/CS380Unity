@@ -9,7 +9,7 @@ public class InventoryGUI : MonoBehaviour {
 	readonly float paddingLargeY = Screen.height / 12;
 	readonly float middleX = Screen.width / 2;
 	readonly float middleY = Screen.height / 2;
-	private Inventory inventory = new Inventory();
+	public static Inventory inventory = new Inventory();
 	private bool openInventory = false;
 	private int max;
 	private string display;
