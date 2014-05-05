@@ -8,10 +8,7 @@
 	/// 2 = Electric.
 	/// </summary>
 	public int use;
-	/// <summary>
-	/// byte value used to call this
-	/// </summary>
-	public byte symbol;
+
 
 	
 	private Resource (string type, int mass, int use, int tier, byte symbol, string description) : base(mass,1,type,null, description) {

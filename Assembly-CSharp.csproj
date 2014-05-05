@@ -56,7 +56,6 @@
      <Compile Include="Assets\Inventory\SplayTree.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
      <Compile Include="Assets\MainMenu\UniverseSaveObject.cs" />
-     <Compile Include="Assets\NPC\NPC_Movement_2.cs" />
      <Compile Include="Assets\Planets\Boundary.cs" />
      <Compile Include="Assets\Planets\PlayerMovement.cs" />
      <Compile Include="Assets\Planets\SpaceBoundary.cs" />
@@ -71,6 +70,7 @@
      <Compile Include="Assets\debug camera control\ShootCubes.cs" />
      <Compile Include="Assets\voxels\Asteroids.cs" />
      <Compile Include="Assets\voxels\Container.cs" />
+     <Compile Include="Assets\voxels\LandAsteroidScript.cs" />
      <Compile Include="Assets\voxels\Mine.cs" />
      <Compile Include="Assets\voxels\NewContainer.cs" />
      <Compile Include="Assets\voxels\Noise.cs" />

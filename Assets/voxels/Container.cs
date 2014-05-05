@@ -104,7 +104,7 @@ public class Container : MonoBehaviour {
 			hash= new HashSet<string>( hash.Except(query ));
 		}
 	}
-	void OnEnable () {
+	void Awake () {
 		chunkTexture=Resources.LoadAssetAtPath<Texture>("Assets/voxels/tilesheet.png") ;
 		Rigidbody rig= gameObject.AddComponent<Rigidbody> ();
 		rig.useGravity=false;

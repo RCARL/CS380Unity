@@ -625,16 +625,16 @@ public class chunk : MonoBehaviour {
 	/// <param name="hit">raycast hit with position info.</param>
 	/// <param name="block">blocktype to be added
 	/// .</param>
-	public void ReplaceBlockCursor(RaycastHit hit,byte block)
+	public void ReplaceBlockCursor(RaycastHit hit,Artificial a)
 	{	
 		Vector3 fdNormal;
-		if(block==0)//moves hit based on normal value from polygon
+		if(a.symbol==0)//moves hit based on normal value from polygon
 			fdNormal = new Vector3 (-0.5f*hit.normal.x, -0.5f*hit.normal.y, -0.5f*hit.normal.z);
 		else
 			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
 		//send in vector3 adjusted to localspace and from above normal value
-		RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),block);
-		
+		int[] pos= RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),a.symbol);
+		addModel (pos, a.model);
 	}
 	void UpdateLast()
 	{
@@ -654,10 +654,22 @@ public class chunk : MonoBehaviour {
 		
 		UpdateLast ();
 	}
+	public void addModel(int[] pos,string model)
+	{
+		if (pos.Length != 3) 
+						transform.parent.GetComponent<Container> ().chunks [pos [0] + " " + pos [1] + " " + pos [2]]
+			.addModel (new int[]{pos [3],pos [4],pos [5]},model);
+		else {
+			GameObject g= Resources.LoadAssetAtPath<GameObject>(model);	
+			g.transform.parent=transform;
+			g.transform.position=new Vector3(pos[0],pos[1],pos[2]);
+		}
+
+	}
 	/// <summary>
 	/// uses raycasting to shoot at a cube
 	/// </summary>
-	public static void editCube(byte type,GameObject mdl=null)
+	public static void editCube(Artificial a)
 	{
 		RaycastHit hit;
 		MeshCollider first;
@@ -672,9 +684,10 @@ public class chunk : MonoBehaviour {
 				first.convex=true;
 				hit.collider.GetComponent<MeshCollider>().convex=true;
 				
-				hit.collider.GetComponent<chunk>().ReplaceBlockCursor(hit,type);
+				hit.collider.GetComponent<chunk>().ReplaceBlockCursor(hit,a);
+		
+
 			}
 		}
 	}
 }
-
