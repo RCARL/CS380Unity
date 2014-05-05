@@ -56,6 +56,7 @@
      <Compile Include="Assets\Inventory\SplayTree.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
      <Compile Include="Assets\MainMenu\UniverseSaveObject.cs" />
+     <Compile Include="Assets\NPC\NPC_Movement_2.cs" />
      <Compile Include="Assets\Planets\Boundary.cs" />
      <Compile Include="Assets\Planets\ChangeS.cs" />
      <Compile Include="Assets\Planets\PlayerMovement.cs" />
@@ -63,10 +64,12 @@
      <Compile Include="Assets\Planets\TerrainGeneration\IslandCreator.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\TerrainFormation.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\Textures.cs" />
+     <Compile Include="Assets\Player\ActiveSpawnPoint.cs" />
      <Compile Include="Assets\Player\ButtonForAxe.cs" />
      <Compile Include="Assets\Player\Player.cs" />
      <Compile Include="Assets\Player\PlayerMovements.cs" />
      <Compile Include="Assets\Player\playerGUI.cs" />
+     <Compile Include="Assets\SceneConstants\NPC_Tracker.cs" />
      <Compile Include="Assets\debug camera control\FPS_WASD.cs" />
      <Compile Include="Assets\debug camera control\MouseLook.cs" />
      <Compile Include="Assets\debug camera control\ShootCubes.cs" />
