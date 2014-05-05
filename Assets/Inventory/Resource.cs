@@ -20,6 +20,8 @@
 
 
 		switch (b) {
+		case 0x00:
+			return Resource.nothing();
 		case 0x01:
 			return Resource.iron();
 		case 0x02:
@@ -39,6 +41,10 @@
 		default:
 			return null;
 		}
+	}
+	public static Resource nothing()	{
+		return new Resource ("nothing", 0, 0, 0, 0x00, "absence of stuff");
+	
 	}
 	public static Resource iron () {
 		string stringTemp = "Mineral used to make structural things";
