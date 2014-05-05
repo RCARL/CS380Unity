@@ -6,31 +6,28 @@ public class Inventory {
 
 	public int capacity;
 	public int current;
-	public int totalMass;
 
 	public Inventory () {
 		artificials = new SplayTree<Artificial> ();
 
 		current = 0;
-		capacity = 100;
+		capacity = 1000;
 	}
 	
-	public bool addArtificial (Artificial artificial, int num) {
+	public bool addArtificial (Artificial artificial, int num=1) {
 		if (current + (artificial.spaceTaken * num) <= capacity) {
 			artificials.add (artificial, num);
-			current += (artificial.spaceTaken * num);
-			totalMass += (artificial.mass * num);
+			current += (artificial.spaceTaken * num);;
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
-	public bool removeArtificial (Artificial artificial, int num) {
+	public bool removeArtificial (Artificial artificial, int num=1) {
 		bool temp = artificials.remove(artificial, num);
 		if (temp) {
 			current -= (artificial.spaceTaken * num);
-			totalMass -= (artificial.mass * num);
 		}
 		return temp;
 	}

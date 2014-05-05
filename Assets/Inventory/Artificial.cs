@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Artificial : IComparable {
-	public int mass;
 	public int spaceTaken;
 	public string type;
 	public string description;
@@ -21,8 +20,7 @@ public class Artificial : IComparable {
 		return String.Compare (this.type, temp.type);
 	}
 
-	protected Artificial (int mass, int spaceTaken, string type, Dictionary<Artificial, int> recipe, string description, string model=null) {
-		this.mass = mass;
+	protected Artificial (int spaceTaken, string type, Dictionary<Artificial, int> recipe, string description, string model=null) {
 		this.spaceTaken = spaceTaken;
 		this.type = type;
 		this.recipe = recipe;
@@ -36,7 +34,7 @@ public class Artificial : IComparable {
 		temp.Add (Resource.iron(), 5);
 		temp.Add (Resource.beryllium(), 10);
 		temp.Add (Resource.copper(), 8);
-		return new Artificial (100, 6, "Furnace", temp, "Processes Ores","Models/basic_furnace");
+		return new Artificial (6, "Furnace", temp, "Processes Ores","Models/basic_furnace");
 
 	}
 
@@ -45,7 +43,7 @@ public class Artificial : IComparable {
 			new Dictionary<Artificial, int> ();
 		temp.Add (Resource.iron(), 4);
 		temp.Add (Resource.copper(), 9);
-		return new Artificial (50, 3, "Radar", temp, "Allows you to detect things using radar technology",
+		return new Artificial (3, "Radar", temp, "Allows you to detect things using radar technology",
 		                       "Models/Radar");
 	}
 
@@ -55,7 +53,7 @@ public class Artificial : IComparable {
 		temp.Add (Resource.iron(), 10);
 		temp.Add (Resource.beryllium(), 2);
 		temp.Add (Resource.copper(), 10);
-		return new Artificial (120, 8, "Core", temp, 
+		return new Artificial (8, "Core", temp, 
 			"Power source that turns a fuel into electricity"
 			,"Models/core2") ;
 	}
