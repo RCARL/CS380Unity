@@ -32,7 +32,7 @@ public class Container : MonoBehaviour {
 		if (!chunks.TryGetValue (x + " " + y + " " + z, out p))
 			p = createChunk (x, y, z);
 		p.initBlocks ();
-		p.changeLocalBlock (i [0], i [1], i [2], b);
+		p.changeLocalBlock (i [0], i [1], i [2], b,true);
 		p.updateMesh = true;
 		return new int[] {x,y,z,i[0],i[1],i[2]};
 	}

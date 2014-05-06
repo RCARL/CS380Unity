@@ -16,8 +16,8 @@ public class plopAsteroids : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		for( int i = NumberofAsteroids;i<(NumberofAsteroids*2);i++){
-			 g = new GameObject ("asteroid"+i*0.05f);
-			g.AddComponent<Asteroids> ().thresh=i*0.05f;
+			 g = new GameObject ("asteroid"+0.05f);
+			g.AddComponent<Asteroids> ().thresh=0.05f;
 			g.transform.position= new Vector3(rand.Next(xmin,xmax),rand.Next(ymin,ymax),rand.Next(zmin,zmax));
 			g.rigidbody.useGravity = gravity;
 			SpaceBoundary r = g.AddComponent<SpaceBoundary>();

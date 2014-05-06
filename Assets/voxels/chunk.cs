@@ -579,7 +579,7 @@ public class chunk : MonoBehaviour {
 			return (transform.parent.GetComponent ("Container") as Container)
 				.createChunk (chunkSpot [0] , chunkSpot [1], chunkSpot [2]+ i, new int[]{x,y,z-(i*chunkSize)},block);
 		}
-		changeLocalBlock(x,y,z,block);
+		changeLocalBlock(x,y,z,block,true);
 		return new int[]{x,y,z};
 		
 	}
@@ -594,7 +594,7 @@ public class chunk : MonoBehaviour {
 						ans.Add(new int[]{chunkSpot[0],chunkSpot[1],chunkSpot[2],x,y,z});
 		return ans;
 	}
-	public  void changeLocalBlock(int x, int y, int z, byte block)
+	public  void changeLocalBlock(int x, int y, int z, byte block,bool frmPlayer=false)
 	{
 		byte original = blocks [x, y, z];
 		if ((cMask & original) != original ) {
@@ -608,6 +608,10 @@ public class chunk : MonoBehaviour {
 		blocks [x, y, z] =block;
 		updateMesh = true;
 		if (block == 0 && original != 0) {//player removes a block
+<<<<<<< HEAD
+=======
+			if(frmPlayer)
+>>>>>>> 01a81ce73dd746b69cf82730c4997dd6f5d4f79e
 			InventoryGUI.inventory.addArtificial(Resource.makeFromByte(original));
 				_cubeCount--;
 				transform.parent.GetComponent<Container> () .checkIntegrity (chunkSpot [0], chunkSpot [1], chunkSpot [2], x, y, z);
@@ -616,8 +620,13 @@ public class chunk : MonoBehaviour {
 						transform.parent.GetComponent<Container> ().lostOne (chunkSpot);
 				}
 		} else if (block != 0 && original == 0) {//player adds a block
+		if(frmPlayer)
+			if(!InventoryGUI.inventory.removeArtificial(Resource.makeFromByte(block)))
+			   blocks[x,y,z]=original;
+			else
 				_cubeCount++;
-			InventoryGUI.inventory.removeArtificial(Resource.makeFromByte(block));
+		else
+			_cubeCount++;
 		}
 	}
 	/// <summary>
@@ -634,6 +643,7 @@ public class chunk : MonoBehaviour {
 		else
 			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
 		//send in vector3 adjusted to localspace and from above normal value
+
 		int[] pos= RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),a.symbol);
 		if(a.symbol==0x80)
 			addModel(pos, a.model);
