@@ -9,8 +9,7 @@ public class Container : MonoBehaviour {
 	public Dictionary <string,chunk> chunks= new Dictionary<string,chunk> ();
 	int chunkSize =5;
 	public Texture chunkTexture;
-	
-	bool gravity=true;
+    bool gravity=true;
 	public void lostOne(int[] chunkspot)
 	{
 		chunks.Remove(chunkspot[0]+" "+chunkspot[1]+" "+chunkspot[2]);
