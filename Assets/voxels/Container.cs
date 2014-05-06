@@ -86,6 +86,7 @@ public class Container : MonoBehaviour {
 		IEnumerable<string> query;
 		GameObject ans = new GameObject ("new "+gameObject.name);
 		Container cont= ans.AddComponent<Container>();
+		cont.rigidbody.useGravity = rigidbody.useGravity;
 		foreach(string s in chunks.Keys)
 		{
 			query = hash.Where(f => f.StartsWith(s));
