@@ -7,13 +7,13 @@ public class addAxe : MonoBehaviour
 		// Use this for initialization
 	GameObject axe ;
 	void OnEnable () {
-		axe= Instantiate (Resources.Load ("axe_3"))as GameObject;
+		axe= Instantiate (Resources.Load ("pick_axe"))as GameObject;
 			axe.transform.parent=transform;
 			axe.transform.localPosition = new Vector3 (0.23f, -0.89f, -0.3f);
 			axe.transform.localEulerAngles = new Vector3 (332.74f, 180f, 0f);
 			//axe.transform.localScale = new Vector3 (10, 10, 10);
 		}
-	public bool animation_bool=false;
+	bool animation_bool=false;
 	
 	void OnDisable()
 	{
