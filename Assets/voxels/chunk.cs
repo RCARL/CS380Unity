@@ -621,7 +621,7 @@ public class chunk : MonoBehaviour {
 				}
 		} else if (block != 0 && original == 0) {//player adds a block
 		if(frmPlayer)
-			if(!InventoryGUI.inventory.removeArtificial(Resource.makeFromByte(block)))
+			if(!InventoryGUI.inventory.removeArtificial(InventoryGUI.currentSelection))
 			   blocks[x,y,z]=original;
 			else
 				_cubeCount++;

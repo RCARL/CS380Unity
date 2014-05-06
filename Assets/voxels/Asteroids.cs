@@ -11,6 +11,7 @@ public class Asteroids : MonoBehaviour {
 	int cSize = 5;
 	public float thresh=0.2f;
 	NoiseGen NoiseGenerator;
+    public byte flavor=0x01;
 
 	private System.Random rand = new System.Random();
 
@@ -24,7 +25,7 @@ public class Asteroids : MonoBehaviour {
 					float limit = PerlinNoise (x, y, z, randomValue)* ((Mathf.Sqrt(x*x)/(X*X))+(Mathf.Sqrt(y*y)/(Y*Y))+(Mathf.Sqrt(z*z)/(Z*Z)));
 					//Debug.Log (limit);
 					if (limit <= thresh)
-						asteroidGroup.createChunk(x,y,z,1);
+						asteroidGroup.createChunk(x,y,z,flavor);
 				}
 		foreach(chunk c in asteroidGroup.chunks.Values)
 			c.makeContig();
