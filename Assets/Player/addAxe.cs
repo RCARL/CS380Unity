@@ -1,3 +1,5 @@
+using UnityEngine;
+using System.Collections;
 
 public class addAxe : MonoBehaviour
 {
@@ -27,9 +29,9 @@ public class addAxe : MonoBehaviour
 		if(animation_bool == true)
 		{
 			axe.animation.Play("Take 001");
-			
+			animation_bool = false;
 		}
-		animation_bool = false;
+
 		
 		
 		if(Input.GetKeyDown(KeyCode.Mouse0))
