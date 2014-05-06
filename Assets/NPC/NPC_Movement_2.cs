@@ -17,7 +17,7 @@ public class NPC_Movement_2 : Living {
 	GameObject player;
 	PlayerCombat playercombatobject;
 	void Start(){
-		health = 50;
+		health = 60;
 		if((character=gameObject.GetComponent<CharacterController>()) == null)
 			character = gameObject.AddComponent<CharacterController>();
 		//character = gameObject.GetComponent<CharacterController>(); //uses character movement methods
@@ -96,11 +96,16 @@ public class NPC_Movement_2 : Living {
     	}  
 	}
 	IEnumerator attack(){
-		print ("attacking");
 		playercombatobject.hitbyenemy();
 		attackcooldown = true;
 		yield return new WaitForSeconds (1.0f);
-		print ("after attacking");
 		attackcooldown = false;
+	}
+	void OnCollisionEnter(Collision c){
+		print ("colliding");
+		if (c.gameObject.tag == "playerattack") {
+			health -= 20;
+			Destroy(c.gameObject);
+		}
 	}
 }
