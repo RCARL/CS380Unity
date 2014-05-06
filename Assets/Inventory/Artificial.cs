@@ -34,7 +34,7 @@ public class Artificial : IComparable {
 		temp.Add (Resource.iron(), 5);
 		temp.Add (Resource.beryllium(), 10);
 		temp.Add (Resource.copper(), 8);
-		return new Artificial (6, "Furnace", temp, "Processes Ores","Models/basic_furnace");
+		return new Artificial (6, "Furnace", temp, "Processes Ores","Model-fbx/furnace");
 
 	}
 
@@ -44,7 +44,7 @@ public class Artificial : IComparable {
 		temp.Add (Resource.iron(), 4);
 		temp.Add (Resource.copper(), 9);
 		return new Artificial (3, "Radar", temp, "Allows you to detect things using radar technology",
-		                       "Models/Radar");
+		                       "Model-fbx/radar");
 	}
 
 	public static Artificial core () {
@@ -55,7 +55,7 @@ public class Artificial : IComparable {
 		temp.Add (Resource.copper(), 10);
 		return new Artificial (8, "Core", temp, 
 			"Power source that turns a fuel into electricity"
-			,"Models/core2") ;
+			,"model-fbx/core2") ;
 	}
 
 	public static Artificial spacegun () {
