@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using System.Collections;
 using System.Threading;
 using System.Text;
@@ -29,7 +29,7 @@ public class ShipFunction : MonoBehaviour {
 			Depending on the battle mechanisms, we need to see how often the other ship shoot at this ship, 
 			maybe keep it simple and let a shield break depending on how many times it got shot (100 times for one shield?)
 			
-			*/
+			*//*
 			}//end tmp2
 			else{ hasShields = false; Debug.Log ("You have no shields, please create some with resources immediately (increase in health loss.");}
 		} else{  Debug.Log("Targets's security level is below 50, robot's can be controlled");       }
@@ -46,7 +46,7 @@ public class ShipFunction : MonoBehaviour {
 		}else { Debug.Log ("Cannot decrease below 0");} 
 	} 
 	
-	
+	*/
 	/*
 Seperate timers for shields,  security, reformat, oxygen
 
@@ -57,7 +57,7 @@ So do this in a while loop, ex: while hasoxygen = false, start a basic timer for
 Shields are the main soruce protecting their ship, so it should take longer to break a shield, maybe 3 minutes a shield because there are 10 of them.
 
 */
-	
+	/*
 	
 	
 	void suppressOxygen(Ship target){
