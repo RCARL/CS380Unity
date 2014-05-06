@@ -608,7 +608,7 @@ public class chunk : MonoBehaviour {
 		blocks [x, y, z] =block;
 		updateMesh = true;
 		if (block == 0 && original != 0) {//player removes a block
-			InventoryGUI.inventory.addArtificial(Resource.makeFromByte(origininal));
+			InventoryGUI.inventory.addArtificial(Resource.makeFromByte(original));
 				_cubeCount--;
 				transform.parent.GetComponent<Container> () .checkIntegrity (chunkSpot [0], chunkSpot [1], chunkSpot [2], x, y, z);
 				if (_cubeCount == 0) {

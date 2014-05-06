@@ -4,6 +4,7 @@ using System.Collections;
 public class Player {
 
 	public static Player playerSingleton=new Player();
+	public static int health=100;
 	/// <summary>
 	/// switches between look mode and cursor mode
 	/// </summary>
@@ -23,5 +24,4 @@ public class Player {
 			blockTypeSelected= (byte)value;
 		}
 	}
-
 }

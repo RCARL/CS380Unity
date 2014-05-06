@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class NPC_Movement_2 : MonoBehaviour {
+public class NPC_Movement_2 : Living {
 	Transform[] waypoint= new Transform[3];        // The amount of Waypoint you want
 	float patrolSpeed= 3.0f;       // The walking speed between Waypoints
 	bool loop = true;       // Do you want to keep repeating the Waypoints
@@ -12,11 +12,12 @@ public class NPC_Movement_2 : MonoBehaviour {
 	private float curTime;
 	private int currentWaypoint=0;
 	private CharacterController character;
-	private float attackDelay= 1.5f; //time between attacks
+	private bool attackcooldown = false;
 
-
-	GameObject player; 
+	GameObject player;
+	PlayerCombat playercombatobject;
 	void Start(){
+		health = 50;
 		if((character=gameObject.GetComponent<CharacterController>()) == null)
 			character = gameObject.AddComponent<CharacterController>();
 		//character = gameObject.GetComponent<CharacterController>(); //uses character movement methods
@@ -40,6 +41,7 @@ public class NPC_Movement_2 : MonoBehaviour {
  
 	void Update(){
  		player = GameObject.FindWithTag("Player");
+		playercombatobject = player.GetComponent<PlayerCombat> ();
  		if(Vector3.Distance(transform.position, player.transform.position) <=10)
  			chase(player);
     	else if(currentWaypoint < waypoint.Length){ //check to be within the array
@@ -81,9 +83,11 @@ public class NPC_Movement_2 : MonoBehaviour {
 		Vector3 target = prey.transform.position;
 		//target.y = transform.position.y;
 		Vector3 moveDirection = target - transform.position;
+		//print (moveDirection.magnitude);
 	
-		if(moveDirection.magnitude < 0.5){
-			attack(prey);
+		if(moveDirection.magnitude < 1.5f){
+			if(!attackcooldown)
+				StartCoroutine("attack");
 		}
 		else {
 			var rotation = Quaternion.LookRotation(target - transform.position);
@@ -91,11 +95,12 @@ public class NPC_Movement_2 : MonoBehaviour {
        		character.Move(moveDirection.normalized * patrolSpeed * Time.deltaTime);
     	}  
 	}
-	void attack(GameObject prey){
-		//prey.hitbyenemy();  //implement this
-		if (atkTime == 0)
-			atkTime=Time.time;
-		if((Time.time - atkTime) >=attackDelay)
-			curTime=0;
+	IEnumerator attack(){
+		print ("attacking");
+		playercombatobject.hitbyenemy();
+		attackcooldown = true;
+		yield return new WaitForSeconds (1.0f);
+		print ("after attacking");
+		attackcooldown = false;
 	}
 }
