@@ -8,6 +8,7 @@ public class LandAsteroidScript : MonoBehaviour {
 	public float xvalue;
 	public float yvalue;
 	public float zvalue;
+	public byte mineral;
 
 	int apart = 0;
 	private System.Random rand = new System.Random();
@@ -15,7 +16,8 @@ public class LandAsteroidScript : MonoBehaviour {
 	void Awake () {
 		for( int i = NumberofAsteroids;i<(NumberofAsteroids*2);i++){
 			g = new GameObject ("asteroid"+i*0.05f);
-			g.AddComponent<Asteroids> ().thresh=i*0.05f;
+			Asteroids temp = g.AddComponent<Asteroids> ();
+			temp.flavor = mineral;
 			g.transform.position= new Vector3(xvalue, yvalue, zvalue);
 			g.rigidbody.useGravity = gravity;
 			g.rigidbody.angularDrag = 5.0f;
@@ -24,5 +26,6 @@ public class LandAsteroidScript : MonoBehaviour {
 		}
 		
 	}
+
 }
 
