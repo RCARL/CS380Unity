@@ -22,7 +22,7 @@ public class InventoryGUI : MonoBehaviour {
 	private float i = 0;
 	private float j = 0;
 	private Artificial artificialTemp;
-	private string[] toolbarStrings = {"Furnace", "Radar", "Core"};
+	private string[] toolbarStrings = {"Furnace", "Radar", "Core", "Space Gun", "Phase Gun", "Missile Launcher", "Space Cannon", "Turret"};
 	private float barLength;
 	private float maxBarLength;
 	public GUIStyle label;
@@ -51,9 +51,7 @@ public class InventoryGUI : MonoBehaviour {
 			//Capacity bar
 			GUI.Box (new Rect (10, 18, barLength, 20), "");
 			GUI.Box (new Rect (10, 18, maxBarLength, 20), cur + "/" + max);
-
-
-
+	
 			//Labels
 			GUI.Label (new Rect (10, 0, 80, 20), "Capacity", label);
 			GUI.Label (new Rect (10, (middleY / 4) - paddingSmallY, 80, 20), "Inventory", label);
@@ -141,6 +139,76 @@ public class InventoryGUI : MonoBehaviour {
 				break;
 			case 2:
 				artificialTemp = Artificial.core ();
+				i = 0;
+				j = paddingLargeY;
+				foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {
+					GUI.Label (new Rect (middleX + i, middleY + j, 80, 40), de.Key.type, label);
+					GUI.Label (new Rect (middleX + i, middleY + j + 20, 80, 40), de.Value.ToString (), label);
+					i += paddingLargeX;
+					if (i > paddingLargeX * 3) {
+						i = 0;
+						j += 50;
+					}
+				}
+				break;
+			case 3:
+				artificialTemp = Artificial.spacegun ();
+				i = 0;
+				j = paddingLargeY;
+				foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {
+					GUI.Label (new Rect (middleX + i, middleY + j, 80, 40), de.Key.type, label);
+					GUI.Label (new Rect (middleX + i, middleY + j + 20, 80, 40), de.Value.ToString (), label);
+					i += paddingLargeX;
+					if (i > paddingLargeX * 3) {
+						i = 0;
+						j += 50;
+					}
+				}
+				break;
+			case 4:
+				artificialTemp = Artificial.phasegun ();
+				i = 0;
+				j = paddingLargeY;
+				foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {
+					GUI.Label (new Rect (middleX + i, middleY + j, 80, 40), de.Key.type, label);
+					GUI.Label (new Rect (middleX + i, middleY + j + 20, 80, 40), de.Value.ToString (), label);
+					i += paddingLargeX;
+					if (i > paddingLargeX * 3) {
+						i = 0;
+						j += 50;
+					}
+				}
+				break;
+			case 5:
+				artificialTemp = Artificial.missilelauncher ();
+				i = 0;
+				j = paddingLargeY;
+				foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {
+					GUI.Label (new Rect (middleX + i, middleY + j, 80, 40), de.Key.type, label);
+					GUI.Label (new Rect (middleX + i, middleY + j + 20, 80, 40), de.Value.ToString (), label);
+					i += paddingLargeX;
+					if (i > paddingLargeX * 3) {
+						i = 0;
+						j += 50;
+					}
+				}
+				break;
+			case 6:
+				artificialTemp = Artificial.spacecannon ();
+				i = 0;
+				j = paddingLargeY;
+				foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {
+					GUI.Label (new Rect (middleX + i, middleY + j, 80, 40), de.Key.type, label);
+					GUI.Label (new Rect (middleX + i, middleY + j + 20, 80, 40), de.Value.ToString (), label);
+					i += paddingLargeX;
+					if (i > paddingLargeX * 3) {
+						i = 0;
+						j += 50;
+					}
+				}
+				break;
+			case 7:
+				artificialTemp = Artificial.turret ();
 				i = 0;
 				j = paddingLargeY;
 				foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {

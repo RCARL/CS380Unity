@@ -58,6 +58,61 @@ public class Artificial : IComparable {
 			,"Models/core2") ;
 	}
 
+	public static Artificial spacegun () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 4);
+		temp.Add (Resource.beryllium(), 2);
+		temp.Add (Resource.copper(), 7);
+		return new Artificial (4, "Space Gun", temp, 
+		                       "Power source that turns a fuel into electricity"
+		                       ,"Models/core2") ;
+	}
+
+	public static Artificial phasegun () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 5);
+		temp.Add (Resource.beryllium(), 3);
+		temp.Add (Resource.copper(), 10);
+		return new Artificial (5, "Phase Gun", temp, 
+		                       "Shoots a projectile"
+		                       ,"Models/phase_gun2") ;
+	}
+
+	public static Artificial missilelauncher () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 10);
+		temp.Add (Resource.beryllium(), 1);
+		temp.Add (Resource.copper(),4);
+		return new Artificial (7, "Missile Launcher", temp, 
+		                       "Launches a missile at a target"
+		                       ,"Models/missle_launcher") ;
+	}
+
+	public static Artificial spacecannon () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 11);
+		temp.Add (Resource.beryllium(), 6);
+		temp.Add (Resource.copper(), 11);
+		return new Artificial (8, "Space Cannon", temp, 
+		                       "Powerful cannon that decimates all in its path"
+		                       ,"Models/spaceship_weapon") ;
+	}
+
+	public static Artificial turret () {
+		Dictionary<Artificial, int> temp = 
+			new Dictionary<Artificial, int> ();
+		temp.Add (Resource.iron(), 7);
+		temp.Add (Resource.beryllium(), 2);
+		temp.Add (Resource.copper(), 10);
+		return new Artificial (5, "Turret", temp, 
+		                       "Turret that shoots projectiles"
+		                       ,"Models/core2") ;
+	}
+
 	/*public static Artificial gun () {
 		Dictionary<Artificial, int> temp = 
 			new Dictionary<Artificial, int> ();
