@@ -607,17 +607,18 @@ public class chunk : MonoBehaviour {
 		
 		blocks [x, y, z] =block;
 		updateMesh = true;
-		if(block==0&&original!=0){
-			_cubeCount--;
-			transform.parent.GetComponent<Container> () .checkIntegrity(chunkSpot[0],chunkSpot[1],chunkSpot[2], x, y, z);
-			if(_cubeCount==0){
-				Destroy(gameObject);
-				transform.parent.GetComponent<Container> ().lostOne(chunkSpot);
-			}
+		if (block == 0 && original != 0) {//player removes a block
+			InventoryGUI.inventory.addArtificial(Resource.makeFromByte(origininal));
+				_cubeCount--;
+				transform.parent.GetComponent<Container> () .checkIntegrity (chunkSpot [0], chunkSpot [1], chunkSpot [2], x, y, z);
+				if (_cubeCount == 0) {
+						Destroy (gameObject);
+						transform.parent.GetComponent<Container> ().lostOne (chunkSpot);
+				}
+		} else if (block != 0 && original == 0) {//player adds a block
+				_cubeCount++;
+			InventoryGUI.inventory.removeArtificial(Resource.makeFromByte(block));
 		}
-		else if(block!=0&&original==0)
-			_cubeCount++;
-		
 	}
 	/// <summary>
 	/// method called when this gameobject is hit by ray
@@ -634,7 +635,8 @@ public class chunk : MonoBehaviour {
 			fdNormal = new Vector3 (0.5f*hit.normal.x, 0.5f*hit.normal.y, 0.5f*hit.normal.z);
 		//send in vector3 adjusted to localspace and from above normal value
 		int[] pos= RoundAndRmBlock(gameObject.transform.InverseTransformPoint( hit.point+fdNormal),a.symbol);
-		addModel (pos, a.model);
+		if(a.symbol==0x80)
+			addModel(pos, a.model);
 	}
 	void UpdateLast()
 	{
@@ -660,7 +662,7 @@ public class chunk : MonoBehaviour {
 						transform.parent.GetComponent<Container> ().chunks [pos [0] + " " + pos [1] + " " + pos [2]]
 			.addModel (new int[]{pos [3],pos [4],pos [5]},model);
 		else {
-			GameObject g= Resources.LoadAssetAtPath<GameObject>(model);	
+			GameObject g= Instantiate( Resources.Load(model)) as GameObject;	
 			g.transform.parent=transform;
 			g.transform.position=new Vector3(pos[0],pos[1],pos[2]);
 		}

@@ -29,11 +29,7 @@ public class ShootCubes : MonoBehaviour {
 
 					chunk.editCube(InventoryGUI.currentSelection);
 
-					//chunk.editCube(0x80,InventoryGUI.currentSelection.);
-					
-
-
-				//	print("Hit something");
+				
 			}
 		}
 	}
