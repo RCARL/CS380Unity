@@ -46,20 +46,23 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Capsule.cs" />
-     <Compile Include="Assets\CapsuleControl.cs" />
      <Compile Include="Assets\Inventory\Artificial.cs" />
      <Compile Include="Assets\Inventory\Inventory.cs" />
      <Compile Include="Assets\Inventory\InventoryGUI.cs" />
      <Compile Include="Assets\Inventory\Node.cs" />
+     <Compile Include="Assets\Inventory\Popup.cs" />
      <Compile Include="Assets\Inventory\Resource.cs" />
      <Compile Include="Assets\Inventory\SplayTree.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
      <Compile Include="Assets\MainMenu\UniverseSaveObject.cs" />
+     <Compile Include="Assets\NPC\Living.cs" />
      <Compile Include="Assets\NPC\NPC_Movement_2.cs" />
-     <Compile Include="Assets\Planets\ChangeScene.cs" />
+     <Compile Include="Assets\Planets\ChangeS.cs" />
      <Compile Include="Assets\Planets\PlayerMovement.cs" />
      <Compile Include="Assets\Planets\SpaceBoundary.cs" />
+     <Compile Include="Assets\Planets\SpaceToForest.cs" />
+     <Compile Include="Assets\Planets\SpaceToIsland.cs" />
+     <Compile Include="Assets\Planets\SpaceToVolcano.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\IslandCreator.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\TerrainFormation.cs" />
      <Compile Include="Assets\Planets\TerrainGeneration\Textures.cs" />
@@ -67,7 +70,9 @@
      <Compile Include="Assets\Player\Boundary.cs" />
      <Compile Include="Assets\Player\ButtonForAxe.cs" />
      <Compile Include="Assets\Player\Player.cs" />
+     <Compile Include="Assets\Player\PlayerCombat.cs" />
      <Compile Include="Assets\Player\PlayerMovements.cs" />
+     <Compile Include="Assets\Player\addAxe.cs" />
      <Compile Include="Assets\Player\playerGUI.cs" />
      <Compile Include="Assets\SceneConstants\NPC_Tracker.cs" />
      <Compile Include="Assets\debug camera control\FPS_WASD.cs" />
@@ -84,8 +89,12 @@
      <Compile Include="Assets\voxels\ShipFunction.cs" />
      <Compile Include="Assets\voxels\chunk.cs" />
      <Compile Include="Assets\voxels\plopAsteroids.cs" />
+     <None Include="Assets\CactusPack\Shaders\VertexBlend.shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+     <None Include="Assets\CactusPack\Readme.txt" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
+     <None Include="Assets\CactusPack\Shaders\Basic_Rimlight.shader" />
+     <None Include="Assets\CactusPack\Shaders\VertexBlend_Old.shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
  <Reference Include="Library\ScriptAssemblies\Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>

@@ -1,6 +1,5 @@
 ﻿public class Resource : Artificial{
 
-	public string type;
 	public int tier;
 	/// <summary>
 	///  0 = Building

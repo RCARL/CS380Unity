@@ -9,6 +9,7 @@ public class Container : MonoBehaviour {
 	public Dictionary <string,chunk> chunks= new Dictionary<string,chunk> ();
 	int chunkSize =5;
 	public Texture chunkTexture;
+    bool gravity=true;
 	public void lostOne(int[] chunkspot)
 	{
 		chunks.Remove(chunkspot[0]+" "+chunkspot[1]+" "+chunkspot[2]);
@@ -108,7 +109,7 @@ public class Container : MonoBehaviour {
 	void Awake () {
 		chunkTexture=Resources.LoadAssetAtPath<Texture>("Assets/voxels/tilesheet.png") ;
 		Rigidbody rig= gameObject.AddComponent<Rigidbody> ();
-		rig.useGravity=false;
+		rig.useGravity=gravity;
 		rig.mass=1000;
 	}
 	public void checkIntegrity()

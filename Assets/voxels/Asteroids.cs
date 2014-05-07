@@ -14,10 +14,13 @@ public class Asteroids : MonoBehaviour {
     public byte flavor=0x01;
 
 	private System.Random rand = new System.Random();
+    Container asteroidGroup;
+    void Awake()
+    {
+        asteroidGroup = gameObject.AddComponent<Container>();
 
-		
-	void Awake () {
-		Container asteroidGroup=gameObject.AddComponent<Container> ();
+    }
+	void Start () {
 		for (int x = -X; x<X; x++) 
 			for (int y = -Y; y<Y; y++) 
 				for (int z = -Z; z<Z; z++) {
