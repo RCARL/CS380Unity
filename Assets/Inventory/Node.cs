@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
+[Serializable()]
 public class Node<T>{
 	public T key;
 	public int value;

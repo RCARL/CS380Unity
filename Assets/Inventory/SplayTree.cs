@@ -3,9 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
-
-public class SplayTree<T> where T : IComparable {
+[Serializable()]
+public class SplayTree<T> where T : IComparable{
 	Node<T> root;
 	public int count;
 

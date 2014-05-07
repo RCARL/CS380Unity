@@ -1,4 +1,8 @@
-﻿public class Resource : Artificial{
+﻿using System.Runtime.Serialization;
+using System;
+
+[Serializable()]
+public class Resource : Artificial{
 
 	public int tier;
 	/// <summary>

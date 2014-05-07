@@ -31,15 +31,19 @@ public class InventoryGUI : MonoBehaviour {
 	public static int currentSelectionAmount;
 
 	void Start () {
-		max = inventory.capacity;
+		max = Inventory.capacity;
 		barLength = middleX;
 		maxBarLength = middleX;
-		//inventory.addArtificial (Artificial.furnace (), 1);
+		//Inventory.addArtificial (Artificial.furnace (), 1);
 	}
 
-	void OnGUI () {
-		
-		cur = inventory.current;
+	void OnGUI () {		
+
+		if (GUI.Button (new Rect (Screen.width - 80, Screen.height - 40, 80, 20), "Save")) {
+			UniverseSaveObject.SaveUniverse();
+		}
+
+		cur = Inventory.current;
 
 		GUI.skin.textField.wordWrap = true;
 		openInventory = GUI.Toggle (new Rect (Screen.width - 80, Screen.height - 20, 80, 20), openInventory, "Inventory");
@@ -59,26 +63,26 @@ public class InventoryGUI : MonoBehaviour {
 			GUI.Label (new Rect (middleX, middleY + Screen.height / 24, 80, 20), "Required: ", label);
 
 			//GUI.Label (new Rect ((paddingLargeX * 3) + Screen.width / 16, 50, 80, 40), "Total Mass", label);
-			//GUI.Label (new Rect ((paddingLargeX * 3) + Screen.width / 16, 70, 80, 40), "" + inventory.totalMass, label);
+			//GUI.Label (new Rect ((paddingLargeX * 3) + Screen.width / 16, 70, 80, 40), "" + Inventory.totalMass, label);
 
 
 			// Begin the InventoryView
 			scrollViewVector = GUI.BeginScrollView (new Rect (10, middleY / 4, Screen.width / 5, Screen.height - Screen.height / 6), scrollViewVector, new Rect (0, 0, Screen.width / 6, Screen.height - Screen.height / 5));
-			string[] inventoryStrings = new string[inventory.artificials.count]; 
-			Node<Artificial>[] inventoryItems = new Node<Artificial>[inventory.artificials.count];
-			inventory.artificials.Nodes().CopyTo(inventoryItems,0);
+			string[] inventoryStrings = new string[Inventory.artificials.count]; 
+			Node<Artificial>[] inventoryItems = new Node<Artificial>[Inventory.artificials.count];
+			Inventory.artificials.Nodes().CopyTo(inventoryItems,0);
 			int numTemp = 0;
 
 
-			foreach (Node<Artificial> art in inventory.artificials.Nodes()) {
+			foreach (Node<Artificial> art in Inventory.artificials.Nodes()) {
 				inventoryStrings [numTemp] = art.key.type + ": " + art.value.ToString ();
 				numTemp++;
 			}
-			inventoryInt = GUI.SelectionGrid (new Rect (0, 0, Screen.width / 5, inventory.artificials.count * 25), inventoryInt, inventoryStrings, 1);
-			if(inventoryInt >= inventory.artificials.count) {
+			inventoryInt = GUI.SelectionGrid (new Rect (0, 0, Screen.width / 5, Inventory.artificials.count * 25), inventoryInt, inventoryStrings, 1);
+			if(inventoryInt >= Inventory.artificials.count) {
 				inventoryInt = 0;
 			} 
-			if(inventory.artificials.count > 0){
+			if(Inventory.artificials.count > 0){
 				currentSelection = inventoryItems[inventoryInt].key;
 				currentSelectionAmount = inventoryItems[inventoryInt].value;
 			}
@@ -89,7 +93,7 @@ public class InventoryGUI : MonoBehaviour {
 			// End the InventoryView
 			GUI.EndScrollView ();
 
-			if(inventory.artificials.count > 0){
+			if(Inventory.artificials.count > 0){
 				display = "Type: " + currentSelection.type + @"
 " + "Amount: " + currentSelectionAmount + @"
 " + "Description: " + currentSelection.description;
@@ -275,70 +279,70 @@ public class InventoryGUI : MonoBehaviour {
 			if (GUI.Button (new Rect (((Screen.width / 4) * 2), middleY - 20, (Screen.width / 2) - 10, 30), "Craft")) {
 				bool canCraft = true;
 				foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {
-					canCraft = inventory.artificials.check(de.Key, de.Value);
+					canCraft = Inventory.artificials.check(de.Key, de.Value);
 					if (!canCraft) {
 						break;
 					}
 				}
 				if (canCraft) {
 					foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {
-						inventory.removeArtificial (de.Key, de.Value);
+						Inventory.removeArtificial (de.Key, de.Value);
 					}
-					inventory.addArtificial (artificialTemp, 1);
+					Inventory.addArtificial (artificialTemp, 1);
 				}
 			}
 		
 			//Tester buttons
 			if (GUI.Button (new Rect (Screen.width / 2, ((Screen.height / 6) * 4), 100, 20), "Test")) {
-				inventory.addArtificial (Resource.iron (), 200);
-				inventory.addArtificial (Resource.copper (), 200);
-				inventory.addArtificial (Resource.beryllium (), 200);
+				Inventory.addArtificial (Resource.iron (), 200);
+				Inventory.addArtificial (Resource.copper (), 200);
+				Inventory.addArtificial (Resource.beryllium (), 200);
 			}
 			/*
 			if (GUI.Button (new Rect ((Screen.width / 2) + 120, ((Screen.height / 6) * 4), 100, 20), "Remove Iron")) {
-				inventory.removeArtificial (Resource.iron (), 1);
+				Inventory.removeArtificial (Resource.iron (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2, ((Screen.height / 6) * 4) + 20, 100, 20), "Add Beryllium")) {
-				inventory.addArtificial (Resource.beryllium (), 1);
+				Inventory.addArtificial (Resource.beryllium (), 1);
 			}
 			if (GUI.Button (new Rect ((Screen.width / 2) + 120, ((Screen.height / 6) * 4) + 20, 100, 20), "Remove Beryllium")) {
-				inventory.removeArtificial (Resource.beryllium (), 1);
+				Inventory.removeArtificial (Resource.beryllium (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2, ((Screen.height / 6) * 4) + 40, 100, 20), "Add Copper")) {
-				inventory.addArtificial (Resource.copper (), 1);
+				Inventory.addArtificial (Resource.copper (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2 + 120, ((Screen.height / 6) * 4) + 40, 100, 20), "Remove Copper")) {
-				inventory.removeArtificial (Resource.copper (), 1);
+				Inventory.removeArtificial (Resource.copper (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2, ((Screen.height / 6) * 4) + 60, 100, 20), "Add Platinum")) {
-				inventory.addArtificial (Resource.platinum (), 1);
+				Inventory.addArtificial (Resource.platinum (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2 + 120, ((Screen.height / 6) * 4) + 60, 100, 20), "Remove Platinum")) {
-				inventory.removeArtificial (Resource.platinum (), 1);
+				Inventory.removeArtificial (Resource.platinum (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2, ((Screen.height / 6) * 4) + 80, 100, 20), "Add Titanium")) {
-				inventory.addArtificial (Resource.titanium (), 1);
+				Inventory.addArtificial (Resource.titanium (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2 + 120, ((Screen.height / 6) * 4) + 80, 100, 20), "Remove Titanium")) {
-				inventory.removeArtificial (Resource.titanium (), 1);
+				Inventory.removeArtificial (Resource.titanium (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2, ((Screen.height / 6) * 4) + 100, 100, 20), "Add Uranium")) {
-				inventory.addArtificial (Resource.uranium (), 1);
+				Inventory.addArtificial (Resource.uranium (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2 + 120, ((Screen.height / 6) * 4) + 100, 100, 20), "Remove Uranium")) {
-				inventory.removeArtificial (Resource.uranium (), 1);
+				Inventory.removeArtificial (Resource.uranium (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2, ((Screen.height / 6) * 4) + 120, 100, 20), "Add Plutonium")) {
-				inventory.addArtificial (Resource.plutonium (), 1);
+				Inventory.addArtificial (Resource.plutonium (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2 + 120, ((Screen.height / 6) * 4) + 120, 100, 20), "Remove Plutonium")) {
-				inventory.removeArtificial (Resource.plutonium (), 1);
+				Inventory.removeArtificial (Resource.plutonium (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2, ((Screen.height / 6) * 4) + 140, 100, 20), "Add Silver")) {
-				inventory.addArtificial (Resource.silver (), 1);
+				Inventory.addArtificial (Resource.silver (), 1);
 			}
 			if (GUI.Button (new Rect (Screen.width / 2 + 120, ((Screen.height / 6) * 4) + 140, 100, 20), "Remove Silver")) {
-				inventory.removeArtificial (Resource.silver (), 1);
+				Inventory.removeArtificial (Resource.silver (), 1);
 			}
 			*/
 		}//End of OpenInventory

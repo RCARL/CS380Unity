@@ -2,19 +2,18 @@
 using System.Collections;
 
 public class Inventory {
-	public SplayTree<Artificial> artificials;
+	public static SplayTree<Artificial> artificials;
 
-	public int capacity;
-	public int current;
+	public static int capacity;
+	public static int current;
 
 	public Inventory () {
 		artificials = new SplayTree<Artificial> ();
-
 		current = 0;
 		capacity = 1000;
 	}
 	
-	public bool addArtificial (Artificial artificial, int num=1) {
+	public static bool addArtificial (Artificial artificial, int num=1) {
 		if (current + (artificial.spaceTaken * num) <= capacity) {
 			artificials.add (artificial, num);
 			current += (artificial.spaceTaken * num);;
@@ -24,7 +23,7 @@ public class Inventory {
 			return false;
 		}
 	}
-	public bool removeArtificial (Artificial artificial, int num=1) {
+	public static bool removeArtificial (Artificial artificial, int num=1) {
 		bool temp = artificials.remove(artificial, num);
 		if (temp) {
 			current -= (artificial.spaceTaken * num);
