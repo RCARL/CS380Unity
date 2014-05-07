@@ -13,11 +13,20 @@ public class NPC_Movement_2 : Living {
 	private int currentWaypoint=0;
 	private CharacterController character;
 	private bool attackcooldown = false;
-
+	float attackboundary;
+	int chaseboundary;
 	GameObject player;
 	PlayerCombat playercombatobject;
 	void Start(){
-		health = 60;
+		if (gameObject.tag == "NPC") {
+			health = 60;
+		}
+		else if (gameObject.tag == "GiantNPC") {
+			health = 120;
+		}
+		else if (gameObject.tag == "TinyNPC") {
+			health = 20;
+				}
 		if((character=gameObject.GetComponent<CharacterController>()) == null)
 			character = gameObject.AddComponent<CharacterController>();
 		//character = gameObject.GetComponent<CharacterController>(); //uses character movement methods
@@ -44,6 +53,15 @@ public class NPC_Movement_2 : Living {
 			Destroy (gameObject);
  		player = GameObject.FindWithTag("Player");
 		playercombatobject = player.GetComponent<PlayerCombat> ();
+		if (gameObject.tag == "NPC") {
+			chaseboundary = 35;
+		}
+		else if (gameObject.tag == "GiantNPC") {
+			chaseboundary = 60;
+		}
+		else if (gameObject.tag == "TinyNPC") {
+			chaseboundary = 35;
+		}
  		if(Vector3.Distance(transform.position, player.transform.position) <=35)
  			chase(player);
     	else if(currentWaypoint < waypoint.Length){ //check to be within the array
@@ -86,8 +104,16 @@ public class NPC_Movement_2 : Living {
 		//target.y = transform.position.y;
 		Vector3 moveDirection = target - transform.position;
 		print (moveDirection.magnitude);
-	
-		if(moveDirection.magnitude < 3.2f){
+		if (gameObject.tag == "NPC") {
+			attackboundary = 3.2f;
+		}
+		else if (gameObject.tag == "GiantNPC") {
+			attackboundary = 10.0f;
+		}
+		else if (gameObject.tag == "TinyNPC") {
+			attackboundary = 1.4f;
+		}
+		if(moveDirection.magnitude < attackboundary){
 			if(!attackcooldown)
 				StartCoroutine("attack");
 		}

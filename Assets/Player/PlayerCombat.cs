@@ -6,12 +6,23 @@ public class PlayerCombat : Living {
 	public GameObject muzzleLocation;
 	bool isdead=false;
 	void Start() {
-		health = 100;
+		if (gameObject.tag == "Player") {
+						health = 100;
+		} 
+		else {
+						health = 500;
+		}
 		muzzleLocation = new GameObject ();
 	}
 	void Update(){
-		if (Input.GetMouseButtonDown (0))
-			StartCoroutine("playershoot");
+		if (gameObject.tag == "Player") {
+			if (Input.GetMouseButtonDown (0))
+				StartCoroutine("playershoot");
+		} 
+		else {
+			if (Input.GetMouseButtonDown (0))
+				StartCoroutine("shipshoot");
+		}
 	}
 	public override void hitbyenemy(){
 		if (!isdead){
@@ -28,8 +39,10 @@ public class PlayerCombat : Living {
 						GUI.BeginGroup (new Rect (Screen.width / 2 - 50, Screen.height / 2 - 50, 100, 100));
 
 						GUI.Box (new Rect (0, 0, 100, 100), "You Have Died.");
-						if (GUI.Button (new Rect (10, 40, 80, 30), "Main Menu"))
+						if (GUI.Button (new Rect (10, 40, 80, 30), "Main Menu")){
 								Application.LoadLevel ("MainMenu");
+								Time.timeScale=1;
+			}
 
 						GUI.EndGroup ();
 				} else {
@@ -48,4 +61,16 @@ public class PlayerCombat : Living {
 		yield return new WaitForSeconds (5.0f);
 		Destroy (bullet);
 		}
+	IEnumerator shipshoot(){
+		int speed = 1000;
+		GameObject go = GameObject.FindWithTag ("RAILGUN");
+		muzzleLocation.transform.position = go.transform.position;
+		muzzleLocation.transform.rotation = gameObject.transform.rotation;
+		//muzzleLocation.transform.Translate (.1f, -.1f, 0);
+		GameObject bullet = Instantiate (originalbullet, muzzleLocation.transform.position, muzzleLocation.transform.rotation) as GameObject;
+		bullet.tag = "playerattack";
+		bullet.rigidbody.AddForce (bullet.transform.forward * speed);
+		yield return new WaitForSeconds (5.0f);
+		Destroy (bullet);
+	}
 }
