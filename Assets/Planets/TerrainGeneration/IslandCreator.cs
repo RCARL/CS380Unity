@@ -13,7 +13,7 @@ public class IslandCreator : MonoBehaviour {
 	void Start () {
 		Terrain ter = this.GetComponent<Terrain> ();
 		float positionx = 0;
-		float positiony = -18.4f;
+		float positiony = -9.9f;
 		float positionz = 0;
 		transform.position = new Vector3 (positionx, positiony, positionz);
 		GenerateHeights (ter, tileSize);

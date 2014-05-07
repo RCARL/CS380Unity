@@ -50,15 +50,14 @@
      <Compile Include="Assets\Inventory\Inventory.cs" />
      <Compile Include="Assets\Inventory\InventoryGUI.cs" />
      <Compile Include="Assets\Inventory\Node.cs" />
-     <Compile Include="Assets\Inventory\Popup.cs" />
      <Compile Include="Assets\Inventory\Resource.cs" />
      <Compile Include="Assets\Inventory\SplayTree.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />
      <Compile Include="Assets\MainMenu\UniverseSaveObject.cs" />
      <Compile Include="Assets\NPC\Living.cs" />
      <Compile Include="Assets\NPC\NPC_Movement_2.cs" />
-     <Compile Include="Assets\Planets\ChangeS.cs" />
      <Compile Include="Assets\Planets\PlayerMovement.cs" />
+     <Compile Include="Assets\Planets\Popup.cs" />
      <Compile Include="Assets\Planets\SpaceBoundary.cs" />
      <Compile Include="Assets\Planets\SpaceToForest.cs" />
      <Compile Include="Assets\Planets\SpaceToIsland.cs" />
