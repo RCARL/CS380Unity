@@ -2,9 +2,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 [Serializable()]
-public class Artificial : IComparable {
+public class Artificial : IComparable, ISerializable {
 	public int spaceTaken;
 	public string type;
 	public string description;
@@ -28,6 +29,25 @@ public class Artificial : IComparable {
 		this.description = description;
 		this.model = model;
 	}
+	public Artificial(SerializationInfo info, StreamingContext context) {
+		// Reset the property value using the GetValue method.
+		spaceTaken = (int) info.GetValue ("spaceTaken", typeof(int));
+		type = (string) info.GetValue ("type", typeof(string));
+		description = (string) info.GetValue ("description", typeof(string));
+		model = (string) info.GetValue ("model", typeof(string));
+		recipe = (Dictionary<Artificial, int>) info.GetValue ("recipe", typeof(Dictionary<Artificial, int>));
+	}
+
+	public void GetObjectData(SerializationInfo info, StreamingContext context) {
+		// Use the AddValue method to specify serialized values.
+		info.AddValue ("spaceTaken", spaceTaken, typeof(int));
+		info.AddValue ("type", type, typeof(string));
+		info.AddValue ("description", description, typeof(string));
+		info.AddValue ("model", model, typeof(string));
+		info.AddValue ("recipe", recipe, typeof(Dictionary<Artificial, int>));
+		info.AddValue ("symbol", symbol, typeof(byte));
+	}
+
 
 	public static Artificial furnace () {
 		Dictionary<Artificial, int> temp = 
@@ -58,8 +78,18 @@ public class Artificial : IComparable {
 			"Power source that turns a fuel into electricity"
 			,"model-fbx/core2") ;
 	}
+	public static Artificial warpdrive () {
+				Dictionary<Artificial, int> temp =
+			new Dictionary<Artificial, int> ();
+				temp.Add (Artificial.core (), 5);
+				temp.Add (Artificial.radar (), 2);
+				temp.Add (Artificial.furnace (), 4);
+				temp.Add (Resource.iron (), 6);
+				temp.Add (Resource.copper (), 3);
+				return new Artificial (15, "Warp Drive", temp, "You'll finally get home once you finish this!");
+		}
 
-	public static Artificial spacegun () {
+	/*public static Artificial spacegun () {
 		Dictionary<Artificial, int> temp = 
 			new Dictionary<Artificial, int> ();
 		temp.Add (Resource.iron(), 4);
@@ -68,9 +98,9 @@ public class Artificial : IComparable {
 		return new Artificial (4, "Space Gun", temp, 
 		                       "Power source that turns a fuel into electricity"
 		                       ,"Models/core2") ;
-	}
+	}*/
 
-	public static Artificial phasegun () {
+	/*public static Artificial phasegun () {
 		Dictionary<Artificial, int> temp = 
 			new Dictionary<Artificial, int> ();
 		temp.Add (Resource.iron(), 5);
@@ -112,7 +142,7 @@ public class Artificial : IComparable {
 		return new Artificial (5, "Turret", temp, 
 		                       "Turret that shoots projectiles"
 		                       ,"Models/core2") ;
-	}
+	}*/
 
 	/*public static Artificial gun () {
 		Dictionary<Artificial, int> temp = 

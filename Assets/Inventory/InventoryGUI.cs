@@ -11,6 +11,7 @@ public class InventoryGUI : MonoBehaviour {
 	readonly float middleY = Screen.height / 2;
 	public static Inventory inventory = new Inventory();
 	private bool openInventory = false;
+	private bool openMenu = false;
 	private int max;
 	private string display;
 	private string display2;
@@ -22,7 +23,7 @@ public class InventoryGUI : MonoBehaviour {
 	private float i = 0;
 	private float j = 0;
 	private Artificial artificialTemp;
-	private string[] toolbarStrings = {"Furnace", "Radar", "Core", "Space Gun", "Phase Gun", "Missile Launcher", "Space Cannon", "Turret"};
+	private string[] toolbarStrings = {"Furnace", "Radar", "Core", "Warp Drive"};
 	private float barLength;
 	private float maxBarLength;
 	public GUIStyle label;
@@ -37,20 +38,31 @@ public class InventoryGUI : MonoBehaviour {
 		//Inventory.addArtificial (Artificial.furnace (), 1);
 	}
 
-	void OnGUI () {		
-
-		if (GUI.Button (new Rect (Screen.width - 80, Screen.height - 40, 80, 20), "Save")) {
-			UniverseSaveObject.SaveUniverse();
-		}
-
+	void OnGUI () {	
 		cur = Inventory.current;
-
 		GUI.skin.textField.wordWrap = true;
-		openInventory = GUI.Toggle (new Rect (Screen.width - 80, Screen.height - 20, 80, 20), openInventory, "Inventory");
+
+		if (openMenu) {
+			openInventory = false;
+			gameObject.GetComponent<governor>().currentState = state.gui;
+			GUI.Box (new Rect ((Screen.width / 2) - Screen.width / 8, Screen.height / 12, Screen.width / 4, Screen.height / 3), "Menu");
+			if (GUI.Button (new Rect ((Screen.width / 2) - (Screen.width / 20), (Screen.height / 12) * 2, Screen.width / 10, Screen.height / 15), "Main Menu")) {
+				Application.LoadLevel("MainMenu");
+			}
+			if (GUI.Button (new Rect ((Screen.width / 2) - (Screen.width / 20), (Screen.height / 12) * 3, Screen.width / 10, Screen.height / 15), "Save")) {
+				UniverseSaveObject.SaveUniverse ();
+			}
+			if (GUI.Button (new Rect ((Screen.width / 2) - (Screen.width / 20), (Screen.height / 12) * 4, Screen.width / 10, Screen.height / 15), "Quit")) {
+				Application.Quit();
+			}
+		} 
+		else {
+			gameObject.GetComponent<governor>().currentState = state.shoot;
+			openInventory = GUI.Toggle (new Rect (Screen.width - 80, Screen.height - 20, 80, 20), openInventory, "Inventory");
+		}
 
 		if (openInventory) {
 			//GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), background);
-			openInventory = GUI.Toggle (new Rect (Screen.width - 80, Screen.height - 20, 80, 20), openInventory, "Inventory");
 
 			//Capacity bar
 			GUI.Box (new Rect (10, 18, barLength, 20), "");
@@ -156,7 +168,7 @@ public class InventoryGUI : MonoBehaviour {
 				}
 				break;
 			case 3:
-				artificialTemp = Artificial.spacegun ();
+				artificialTemp = Artificial.warpdrive ();
 				i = 0;
 				j = paddingLargeY;
 				foreach (KeyValuePair<Artificial, int> de in artificialTemp.recipe) {
@@ -169,6 +181,7 @@ public class InventoryGUI : MonoBehaviour {
 					}
 				}
 				break;
+			/*
 			case 4:
 				artificialTemp = Artificial.phasegun ();
 				i = 0;
@@ -225,6 +238,7 @@ public class InventoryGUI : MonoBehaviour {
 					}
 				}
 				break;
+			*/
 			/*case 3:
 				artificialTemp = Artificial.gun ();
 				i = 0;
@@ -350,11 +364,19 @@ public class InventoryGUI : MonoBehaviour {
 	public void Update() {
 		adjust ();
 		if (Input.GetKeyUp ("i")) {
-			if(openInventory){
+			if(openInventory && !openMenu){
 				openInventory = false;
 			}
-			else{
+			else if (!openMenu){
 				openInventory = true;
+			}
+		}
+		if (Input.GetKeyUp ("escape")) {
+			if(openMenu) {
+				openMenu = false;
+			}
+			else{
+				openMenu = true;
 			}
 		}
 	}

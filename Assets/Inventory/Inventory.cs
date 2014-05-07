@@ -8,7 +8,7 @@ public class Inventory {
 	public static int current;
 
 	public Inventory () {
-		artificials = new SplayTree<Artificial> ();
+		//artificials = new SplayTree<Artificial> ();
 		current = 0;
 		capacity = 1000;
 	}

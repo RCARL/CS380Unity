@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Runtime.Serialization;
 
 [Serializable()]
-public class SplayTree<T> where T : IComparable{
+public class SplayTree<T> : ISerializable where T : IComparable{
 	Node<T> root;
 	public int count;
 
@@ -14,15 +14,41 @@ public class SplayTree<T> where T : IComparable{
 		root = null;
 		count = 0;
 	}
+	public SplayTree(SerializationInfo info, StreamingContext context) {
+		// Reset the property value using the GetValue method.
+		root = (Node<T>) info.GetValue("root", typeof(Node<T>));
+		count = (int)info.GetValue ("count", typeof(int)); 
+	}
 
 	//Compare method that uses comparator if available
 	//and uses a natural comparator if not.
 	private int compare(T x, T y){
 		return x.CompareTo(y);
 	}
-	
+
+	public void GetObjectData(SerializationInfo info, StreamingContext context) {
+		// Use the AddValue method to specify serialized values.
+		info.AddValue("root", root, typeof(Node<T>));
+		info.AddValue ("count", count, typeof(int));
+	}
+
+
 	public void add(T x, int value) {
-		this.set (x, value);
+		if (value > 0) {
+			this.set (x, value);
+		}
+	}
+	public int countValue (T key) {
+		if (this.count == 0)
+		{
+			return 0;
+		}
+		
+		this.splay(key);
+		if (key.CompareTo (this.root.key) == 0) {
+			return this.root.value;
+		}
+		return 0;
 	}
 	public T find (T key) {
 		if (this.count == 0)

@@ -1,8 +1,10 @@
 ﻿using System.Runtime.Serialization;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 [Serializable()]
-public class Resource : Artificial{
+public class Resource : Artificial, ISerializable{
 
 	public int tier;
 	/// <summary>
@@ -12,16 +14,27 @@ public class Resource : Artificial{
 	/// </summary>
 	public int use;
 
-
-	
 	private Resource (string type, int use, int tier, byte symbol, string description) : base(1,type,null, description) {
 		this.use = use;
 		this.tier = tier;
 		this.symbol = symbol;
 	}
+	public Resource (SerializationInfo info, StreamingContext context) : base(1,(string) info.GetValue("type", typeof(string)), null, (string) info.GetValue("description", typeof(string)), null) {
+		// Reset the property value using the GetValue method.
+		tier = (int) info.GetValue("tier", typeof(int));
+		use = (int) info.GetValue ("use", typeof(int));
+	}
+
+	public void GetObjectData(SerializationInfo info, StreamingContext context) {
+		// Use the AddValue method to specify serialized values.
+		info.AddValue ("tier", tier, typeof(int));
+		info.AddValue ("use", use, typeof(int));
+		info.AddValue ("type", type, typeof(string));
+		info.AddValue ("description", description, typeof(string));
+	}
+
+
 	public static Resource makeFromByte (byte b) {
-
-
 		switch (b) {
 		case 0x00:
 			return Resource.nothing();
