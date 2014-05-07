@@ -186,7 +186,7 @@ public class Mine : MonoBehaviour {
 					Destroy(hitinfo.transform.gameObject);
 					Debug.Log("We destroyed a " + hitinfo.transform.gameObject.tag);
 					experience+=59;
-					inventory.addArtificial (Resource.silver (), 1);
+					Inventory.addArtificial (Resource.silver (), 1);
 
 					respawnSilver(silver,2,5); 
 					
@@ -196,7 +196,7 @@ public class Mine : MonoBehaviour {
 					Destroy(hitinfo.transform.gameObject);
 					Debug.Log("We destroyed a " + hitinfo.transform.gameObject.tag);
 					experience+=10;
-					inventory.addArtificial (Resource.iron (), 1);
+					Inventory.addArtificial (Resource.iron (), 1);
 
 					respawnIron(iron,2,3);
 					
@@ -206,7 +206,7 @@ public class Mine : MonoBehaviour {
 					Destroy(hitinfo.transform.gameObject);
 					Debug.Log("We destroyed a " + hitinfo.transform.gameObject.tag);
 					experience+=5;
-					inventory.addArtificial (Resource.copper (), 1);
+					Inventory.addArtificial (Resource.copper (), 1);
 
 					respawnCopper(copper,2,3);
 					
@@ -217,7 +217,7 @@ public class Mine : MonoBehaviour {
 					Destroy(hitinfo.transform.gameObject);
 					Debug.Log("We destroyed a " + hitinfo.transform.gameObject.tag);
 					experience+=30;
-					inventory.addArtificial (Resource.beryllium (), 1);
+					Inventory.addArtificial (Resource.beryllium (), 1);
 
 					respawnBeryllium(beryllium,2,3);
 					
@@ -228,7 +228,7 @@ public class Mine : MonoBehaviour {
 					Destroy(hitinfo.transform.gameObject);
 					Debug.Log("We destroyed a " + hitinfo.transform.gameObject.tag);
 					experience+=90;
-					inventory.addArtificial (Resource.titanium (), 1);
+					Inventory.addArtificial (Resource.titanium (), 1);
 
 					respawnTitanium(titanium,2,3);
 					
@@ -239,7 +239,7 @@ public class Mine : MonoBehaviour {
 					Destroy(hitinfo.transform.gameObject);
 					Debug.Log("We destroyed a " + hitinfo.transform.gameObject.tag);
 					experience+=150;
-					inventory.addArtificial (Resource.platinum (), 1);
+					Inventory.addArtificial (Resource.platinum (), 1);
 
 					respawnPlatinum(platinum,2,3);
 					
@@ -250,7 +250,7 @@ public class Mine : MonoBehaviour {
 					Destroy(hitinfo.transform.gameObject);
 					Debug.Log("We destroyed a " + hitinfo.transform.gameObject.tag);
 					experience+=200;
-					inventory.addArtificial (Resource.uranium (), 1);
+					Inventory.addArtificial (Resource.uranium (), 1);
 
 					respawnUranium(uranium,2,3);
 					
@@ -261,7 +261,7 @@ public class Mine : MonoBehaviour {
 					Destroy(hitinfo.transform.gameObject);
 					Debug.Log("We destroyed a " + hitinfo.transform.gameObject.tag);
 					experience += 400;
-					inventory.addArtificial (Resource.plutonium (), 1);
+					Inventory.addArtificial (Resource.plutonium (), 1);
 
 					respawnPlutonium(plutonium,2,3);
 					

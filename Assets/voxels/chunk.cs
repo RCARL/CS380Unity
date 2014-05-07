@@ -609,7 +609,7 @@ public class chunk : MonoBehaviour {
 		updateMesh = true;
 		if (block == 0 && original != 0) {//player removes a block
 			if(frmPlayer)
-			InventoryGUI.inventory.addArtificial(Resource.makeFromByte(original));
+			Inventory.addArtificial(Resource.makeFromByte(original));
 				_cubeCount--;
 				transform.parent.GetComponent<Container> () .checkIntegrity (chunkSpot [0], chunkSpot [1], chunkSpot [2], x, y, z);
 				if (_cubeCount == 0) {
@@ -618,7 +618,7 @@ public class chunk : MonoBehaviour {
 				}
 		} else if (block != 0 && original == 0) {//player adds a block
 		if(frmPlayer)
-			if(!InventoryGUI.inventory.removeArtificial(InventoryGUI.currentSelection))
+			if(!Inventory.removeArtificial(InventoryGUI.currentSelection))
 			   blocks[x,y,z]=original;
 			else
 				_cubeCount++;
