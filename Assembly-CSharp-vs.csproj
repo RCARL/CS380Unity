@@ -46,12 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Capsule.cs" />
-     <Compile Include="Assets\CapsuleControl.cs" />
      <Compile Include="Assets\Inventory\Artificial.cs" />
      <Compile Include="Assets\Inventory\Inventory.cs" />
      <Compile Include="Assets\Inventory\InventoryGUI.cs" />
      <Compile Include="Assets\Inventory\Node.cs" />
+     <Compile Include="Assets\Inventory\Popup.cs" />
      <Compile Include="Assets\Inventory\Resource.cs" />
      <Compile Include="Assets\Inventory\SplayTree.cs" />
      <Compile Include="Assets\MainMenu\MainMenu.cs" />

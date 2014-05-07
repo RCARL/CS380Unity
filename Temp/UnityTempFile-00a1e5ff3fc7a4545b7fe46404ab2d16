@@ -38,12 +38,11 @@
 -define:ENABLE_PROFILER
 -define:UNITY_EDITOR
 -define:UNITY_EDITOR_OSX
-'Assets/Capsule.cs'
-'Assets/CapsuleControl.cs'
 'Assets/Inventory/Artificial.cs'
 'Assets/Inventory/Inventory.cs'
 'Assets/Inventory/InventoryGUI.cs'
 'Assets/Inventory/Node.cs'
+'Assets/Inventory/Popup.cs'
 'Assets/Inventory/Resource.cs'
 'Assets/Inventory/SplayTree.cs'
 'Assets/MainMenu/MainMenu.cs'
@@ -71,6 +70,7 @@
 'Assets/debug camera control/FPS_WASD.cs'
 'Assets/debug camera control/MouseLook.cs'
 'Assets/debug camera control/ShootCubes.cs'
+'Assets/voxels/Asteroids.cs'
 'Assets/voxels/Container.cs'
 'Assets/voxels/LandAsteroidScript.cs'
 'Assets/voxels/Mine.cs'
