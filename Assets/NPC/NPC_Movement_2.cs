@@ -3,10 +3,10 @@ using System.Collections;
 
 public class NPC_Movement_2 : Living {
 	Transform[] waypoint= new Transform[3];        // The amount of Waypoint you want
-	float patrolSpeed= 3.0f;       // The walking speed between Waypoints
+	float patrolSpeed= 100.0f;       // The walking speed between Waypoints
 	bool loop = true;       // Do you want to keep repeating the Waypoints
 	float dampingLook = 6.0f;          // How slowly to turn
-	float pauseDuration = 1.0f;   // How long to pause at a Waypoint
+	float pauseDuration = .4f;   // How long to pause at a Waypoint
 	bool isAggro = false; 
 	private float atkTime;
 	private float curTime;
@@ -40,9 +40,11 @@ public class NPC_Movement_2 : Living {
 	}
  
 	void Update(){
+		if (health <= 0)
+			Destroy (gameObject);
  		player = GameObject.FindWithTag("Player");
 		playercombatobject = player.GetComponent<PlayerCombat> ();
- 		if(Vector3.Distance(transform.position, player.transform.position) <=10)
+ 		if(Vector3.Distance(transform.position, player.transform.position) <=35)
  			chase(player);
     	else if(currentWaypoint < waypoint.Length){ //check to be within the array
        		patrol();
@@ -69,7 +71,7 @@ public class NPC_Movement_2 : Living {
     	}else{        
        		var rotation = Quaternion.LookRotation(target - transform.position);
        		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * dampingLook);
-       		character.Move(moveDirection.normalized * patrolSpeed * Time.deltaTime);
+       		character.SimpleMove(moveDirection.normalized * patrolSpeed * Time.deltaTime);
     	}  
 	}
 	void chase(GameObject prey){
@@ -83,16 +85,16 @@ public class NPC_Movement_2 : Living {
 		Vector3 target = prey.transform.position;
 		//target.y = transform.position.y;
 		Vector3 moveDirection = target - transform.position;
-		//print (moveDirection.magnitude);
+		print (moveDirection.magnitude);
 	
-		if(moveDirection.magnitude < 1.5f){
+		if(moveDirection.magnitude < 3.2f){
 			if(!attackcooldown)
 				StartCoroutine("attack");
 		}
 		else {
 			var rotation = Quaternion.LookRotation(target - transform.position);
        		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * dampingLook);
-       		character.Move(moveDirection.normalized * patrolSpeed * Time.deltaTime);
+       		character.SimpleMove(moveDirection.normalized * patrolSpeed * Time.deltaTime);
     	}  
 	}
 	IEnumerator attack(){
