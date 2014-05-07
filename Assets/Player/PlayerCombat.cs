@@ -2,10 +2,21 @@ using System.Collections;
 using UnityEngine;
 
 public class PlayerCombat : Living {
+	readonly float middleX = Screen.width / 2;
 	public GameObject originalbullet;
 	public GameObject muzzleLocation;
-	bool isdead=false;
+	bool isdead = false;
+	public bool hasGun;
+	private int max;
+	private float barLength;
+	private float maxBarLength;
+	private int maxHealth = 100;
+	private int cur;
 	void Start() {
+		hasGun = false;
+		max = maxHealth;
+		barLength = middleX;
+		maxBarLength = middleX;
 		if (gameObject.tag == "Player") {
 						health = 100;
 		} 
@@ -15,14 +26,27 @@ public class PlayerCombat : Living {
 		muzzleLocation = new GameObject ();
 	}
 	void Update(){
+		adjust ();
 		if (gameObject.tag == "Player") {
-			if (Input.GetMouseButtonDown (0))
-				StartCoroutine("playershoot");
+			if (Input.GetMouseButtonDown (0)) {
+				if(hasGun){
+					StartCoroutine("playershoot");
+				}
+			}
 		} 
 		else {
 			if (Input.GetMouseButtonDown (0))
 				StartCoroutine("shipshoot");
 		}
+	}
+	public void adjust () {
+		if (cur > max) {
+			cur = max;
+		}
+		if (cur < 0) {
+			cur = 0;
+		}
+		barLength = middleX * (cur / (float) max);
 	}
 	public override void hitbyenemy(){
 		if (!isdead){
@@ -35,9 +59,10 @@ public class PlayerCombat : Living {
 		}
 	}
 	void OnGUI(){
+		cur = health;
 		if (isdead) {
+						gameObject.GetComponent<governor>().currentState = state.gui;
 						GUI.BeginGroup (new Rect (Screen.width / 2 - 50, Screen.height / 2 - 50, 100, 100));
-
 						GUI.Box (new Rect (0, 0, 100, 100), "You Have Died.");
 						if (GUI.Button (new Rect (10, 40, 80, 30), "Main Menu")){
 								Application.LoadLevel ("MainMenu");
@@ -46,7 +71,9 @@ public class PlayerCombat : Living {
 
 						GUI.EndGroup ();
 				} else {
-						GUI.Box (new Rect (Screen.width / 2, Screen.height / 2, 10, 10), "");
+					GUI.Box (new Rect (10, Screen.height - 40, barLength, 20), "");
+					GUI.Box (new Rect (10, Screen.height - 40, maxBarLength, 20), cur + "/" + max);
+					GUI.Box (new Rect (Screen.width / 2, Screen.height / 2, 10, 10), "");
 				}
 	}
 	IEnumerator playershoot(){

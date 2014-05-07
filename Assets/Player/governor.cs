@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
-
+public enum state { shoot, mine, die, addVoxels, gui };
 public class governor : MonoBehaviour
 {
 
    public bool move;
-   public  enum state { shoot, mine, die, addVoxels,gui};
+   
     state _currentState = state.gui;
    public  state prevState;
     bool changed=false;
@@ -26,12 +26,15 @@ public class governor : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        /*if (Input.GetKeyDown(KeyCode.Alpha1))
-            currentState = state.gui;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            currentState = state.shoot;
         if (Input.GetKeyDown(KeyCode.Alpha2))
             currentState = state.mine;
-        */
-        if (changed)
+		if(Input.GetKeyDown(KeyCode.Alpha3)
+		   currentState = state.addVoxels;
+        
+		   if (changed)
         {
             switch(prevState)
             {
@@ -43,8 +46,10 @@ public class governor : MonoBehaviour
                 case state.die:
                     break;
                 case state.addVoxels:
+                    gameObject.GetComponent<MouseLook>().enabled = false;
                     break;
                 case state.gui:
+                    gameObject.GetComponent<MouseLook>().enabled = true;
                     break;
             }
             switch (currentState)
@@ -57,8 +62,10 @@ public class governor : MonoBehaviour
                 case state.die:
                     break;
                 case state.addVoxels:
+                    gameObject.GetComponent<MouseLook>().enabled = true;
                     break;
                 case state.gui:
+                    gameObject.GetComponent<MouseLook>().enabled = false;
                     break;
             }
             changed = false;
