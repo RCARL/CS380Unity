@@ -379,6 +379,9 @@ public class InventoryGUI : MonoBehaviour {
 				openMenu = true;
 			}
 		}
+		if(Inventory.artificials.check(Artificial.warpdrive (), 1)) {
+			Application.LoadLevel("Victory");
+		}
 	}
 	//Adjusts the capacity bar
 	public void adjust () {
