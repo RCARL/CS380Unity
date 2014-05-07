@@ -8,7 +8,7 @@ using System.Collections;
 public class UniverseSaveObject : MonoBehaviour {
 
 
-	void SaveUniverse(){
+	public static void SaveUniverse(){
 		var bformat = new BinaryFormatter(); //binaryformatter used to serialize data
 		var mstr = new MemoryStream();
 		GameObject[] allObjects;
@@ -16,22 +16,24 @@ public class UniverseSaveObject : MonoBehaviour {
 
 		//Returns a gameobject array of all active gameobjects in the scene
 		//will include the blank gameobject the script is attached to
-		allObjects=FindObjectsOfType(typeof(GameObject)) as GameObject[];
+		//allObjects=FindObjectsOfType(typeof(GameObject)) as GameObject[];
+		SplayTree<Artificial> inventorysave = Inventory.artificials;
+
 		/*Type types = new Type[allObjects.Length];
 		for (int x=0; x<types.Length; x++) {
 			types [x] = allObjects.GetType ();
 		}*/
-		bformat.Serialize (mstr, allObjects); //serializes the array into a memory buffer
+		bformat.Serialize (mstr, inventorysave); //serializes the array into a memory buffer
 		//Buffer then stored within playerprefs as a string conversion
-		PlayerPrefs.SetString ("object_array", Convert.ToBase64String (mstr.GetBuffer()));
+		PlayerPrefs.SetString ("inventory", Convert.ToBase64String (mstr.GetBuffer()));
 		//b.Serialize(m, o);
 		//PlayerPrefs.SetString(key, Convert.ToBase64String(mstr.GetBuffer));
 
 }
-	void LoadUniverse() {
+	public static void LoadUniverse() {
 
-		var curObj = PlayerPrefs.GetString("object_array");
-		GameObject[] destination;
+		var curObj = PlayerPrefs.GetString("inventory");
+		/*GameObject[] destination;
 		if (!string.IsNullOrEmpty (curObj)) {
 						var bformat = new BinaryFormatter ();
 						var mstr = new MemoryStream (Convert.FromBase64String (curObj));
@@ -42,7 +44,10 @@ public class UniverseSaveObject : MonoBehaviour {
 		}
 		for( int x=0;x<destination.Length;x++){
 			Instantiate(destination[x], destination[x].transform.position, destination[x].transform.rotation);
-		}
+		}*/
+		var bformat = new BinaryFormatter ();
+		var mstr = new MemoryStream (Convert.FromBase64String (curObj));
+		Inventory.artificials = bformat.Deserialize (mstr) as SplayTree<Artificial>;
 
 	}
 }
