@@ -1,4 +1,4 @@
-﻿//Stephen DuMont
+//Stephen DuMont
 using UnityEngine;
 using System.Collections;
 
@@ -12,9 +12,10 @@ public class MainMenu : MonoBehaviour {
 		if(currentState==state.main){
 			if(GUI.Button(new Rect(Screen.width*0.2f,Screen.height*0.1f,Screen.width*0.6f,Screen.height*0.15f),"New Game"))
 				Application.LoadLevel("Forest");
-			if(GUI.Button(new Rect(Screen.width*0.2f,Screen.height*0.3f,Screen.width*0.6f,Screen.height*0.15f),"Load Game"))
-				print("Load Game");
-
+			if(GUI.Button(new Rect(Screen.width*0.2f,Screen.height*0.3f,Screen.width*0.6f,Screen.height*0.15f),"Load Game")) {
+				UniverseSaveObject.LoadUniverse ();
+				Application.LoadLevel("Forest");
+			}
 			if(GUI.Button(new Rect(Screen.width*0.2f,Screen.height*0.7f,Screen.width*0.6f,Screen.height*0.15f),"Quit"))
 				currentState=state.quit;
 		}
