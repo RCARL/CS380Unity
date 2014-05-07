@@ -9,26 +9,26 @@ public class FPS_WASD : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	public float moveSpeed=10;
-
+	public float moveSpeed=500;
+    public float turnSpeed = 10;
 	void Update ()
 	{
-		if(Input.GetKey(KeyCode.W))
+		if(Input.GetKey(KeyCode.W)||Input.GetKey(KeyCode.UpArrow))
 			transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-		
-		if(Input.GetKey(KeyCode.S))
+
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
 			transform.Translate(-Vector3.forward * moveSpeed * Time.deltaTime);
-		
-		if(Input.GetKey(KeyCode.A))
-			transform.Translate(Vector3.left* moveSpeed * Time.deltaTime);
-		
-		if(Input.GetKey(KeyCode.D))
-			transform.Translate(Vector3.right* moveSpeed * Time.deltaTime);
-		if(Input.GetKey(KeyCode.LeftShift))
+
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            transform.eulerAngles += (Vector3.down * turnSpeed * Time.deltaTime);
+
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            transform.eulerAngles -= (Vector3.down * turnSpeed * Time.deltaTime);
+	/*	if(Input.GetKey(KeyCode.LeftShift))
 			transform.Translate(Vector3.up*moveSpeed*Time.deltaTime);
 		if(Input.GetKey(KeyCode.LeftControl))
 			transform.Translate(Vector3.down*moveSpeed*Time.deltaTime);
-
+        */
 	}
 
 	

@@ -11,8 +11,12 @@ public class Popup : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		if (Input.GetKeyDown ("h"))
-						poppedUp = true;
+        if (Input.GetKeyDown("h"))
+        {
+            poppedUp = true;
+            gameObject.GetComponent<governor>().currentState = state.gui;
+         //   gameObject.GetComponent<MouseLook>().enabled = false;
+        }
 		if (poppedUp) {
 			GUI.Box(new Rect((Screen.width / 2) - Screen.width / 8, (Screen.height / 2) - Screen.height / 8, Screen.width / 4, Screen.height / 6), "Leave Planet?");
 			if (GUI.Button (new Rect ((Screen.width / 2) - Screen.width / 10, (Screen.height / 2) - Screen.height / 18, Screen.width / 12, Screen.height / 18), "Yes")) {
@@ -22,7 +26,8 @@ public class Popup : MonoBehaviour {
 				Application.LoadLevel ("AsteroidsTestScene");
 			}
 			if (GUI.Button (new Rect ((Screen.width / 2) + Screen.width / 50, (Screen.height / 2) - Screen.height / 18, Screen.width / 12, Screen.height / 18), "No")) {
-				poppedUp = false;
+                gameObject.GetComponent<governor>().currentState = state.shoot;
+                poppedUp = false;
 				//Code for when no is hit goes here
 			}
 		}

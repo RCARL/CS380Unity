@@ -6,10 +6,13 @@ public class ActiveSpawnPoint : MonoBehaviour {
 	void Start () {
 		if (Popup.map == "Forest") {
 						transform.position = new Vector3 (327.0f, 229.0f, 3091.0f);
+                        Popup.map = "AsteroidsTestScene";
 				} else if (Popup.map == "Island") {
 						transform.position = new Vector3 (-7088.0f, 229.0f, 3091.0f);
+                        Popup.map = "AsteroidsTestScene"; 
 				} else if (Popup.map == "volcano") {
 						transform.position = new Vector3 (6704.0f, 229.0f, 1875.0f);
+                        Popup.map = "AsteroidsTestScene";
 				}else
 						transform.position = Popup.defaultRespawn;
 

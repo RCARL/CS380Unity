@@ -103,7 +103,6 @@ public class NPC_Movement_2 : Living {
 		Vector3 target = prey.transform.position;
 		//target.y = transform.position.y;
 		Vector3 moveDirection = target - transform.position;
-		print (moveDirection.magnitude);
 		if (gameObject.tag == "NPC") {
 			attackboundary = 3.2f;
 		}
@@ -129,7 +128,8 @@ public class NPC_Movement_2 : Living {
 		yield return new WaitForSeconds (1.0f);
 		attackcooldown = false;
 	}
-	void OnCollisionEnter(Collision c){
+    void OnTriggerEnter(Collider c)
+    {
 		print ("colliding");
 		if (c.gameObject.tag == "playerattack") {
 			health -= 20;
